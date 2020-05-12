@@ -1,0 +1,3 @@
+package = com.mparticle.applesdk
+language = Objective-C
+headers = mParticle.h

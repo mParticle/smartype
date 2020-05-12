@@ -1,0 +1,10 @@
+{
+    "iosOptions": {
+        "enabled": false
+    },
+    "androidOptions": {
+        "enabled": true
+    },
+    "binaryOutputDirectory": "app/libs",
+    "apiSchemaFile": "freddy_s_plan-v1.json"
+}
