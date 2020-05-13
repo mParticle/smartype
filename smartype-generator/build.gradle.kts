@@ -18,7 +18,6 @@ dependencies {
     implementation(deps.kotlin.stdlib)
     implementation("com.github.ajalt:clikt:2.6.0")
     implementation("com.squareup:kotlinpoet:1.5.0")
-    implementation("org.leadpony.justify:justify:3.0.0-RC1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
     api(project(path=":smartype-api", configuration = "jvmDefault"))
 }
