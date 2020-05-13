@@ -106,17 +106,6 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
             if (!inJar) {
                 gradleBinDir = "../"
                 projectDirectory = "../"
-                binOutputDirectory = File(binOutputDirectory).absolutePath
-            } else {
-                val parentDirectory = File(
-                    Generate::class.java.getProtectionDomain().getCodeSource().getLocation()
-                        .toURI()
-                ).parentFile
-                if (!File(binOutputDirectory).isAbsolute) {
-                    binOutputDirectory = parentDirectory.resolve(
-                        binOutputDirectory
-                    ).absolutePath
-                }
             }
 
             val gradleArgs = mutableListOf<String>()
