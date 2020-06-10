@@ -93,7 +93,7 @@ kotlin {
             dependencies {
                 api(project(":smartype-api"))
                 api(kotlin("stdlib-common"))
-                api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:${versions.serialization}")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
 
             }
         }
@@ -108,16 +108,10 @@ kotlin {
 
         val iosX64Main by getting {
             dependsOn(commonMain)
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${versions.serialization}")
-            }
         }
 
         val iosArm64Main by getting {
             dependsOn(commonMain)
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${versions.serialization}")
-            }
         }
 
         val androidMain by getting {
@@ -125,7 +119,6 @@ kotlin {
             dependencies {
                 api(kotlin("stdlib"))
                 api(deps.mparticle.androidSdk)
-                api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
             }
         }
     }

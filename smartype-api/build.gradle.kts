@@ -23,6 +23,7 @@ version = VERSION_NAME
 
 kotlin {
 
+    explicitApi()
     jvm()
     android("android") {
         publishLibraryVariants("release")
@@ -71,7 +72,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(kotlin("stdlib-common"))
-                api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:${versions.serialization}")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
             }
         }
         val commonTest by getting {
@@ -85,21 +86,18 @@ kotlin {
         jvm().compilations["main"].defaultSourceSet {
             dependencies {
                 implementation(deps.kotlin.stdlib)
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
             }
         }
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
                 api(kotlin("stdlib"))
-                api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
             }
         }
         val iosMain by getting {
             dependsOn(commonMain)
             dependencies {
                 implementation(kotlin("stdlib-js"))
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${versions.serialization}")
             }
         }
 

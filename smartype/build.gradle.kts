@@ -96,7 +96,7 @@ kotlin {
                 api(project(":smartype-api"))
                 api(project(":smartype-receivers:smartype-mparticle"))
                 implementation(kotlin("stdlib-common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:${versions.serialization}")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
             }
         }
         val commonTest by getting
@@ -116,25 +116,18 @@ kotlin {
             androidMain.dependsOn(commonMain)
             androidMain.dependencies {
                 api(kotlin("stdlib"))
-                api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
             }
         }
 
         try {
             val iosX64Main by getting {
                 dependsOn(commonMain)
-                dependencies {
-                    api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${versions.serialization}")
-                }
             }
         }catch (e: kotlin.Exception){}
 
         try {
             val iosArm64Main by getting {
                 dependsOn(commonMain)
-                dependencies {
-                    api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${versions.serialization}")
-                }
             }
         }catch (e: kotlin.Exception){}
     }

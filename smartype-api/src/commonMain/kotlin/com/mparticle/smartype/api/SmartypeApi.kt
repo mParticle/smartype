@@ -9,11 +9,11 @@ import kotlinx.serialization.modules.SerialModuleCollector
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.SerializersModuleBuilder
 
-abstract class SmartypeApiBase(private val receivers: kotlin.collections.List<MessageReceiver>) {
+public abstract class SmartypeApiBase(private val receivers: kotlin.collections.List<MessageReceiver>) {
     private val mutableReceivers = receivers.toMutableList()
 
 
-    fun send(message: Message) {
+    public fun send(message: Message) {
         var config = JsonConfiguration(
             encodeDefaults = true,
             ignoreUnknownKeys = true,
@@ -31,12 +31,12 @@ abstract class SmartypeApiBase(private val receivers: kotlin.collections.List<Me
 
         mutableReceivers.forEach { it.receive(json.toJson(Message.serializer(), message) as JsonObject) }
     }
-    fun addReceiver(receiver: MessageReceiver): Boolean {
+    public fun addReceiver(receiver: MessageReceiver): Boolean {
         return mutableReceivers.add(receiver)
     }
-    fun removeReceiver(receiver: MessageReceiver): Boolean {
+    public fun removeReceiver(receiver: MessageReceiver): Boolean {
         return mutableReceivers.remove(receiver)
     }
 
-    abstract fun getSerialModule(): SerialModule;
+    public abstract fun getSerialModule(): SerialModule;
 }

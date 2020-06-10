@@ -2,6 +2,6 @@ package com.mparticle.smartype.api
 
 import kotlinx.serialization.json.JsonObject
 
-interface MessageReceiver {
-    fun receive(message: JsonObject)
+public interface MessageReceiver {
+    public fun receive(message: JsonObject)
 }
