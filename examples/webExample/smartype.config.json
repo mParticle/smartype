@@ -3,11 +3,11 @@
         "enabled": false
     },
     "androidOptions": {
-        "enabled": true
-    },
-    "webOptions": {
         "enabled": false
     },
-    "binaryOutputDirectory": "app/libs",
+    "webOptions": {
+        "enabled": true
+    },
+    "binaryOutputDirectory": "smartype-dist",
     "apiSchemaFile": "freddy_s_plan-v1.json"
 }

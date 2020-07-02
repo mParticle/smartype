@@ -59,6 +59,11 @@ kotlin {
             }
         }
     }
+    js {
+        browser {
+            binaries.executable()
+        }
+    }
 
     ios() {
         compilations {
@@ -119,6 +124,13 @@ kotlin {
             dependencies {
                 api(kotlin("stdlib"))
                 api(deps.mparticle.androidSdk)
+            }
+        }
+
+        val jsMain by getting {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(kotlin("stdlib-js"))
             }
         }
     }

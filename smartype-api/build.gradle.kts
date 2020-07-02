@@ -24,6 +24,12 @@ version = VERSION_NAME
 kotlin {
 
     explicitApi()
+    
+    js {
+        browser {
+            binaries.executable()
+        }
+    }
     jvm()
     android("android") {
         publishLibraryVariants("release")
@@ -94,6 +100,13 @@ kotlin {
                 api(kotlin("stdlib"))
             }
         }
+        val jsMain by getting {
+            dependsOn(commonMain)
+            dependencies {
+                implementation(kotlin("stdlib-js"))
+            }
+        }
+
         val iosMain by getting {
             dependsOn(commonMain)
             dependencies {
