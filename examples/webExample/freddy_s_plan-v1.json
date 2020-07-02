@@ -1,0 +1,619 @@
+{
+  "version": 1,
+  "data_plan_id": "freddy_s_plan",
+  "version_description": "",
+  "activated_environment": "production",
+  "created_on": "2020-05-10T18:10:01.987",
+  "created_by": "sdozor@mparticle.com",
+  "last_modified_on": "2020-05-10T18:59:58.053",
+  "last_modified_by": "sdozor@mparticle.com",
+  "version_document": {
+    "data_points": [
+      {
+        "description": "",
+        "match": {
+          "type": "product_action",
+          "criteria": {
+            "action": "purchase"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {},
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "product_action",
+          "criteria": {
+            "action": "add_to_cart"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {},
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "custom_event",
+          "criteria": {
+            "event_name": "Email Sends",
+            "custom_event_type": "other"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {
+                  "custom_attributes": {
+                    "additionalProperties": true,
+                    "description": "",
+                    "properties": {
+                      "Campaign Id": {
+                        "description": "",
+                        "type": "number"
+                      },
+                      "Subject": {
+                        "description": "",
+                        "type": "string"
+                      },
+                      "Campaign Name": {
+                        "description": "",
+                        "type": "string"
+                      }
+                    },
+                    "required": [],
+                    "type": "object"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "custom_event",
+          "criteria": {
+            "event_name": "Email Opens",
+            "custom_event_type": "other"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {
+                  "custom_attributes": {
+                    "additionalProperties": true,
+                    "description": "",
+                    "properties": {
+                      "Subject": {
+                        "description": "",
+                        "type": "string"
+                      },
+                      "Campaign Name": {
+                        "description": "",
+                        "type": "string"
+                      },
+                      "Campaign Id": {
+                        "description": "",
+                        "type": "number"
+                      }
+                    },
+                    "required": [],
+                    "type": "object"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "custom_event",
+          "criteria": {
+            "event_name": "Email Deliveries",
+            "custom_event_type": "other"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {
+                  "custom_attributes": {
+                    "additionalProperties": true,
+                    "description": "",
+                    "properties": {
+                      "Subject": {
+                        "description": "",
+                        "type": "string"
+                      },
+                      "Campaign Name": {
+                        "description": "",
+                        "type": "string"
+                      },
+                      "Campaign Id": {
+                        "description": "",
+                        "type": "number"
+                      }
+                    },
+                    "required": [],
+                    "type": "object"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "custom_event",
+          "criteria": {
+            "event_name": "Email Bounces",
+            "custom_event_type": "other"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {
+                  "custom_attributes": {
+                    "additionalProperties": true,
+                    "description": "",
+                    "properties": {
+                      "Campaign Name": {
+                        "description": "",
+                        "type": "string"
+                      },
+                      "Campaign Id": {
+                        "description": "",
+                        "type": "number"
+                      },
+                      "Subject": {
+                        "description": "",
+                        "type": "string"
+                      }
+                    },
+                    "required": [],
+                    "type": "object"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "custom_event",
+          "criteria": {
+            "event_name": "Place Order",
+            "custom_event_type": "other"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {
+                  "custom_attributes": {
+                    "additionalProperties": true,
+                    "description": "",
+                    "properties": {
+                      "order_id": {
+                        "description": "",
+                        "type": "string"
+                      }
+                    },
+                    "required": [],
+                    "type": "object"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "screen_view",
+          "criteria": {
+            "screen_name": "Menu"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {},
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "screen_view",
+          "criteria": {
+            "screen_name": "Home"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {},
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "screen_view",
+          "criteria": {
+            "screen_name": "Checkout"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {},
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "User Attributes",
+        "match": {
+          "type": "user_attributes",
+          "criteria": {}
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "additionalProperties": false,
+            "properties": {
+              "$FirstName": {
+                "description": "",
+                "type": "string"
+              },
+              "$Age": {
+                "description": "",
+                "type": "number"
+              },
+              "$LastName": {
+                "description": "",
+                "type": "string"
+              },
+              "payment": {
+                "description": "",
+                "type": "string"
+              },
+              "favorite_store": {
+                "description": "",
+                "type": "string"
+              },
+              "favorite_sku": {
+                "description": "",
+                "type": "string"
+              },
+              "$Zip": {
+                "description": "",
+                "type": "number"
+              }
+            },
+            "required": []
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "User Identities",
+        "match": {
+          "type": "user_identities",
+          "criteria": {}
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "additionalProperties": false,
+            "properties": {
+              "email": {
+                "description": "",
+                "type": "string"
+              },
+              "customerid": {
+                "description": "",
+                "type": "string"
+              },
+              "ios_idfa": {
+                "description": "",
+                "type": "string"
+              },
+              "android_aaid": {
+                "description": "",
+                "type": "string"
+              },
+              "other": {
+                "description": "",
+                "type": "string"
+              },
+              "ios_idfv": {
+                "description": "",
+                "type": "string"
+              },
+              "device_application_stamp": {
+                "description": "",
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "custom_event",
+          "criteria": {
+            "event_name": "Attribution",
+            "custom_event_type": "attribution"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {
+                  "custom_attributes": {
+                    "additionalProperties": true,
+                    "description": "",
+                    "properties": {
+                      "campaign": {
+                        "description": "",
+                        "type": "string"
+                      },
+                      "publisher": {
+                        "description": "",
+                        "type": "string"
+                      }
+                    },
+                    "required": [],
+                    "type": "object"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "custom_event",
+          "criteria": {
+            "event_name": "Choose Item",
+            "custom_event_type": "other"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {
+                  "custom_attributes": {
+                    "additionalProperties": true,
+                    "description": "",
+                    "properties": {
+                      "quantity": {
+                        "description": "",
+                        "type": "number"
+                      },
+                      "milk": {
+                        "description": "",
+                        "type": "boolean"
+                      },
+                      "item": {
+                        "description": "",
+                        "enum": [
+                          "cortado",
+                          "espresso",
+                          "regularcoffee"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "quantity",
+                      "milk",
+                      "item"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "custom_attributes"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "custom_event",
+          "criteria": {
+            "event_name": "Set Pickup",
+            "custom_event_type": "other"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {
+                  "custom_attributes": {
+                    "additionalProperties": true,
+                    "description": "",
+                    "properties": {
+                      "store": {
+                        "description": "",
+                        "pattern": "s\\d{5,5}-\\d",
+                        "type": "string"
+                      },
+                      "time_zone": {
+                        "description": "",
+                        "type": "string"
+                      },
+                      "unix_time_seconds": {
+                        "description": "",
+                        "type": "number"
+                      }
+                    },
+                    "required": [],
+                    "type": "object"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      },
+      {
+        "description": "",
+        "match": {
+          "type": "custom_event",
+          "criteria": {
+            "event_name": "Search Item",
+            "custom_event_type": "other"
+          }
+        },
+        "validator": {
+          "type": "json_schema",
+          "definition": {
+            "properties": {
+              "data": {
+                "additionalProperties": true,
+                "properties": {
+                  "custom_attributes": {
+                    "additionalProperties": true,
+                    "description": "",
+                    "properties": {
+                      "query": {
+                        "description": "The search query a user typed into the search bar.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [],
+                    "type": "object"
+                  }
+                },
+                "required": [],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "active_transformation_ids": null
+      }
+    ],
+    "transformations": null,
+    "active_transformation_ids": null
+  }
+}

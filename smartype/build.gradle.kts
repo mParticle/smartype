@@ -26,6 +26,13 @@ val mparticleDir = "$projectDir/../smartype-receivers/smartype-mparticle"
 val carthageBuildDir = "$mparticleDir/Carthage/Build/iOS"
 
 kotlin {
+
+        js {
+            binaries.executable()
+            browser {
+            }
+        }
+
     android() {
         publishLibraryVariants("release", "debug")
         mavenPublication {
@@ -118,6 +125,16 @@ kotlin {
                 api(kotlin("stdlib"))
             }
         }
+
+        try {
+            val jsMain by getting
+            if (jsMain != null) {
+                jsMain.dependsOn(commonMain)
+                jsMain.dependencies {
+                    api(kotlin("stdlib-js"))
+                }
+            }
+        }catch (e: kotlin.Exception){}
 
         try {
             val iosX64Main by getting {

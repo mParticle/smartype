@@ -21,6 +21,7 @@ import java.util.*
 class Init : CliktCommand(name="init", help = "Initialize a 'smartype.config.json' configuration file") {
     val ios by option().choice("yes", "no").prompt("Would you like to generate iOS?", default = "no")
     val android by option().choice("yes", "no").prompt("Would you like to generate Android?", default = "no")
+    val web by option().choice("yes", "no").prompt("Would you like to generate Web?", default = "no")
     val binaryOutputDirectory by option().prompt("Where should Smartype libraries be generated", default = "smartype-dist")
     val apiSchemaFile by option().prompt("Please specify a file path containing the JSON schema that you'd like to use for generation")
 
@@ -29,6 +30,7 @@ class Init : CliktCommand(name="init", help = "Initialize a 'smartype.config.jso
         var options = GeneratorOptions(
             IOSOptions(ios == "yes"),
             AndroidOptions(android == "yes"),
+            WebOptions(web == "yes"),
             binaryOutputDirectory,
             apiSchemaFile
         )
@@ -120,6 +122,9 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
             if (options.iosOptions.enabled) {
                 gradleArgs.add(":smartype:iosFatFramework")
             }
+            if (options.webOptions.enabled) {
+                gradleArgs.add(":smartype:jsBrowserDistribution")
+            }
 
             val gradleCommand = listOf(gradleBinDir + GRADLEW_EXECUTABLE) + gradleArgs
             val pb2 = ProcessBuilder(gradleCommand)
@@ -159,6 +164,19 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                 p4.waitFor()
             } else if (options.androidOptions.enabled){
                 println("Unable to locate built Android binaries in ${androidBuildDirectory.absolutePath}")
+            }
+
+            val webBuildDirectory = File(projectDirectory).resolve("smartype/build/distributions")
+            if (webBuildDirectory.exists()) {
+                val mvWeb =
+                        listOf("mv", webBuildDirectory.absolutePath, File(binOutputDirectory).resolve("web/").absolutePath)
+                val pb5 = ProcessBuilder(mvWeb)
+                pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
+                val p5 = pb5.start()
+                p5.waitFor()
+            } else if (options.webOptions.enabled){
+                println("Unable to locate built Web binaries in ${webBuildDirectory.absolutePath}")
             }
 
         } catch (e: IOException) {

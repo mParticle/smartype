@@ -11,6 +11,7 @@ object deps {
     }
     object mparticle {
         const val androidSdk = "com.mparticle:android-core:5.12.14"
+        const val webSdk = "@mparticle/web-sdk"
     }
     object kotlin {
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
