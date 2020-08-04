@@ -6,5 +6,5 @@
         "enabled": true
     },
     "binaryOutputDirectory": "smartype-dist",
-    "apiSchemaFile": "../freddy_s_plan-v1.json"
+    "apiSchemaFile": "../examples/iosExample/SmartypeExample/freddy_s_plan-v1.json"
 }

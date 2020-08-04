@@ -12,13 +12,14 @@ application {
 
 repositories {
     mavenCentral()
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
 }
 
 dependencies {
     implementation(deps.kotlin.stdlib)
     implementation("com.github.ajalt:clikt:2.6.0")
-    implementation("com.squareup:kotlinpoet:1.5.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+    implementation("com.squareup:kotlinpoet:1.7.0-SNAPSHOT")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc")
     api(project(path=":smartype-api", configuration = "jvmDefault"))
 }
 java {
