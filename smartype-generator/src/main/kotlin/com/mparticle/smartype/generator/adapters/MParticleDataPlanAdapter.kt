@@ -3,6 +3,7 @@ package com.mparticle.smartype.generator.adapters
 import com.mparticle.smartype.generator.AnalyticsSchema
 import com.mparticle.smartype.generator.AnalyticsSchemaAdapter
 import com.mparticle.smartype.generator.SmartypeObject
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import kotlinx.serialization.json.*
@@ -18,16 +19,18 @@ class MParticleDataPlanAdapter : AnalyticsSchemaAdapter {
 
     override fun extractSchemas(artifact: JsonObject): AnalyticsSchema {
         println("Extracting mParticle Data Plan")
-        val dataPlanId = artifact.getPrimitive("data_plan_id").content
-        val dataPlanVersion = artifact.getPrimitive("version").int
-        val dataPoints = artifact.getObject("version_document").getArray("data_points")
+        val dataPlanId = artifact["data_plan_id"]!!.jsonPrimitive.content
+        val dataPlanVersion = artifact["version"]!!.jsonPrimitive.int
+        val dataPoints = artifact["version_document"]!!.jsonObject["data_points"]!!.jsonArray
         println("Found ${dataPoints.size} mParticle data points.")
 
         val dataPlanIdProperty = PropertySpec.builder("dataPlanId", String::class)
-        .initializer(buildCodeBlock {
-            add("%S", dataPlanId)
-        }).build()
+            .addModifiers(KModifier.PUBLIC)
+            .initializer(buildCodeBlock {
+                add("%S", dataPlanId)
+            }).build()
         val dataPlanVersionProperty = PropertySpec.builder("dataPlanVersion", Int::class)
+            .addModifiers(KModifier.PUBLIC)
             .initializer(buildCodeBlock {
                 add("%L", dataPlanVersion)
             }).build()
@@ -36,15 +39,15 @@ class MParticleDataPlanAdapter : AnalyticsSchemaAdapter {
         val schemas = ArrayList<JsonObject>()
         for (data in dataPoints) {
             val obj = data.jsonObject
-            val match = obj.getObject("match")
-            val description = obj.getPrimitive("description").content
-            val validator = obj.getObject("validator")
+            val match = obj["match"]!!.jsonObject
+            val description = obj["description"]!!.jsonPrimitive.content
+            val validator = obj["validator"]!!.jsonObject
 
             if (!validator.containsKey("type") ||
-                validator["type"] as JsonLiteral != JsonLiteral("json_schema")) {
+                (validator["type"] as JsonPrimitive).content != "json_schema") {
                 continue
             }
-            val originalSchema = validator.getObject("definition")
+            val originalSchema = validator["definition"]!!.jsonObject
             val schema = enrichCustomEventSchema(match, description, originalSchema)
             schemas.add(schema)
         }
@@ -56,7 +59,7 @@ class MParticleDataPlanAdapter : AnalyticsSchemaAdapter {
     }
 
     private fun enrichCustomEventSchema(match: JsonObject, description: String, schema: JsonObject): JsonObject {
-        var eventType = match["type"]
+        var eventType = match["type"]?.jsonPrimitive?.content
         val criteria = match["criteria"] as JsonObject
         val schemaMap = schema.toMutableMap()
         val propertiesMap = schemaMap["properties"]?.jsonObject?.toMutableMap()
@@ -64,15 +67,15 @@ class MParticleDataPlanAdapter : AnalyticsSchemaAdapter {
         val dataPropertiesMap = dataMap?.get("properties")?.jsonObject?.toMutableMap()
 
         if (eventType == null) {
-            eventType = JsonLiteral("custom_event")
+            eventType = "custom_event"
         }
 
         val propertiesValue = mutableMapOf<String, JsonElement>()
-        propertiesValue["const"] = eventType
+        propertiesValue["const"] = JsonPrimitive(eventType)
         val propertiesValueMap = propertiesValue.toMap()
         propertiesMap?.set("event_type", JsonObject(propertiesValueMap))
 
-        if (eventType == JsonLiteral("custom_event")) {
+        if (eventType == "custom_event") {
             val eventName = criteria["event_name"]
             if (description.isBlank()) {
                 schemaMap["description"] = JsonPrimitive("Custom Event with name: $eventName")
@@ -83,23 +86,23 @@ class MParticleDataPlanAdapter : AnalyticsSchemaAdapter {
 
             if (eventName != null) {
                 val nameField = mutableMapOf<String, JsonElement>()
-                nameField["type"] = JsonLiteral("string")
+                nameField["type"] = JsonPrimitive(value = "string")
                 nameField["const"] = eventName
                 dataPropertiesMap?.set("event_name", JsonObject(nameField))
                 schemaMap[SmartypeObject.SMARTYPE_OBJECT_NAME] = eventName
             }
             if (customEventType != null) {
                 val customEventField = mutableMapOf<String, JsonElement>()
-                customEventField["type"] = JsonLiteral("string")
+                customEventField["type"] = JsonPrimitive(value = "string")
                 customEventField["const"] = customEventType
                 dataPropertiesMap?.set("custom_event_type", JsonObject(customEventField))
             }
-        } else if (eventType == JsonLiteral("screen_view")) {
+        } else if (eventType == "screen_view") {
             val screenName = criteria["screen_name"]
 
             if (screenName != null) {
                 val nameField = mutableMapOf<String, JsonElement>()
-                nameField["type"] = JsonLiteral("string")
+                nameField["type"] = JsonPrimitive(value = "string")
                 nameField["const"] = screenName
                 dataPropertiesMap?.set("screen_name", JsonObject(nameField))
                 schemaMap[SmartypeObject.SMARTYPE_OBJECT_NAME] = screenName

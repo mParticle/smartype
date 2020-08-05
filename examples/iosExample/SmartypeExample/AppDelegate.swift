@@ -25,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         options.logLevel = MPILogLevel.verbose
         MParticle.sharedInstance().start(with: options)
         
+        let api = SmartypeApi(receivers: [MParticleReceiver(), self])
+        
         let customAttributes = EmailBouncesDataCustomAttributes.init(
             campaignName: "a campaign name",
             campaignId: 5,
@@ -37,8 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let screenView = api.home(data: HomeData())
         
         api.send(message: screenView)
-        
-        let api = SmartypeApi(receivers: [MParticleReceiver(), self])
         
         let chooseCustomAttributes = ChooseItemDataCustomAttributes
             .init(quantity: 5,
