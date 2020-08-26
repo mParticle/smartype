@@ -28,9 +28,9 @@ val carthageBuildDir = "$mparticleDir/Carthage/Build/iOS"
 kotlin {
 
         js {
-            binaries.executable()
             browser {
             }
+            binaries.executable()
         }
 
     android() {
@@ -98,6 +98,7 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
+            kotlin.srcDir("${project(":smartype-generator").buildDir}/generatedWebSources")
             kotlin.srcDir("${project(":smartype-generator").buildDir}/generatedSources")
             dependencies {
                 api(project(":smartype-api"))
@@ -167,6 +168,10 @@ android {
             java.srcDirs(file("src/androidMain/kotlin"))
             res.srcDirs(file("src/androidMain/res"))
         }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_14
+        targetCompatibility = JavaVersion.VERSION_14
     }
 }
 

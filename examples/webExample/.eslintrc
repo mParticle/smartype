@@ -1,0 +1,37 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
+  "globals": {
+    "mParticle": true,
+    "describe": true,
+    "assert": true,
+    "Should": true,
+    "MockHttpServer": true,
+    "it": true,
+    "sinon": true,
+    "const": true,
+    "before": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "after": true
+  },
+  "extends": ["plugin:prettier/recommended", "eslint:recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "no-prototype-builtins": "off",
+    "no-empty": "off",
+    "no-useless-escape": "off",
+    "no-unexpected-multiline": "off"
+  }
+}

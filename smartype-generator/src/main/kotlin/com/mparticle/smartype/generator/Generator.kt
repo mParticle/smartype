@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
-import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.file
 import com.mparticle.smartype.generator.adapters.DefaultAdapterFactory
@@ -82,14 +81,30 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
         //TODO: enable additional adapters based on configuration
         val adapter = DefaultAdapterFactory().createFromName(MParticleDataPlanAdapter().getName())
         val analyticsSchema = adapter.extractSchemas(jsonSchema)
-        val smartTypeClass = SmartypeObject()
-        smartTypeClass.configureApi(analyticsSchema)
 
-        var outDirectory = TEMP_DIR + "smartype-generator/build/generatedSources"
-        if (!inJar) {
-            outDirectory = "build/generatedSources"
+        if (options.iosOptions.enabled || options.androidOptions.enabled) {
+            val smartTypeClass = SmartypeObject(options)
+            smartTypeClass.configureApi(analyticsSchema)
+
+            var outDirectory = TEMP_DIR + "smartype-generator/build/generatedSources"
+            if (!inJar) {
+                outDirectory = "build/generatedSources"
+            }
+            smartTypeClass.finalize(outDirectory)
         }
-        smartTypeClass.finalize(outDirectory)
+
+        if (options.webOptions.enabled) {
+            val smartTypeClass = SmartypeObject(options)
+            smartTypeClass.configureApi(analyticsSchema)
+
+            var outDirectory = TEMP_DIR + "smartype-generator/build/generatedWebSources"
+            if (!inJar) {
+                outDirectory = "build/generatedWebSources"
+            }
+            smartTypeClass.finalize(outDirectory)
+
+        }
+
 
         try {
             var gradleBinDir = TEMP_DIR
