@@ -34,7 +34,7 @@ Smartype supports the following language environments today:
 
 1. Any JVM environment, including Kotlin and Java for Android and server-side contexts
 2. iOS Swift and Objective-C
-3. Web support is in alpha and will be released soon in coordination with the release of Kotlin 1.4
+3. Web browsers via TypeScript and JavaScript
 
 ## mParticle Customers
 
@@ -97,8 +97,10 @@ Smartype `generate` will create a "fat" dynamic framework that you can include d
 import Smartype
 
 ...
-    
-let api = SmartypeApi(receivers: [MParticleReceiver(), self])
+let api = SmartypeApi()
+api.addReceiver(receiver: MParticleReceiver())
+api.addReceiver(receiver: self)
+
 let chooseCustomAttributes = ChooseItemDataCustomAttributes
     .init(quantity: 5,
           milk: true,
@@ -127,7 +129,9 @@ dependencies {
 - Pass the fully constructed objects into your `SmartypeApi` instance for all receivers 
 
 ```kotlin
-val api = SmartypeApi(listOf(MParticleReceiver(), this))
+val api = SmartypeApi()
+api.addReceiver(MParticleReceiver())
+api.addReceiver(this)
 val message = api.chooseItem(
     ChooseItemData(
         ChooseItemDataCustomAttributes(
@@ -137,6 +141,39 @@ val message = api.chooseItem(
         )
     )
 )
+//the message object will now be sent to all receivers
+api.send(message)
+```
+
+#### Web
+
+Smartype `generate` will create a set of `.js` and `.d.ts` files that you can include directly with your projects. Our [example](https://github.com/mParticle/smartype/blob/main/examples/webExample/src/index.js) uses webpack to concatenate and minify the source files.
+
+To use Smartype on Web, start by adding the generated `smartype-dist` directory to your project and any 3rd-party receivers that you plan on using, then include the relevant files in your typescript or javascript sources:
+
+```js
+import * as kotlin from "../smartype-dist/kotlin.js"
+import * as smartype from "../smartype-dist/smartype-smartype.js"
+import * as smartypeMparticle from "../smartype-dist/smartype-smartype-mparticle.js"
+```
+
+- Import and initialize Smartype prior to use, and register your receivers
+- The `SmartypeApi` object will surface a series of methods which each represent the top-level items in your schema
+- Pass the fully constructed objects into your `SmartypeApi` instance for all receivers 
+
+```js
+var smartypeApi = new api.SmartypeApi()
+smartypeApi.addReceiver(new receivers.mparticle.MParticleReceiver())
+smartypeApi.addReceiver(this)
+
+var message = smartypeApi.chooseItem(
+      new api.ChooseItemData(
+        new api.ChooseItemDataCustomAttributes(
+          1, true, new api.ChooseItemDataCustomAttributesItem().REGULARCOFFEE()
+        )
+      )
+    )
+
 //the message object will now be sent to all receivers
 api.send(message)
 ```
