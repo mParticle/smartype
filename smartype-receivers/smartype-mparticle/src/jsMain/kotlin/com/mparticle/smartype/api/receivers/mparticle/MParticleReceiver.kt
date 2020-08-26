@@ -8,7 +8,6 @@ import kotlinx.browser.window
 import kotlinx.serialization.json.JsonPrimitive
 import org.w3c.dom.get
 
-@JsExport
 external class mParticle {
         fun logEvent(name: String, type: Int = definedExternally, attributes: Any = definedExternally)
         fun logPageView(name: String, attributes: Any = definedExternally)

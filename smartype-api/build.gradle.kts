@@ -144,11 +144,6 @@ android {
         //due to a bug in mP Android SDK lint checks
         isAbortOnError = false
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_14
-        targetCompatibility = JavaVersion.VERSION_14
-    }
-
 }
 
 publishing {

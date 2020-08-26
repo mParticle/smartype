@@ -9,7 +9,8 @@ public abstract class SmartypeApiBase() {
 
     @JsName("send")
     public fun send(message: Message) {
-        mutableReceivers.forEach { it.receive(message.toJson()) }
+        val messageJson = message.toJson()
+        mutableReceivers.forEach { it.receive(messageJson) }
     }
     @JsName("addReceiver")
     public fun addReceiver(receiver: MessageReceiver): Boolean {

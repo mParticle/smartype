@@ -37,6 +37,7 @@ enum class CustomEventType {
     user_preference,
     @SerialName("social")
     social,
+    @SerialName("other")
     other,
     @SerialName("media")
     media
