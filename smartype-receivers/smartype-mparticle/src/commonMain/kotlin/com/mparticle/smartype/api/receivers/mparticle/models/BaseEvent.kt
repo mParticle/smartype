@@ -2,6 +2,7 @@ package com.mparticle.smartype.api.receivers.mparticle.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
 abstract class BaseEvent() {
 
@@ -16,6 +17,8 @@ class BaseEventAdapter() {
 
 @Serializable
 enum class EventType {
+    @SerialName("custom_event")
     custom_event,
+    @SerialName("screen_view")
     screen_view
 }

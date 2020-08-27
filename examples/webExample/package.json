@@ -1,0 +1,19 @@
+{
+  "name": "smartype-web-example",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "webpack-dev-server --content-base dist/ --open",
+    "watch": "webpack -w"
+  },
+  "keywords": [],
+  "author": "developers@mparticle.com",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  },
+  "dependencies": {
+    "@mparticle/web-sdk": "^2.11.1"
+  }
+}

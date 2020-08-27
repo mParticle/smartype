@@ -26,8 +26,8 @@ kotlin {
     explicitApi()
     
     js {
+        binaries.executable()
         browser {
-            binaries.executable()
         }
     }
     jvm()
@@ -144,7 +144,6 @@ android {
         //due to a bug in mP Android SDK lint checks
         isAbortOnError = false
     }
-
 }
 
 publishing {

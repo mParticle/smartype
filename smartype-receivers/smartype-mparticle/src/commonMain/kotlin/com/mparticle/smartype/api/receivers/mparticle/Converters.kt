@@ -1,26 +1,33 @@
 package com.mparticle.smartype.api.receivers.mparticle
 
-import com.mparticle.smartype.api.Message
 import com.mparticle.smartype.api.receivers.mparticle.models.*
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.*
 
 class Converters {
     companion object {
-        fun convertToEvent(message: JsonObject) : BaseEvent? {
-            val json = Json { isLenient = true }
-            val adapter = json.decodeFromJsonElement(BaseEventAdapter.serializer(), message)
-
+        fun convertToEvent(message: String) : BaseEvent? {
+            val json = Json {
+                isLenient = true
+                ignoreUnknownKeys = true
+            }
+            val adapter = json.decodeFromString(BaseEventAdapter.serializer(), message)
             val type = adapter.event_type
-
             if (type == EventType.custom_event) {
-                return json.decodeFromJsonElement<CustomEvent>(CustomEvent.serializer(), message)
+                return json.decodeFromString(CustomEvent.serializer(), message)
             } else if (type == EventType.screen_view) {
-                return json.decodeFromJsonElement<ScreenViewEvent>(ScreenViewEvent.serializer(), message)
+                return json.decodeFromString(ScreenViewEvent.serializer(), message)
             }
             return null
         }
 
+        fun convertToNativeCustomAttributes(customAttributes: Map<String, Any?>): Map<String, String>? {
+            val attributes = mutableMapOf<String, String>()
+            for ((key, value) in customAttributes) {
+                if (value != null && value != "null") {
+                    attributes[key] = (value as JsonPrimitive).content
+                }
+            }
+            return attributes
+        }
     }
 }

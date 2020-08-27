@@ -18,10 +18,14 @@ class MainActivity : AppCompatActivity(), MessageReceiver {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Initialize a SmartypeApi instance, passing any receivers
-        //In this example, pass mParticle and yourself
+        //Initialize a SmartypeApi instance, adding any receivers
+        //In this example, add mParticle and yourself
+        val api = SmartypeApi()
+        api.addReceiver(MParticleReceiver())
+        api.addReceiver(this))
+
         val options = MParticleOptions.builder(this)
-            .credentials("a0a834d8e83d5c40916d6e4745eed72b", "ZMvnFWPszmQr27LTTuCMhumnW8P5TWsfVQVqrl2RBLyNIdDjdPjVksYSXUGVemfB")
+            .credentials("REPLACE WITH APP KEY", "REPLACE WITH APP SECRET")
             .dataplan(api.dataPlanId, api.dataPlanVersion)
             .build()
 
@@ -30,7 +34,6 @@ class MainActivity : AppCompatActivity(), MessageReceiver {
         //create a strongly typed message object
 
 
-        val api = SmartypeApi(listOf(MParticleReceiver(), this))
         val message = api.chooseItem(
             ChooseItemData(
                 ChooseItemDataCustomAttributes(
@@ -45,7 +48,7 @@ class MainActivity : AppCompatActivity(), MessageReceiver {
         api.send(message)
     }
 
-    override fun receive(message: JsonObject) {
+    override fun receive(message: String) {
         //receive the serialized object and send to other SDKs/consumers
     }
 }

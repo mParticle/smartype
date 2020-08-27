@@ -60,8 +60,8 @@ kotlin {
         }
     }
     js {
+        binaries.executable()
         browser {
-            binaries.executable()
         }
     }
 
@@ -188,7 +188,6 @@ android {
         //due to a bug in mP Android SDK lint checks
         isAbortOnError = false
     }
-
 }
 
 publishing {

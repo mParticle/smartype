@@ -1,7 +1,8 @@
 package com.mparticle.smartype.api
 
-import kotlinx.serialization.Serializable
+import kotlin.js.JsExport
 
-@Serializable
-public abstract class Message {
+@JsExport
+public abstract class Message: Serializable {
+
 }

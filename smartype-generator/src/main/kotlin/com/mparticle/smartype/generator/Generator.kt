@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
-import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.file
 import com.mparticle.smartype.generator.adapters.DefaultAdapterFactory
@@ -82,14 +81,30 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
         //TODO: enable additional adapters based on configuration
         val adapter = DefaultAdapterFactory().createFromName(MParticleDataPlanAdapter().getName())
         val analyticsSchema = adapter.extractSchemas(jsonSchema)
-        val smartTypeClass = SmartypeObject()
-        smartTypeClass.configureApi(analyticsSchema)
 
-        var outDirectory = TEMP_DIR + "smartype-generator/build/generatedSources"
-        if (!inJar) {
-            outDirectory = "build/generatedSources"
+        if (options.iosOptions.enabled || options.androidOptions.enabled) {
+            val smartTypeClass = SmartypeObject(options)
+            smartTypeClass.configureApi(analyticsSchema)
+
+            var outDirectory = TEMP_DIR + "smartype-generator/build/generatedSources"
+            if (!inJar) {
+                outDirectory = "build/generatedSources"
+            }
+            smartTypeClass.finalize(outDirectory)
         }
-        smartTypeClass.finalize(outDirectory)
+
+        if (options.webOptions.enabled) {
+            val smartTypeClass = SmartypeObject(options)
+            smartTypeClass.configureApi(analyticsSchema)
+
+            var outDirectory = TEMP_DIR + "smartype-generator/build/generatedWebSources"
+            if (!inJar) {
+                outDirectory = "build/generatedWebSources"
+            }
+            smartTypeClass.finalize(outDirectory)
+
+        }
+
 
         try {
             var gradleBinDir = TEMP_DIR
@@ -156,15 +171,54 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                 println("Unable to locate built Android binaries in ${androidBuildDirectory.absolutePath}")
             }
 
-            val webBuildDirectory = File(projectDirectory).resolve("smartype/build/distributions")
+            //TODO: look into improving webpack configuration so this only needs a single file in 'smartype/distributions'
+            val webBuildDirectory = File(projectDirectory).resolve("build/js")
             if (webBuildDirectory.exists()) {
-                val mvWeb =
-                        listOf("mv", webBuildDirectory.absolutePath, File(binOutputDirectory).resolve("web/").absolutePath)
-                val pb5 = ProcessBuilder(mvWeb)
-                pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
-                val p5 = pb5.start()
-                p5.waitFor()
+                {
+                    val mvWeb =
+                        listOf("mv", webBuildDirectory.absolutePath + "/packages/smartype-smartype/kotlin", File(binOutputDirectory).resolve("web").absolutePath)
+                    val pb5 = ProcessBuilder(mvWeb)
+                    pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                    pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
+                    val p5 = pb5.start()
+                    p5.waitFor()
+                }();
+                {
+                    val mvWeb =
+                        listOf("cp", webBuildDirectory.absolutePath + "/packages/smartype-smartype-mparticle/kotlin/smartype-smartype-mparticle.js", File(binOutputDirectory).resolve("web").absolutePath)
+                    val pb5 = ProcessBuilder(mvWeb)
+                    pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                    pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
+                    val p5 = pb5.start()
+                    p5.waitFor()
+                }();
+                {
+                    val mvWeb =
+                        listOf("cp", webBuildDirectory.absolutePath + "/packages/smartype-smartype-mparticle/kotlin/smartype-smartype-mparticle.d.ts", File(binOutputDirectory).resolve("web").absolutePath)
+                    val pb5 = ProcessBuilder(mvWeb)
+                    pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                    pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
+                    val p5 = pb5.start()
+                    p5.waitFor()
+                }();
+                {
+                    val mvWeb =
+                        listOf("cp", webBuildDirectory.absolutePath + "/packages_imported/kotlin/1.4.0-rc/kotlin.js", File(binOutputDirectory).resolve("web").absolutePath)
+                    val pb5 = ProcessBuilder(mvWeb)
+                    pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                    pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
+                    val p5 = pb5.start()
+                    p5.waitFor()
+                }();
+                {
+                    val mvWeb =
+                        listOf("cp", webBuildDirectory.absolutePath + "/packages_imported/kotlin/1.4.0-rc/kotlin.js.map", File(binOutputDirectory).resolve("web").absolutePath)
+                    val pb5 = ProcessBuilder(mvWeb)
+                    pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                    pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
+                    val p5 = pb5.start()
+                    p5.waitFor()
+                }();
             } else if (options.webOptions.enabled){
                 println("Unable to locate built Web binaries in ${webBuildDirectory.absolutePath}")
             }

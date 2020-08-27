@@ -9,7 +9,7 @@ import com.mparticle.smartype.api.receivers.mparticle.models.ScreenViewEvent
 import kotlinx.serialization.json.JsonObject
 
 actual class MParticleReceiver : MessageReceiver {
-    override fun receive(message: JsonObject) {
+    override fun receive(message: String) {
         val commonEvent = Converters.convertToEvent(message) ?: return
         if (commonEvent is CustomEvent) {
             val event = NativeConverters.convertToNativeCustomEvent(commonEvent)

@@ -10,54 +10,53 @@ import UIKit
 import Smartype
 import mParticle_Apple_SDK
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+class AppDelegate: UIResponder, UIApplicationDelegate, MessageReceiver {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // Initialize a SmartypeApi instance, adding any receivers
+        // In this example, add mParticle and yourself
+        let api = SmartypeApi()
+        api.addReceiver(receiver: MParticleReceiver())
+        api.addReceiver(receiver: self)
         
         let options = MParticleOptions.init(
-            key: "REPLACE WITH KEY",
-            secret: "REPLACE WITH SECRET")
+            key: "95fdeeb88524f04099929b8e0b18fad4",
+            secret: "9_kufb6cWAdneh49BV4xtoWzluFTbQ26on_P-Pox2t_PprFDIahs8rJCqX-iEoFX")
         options.dataPlanId = api.dataPlanId
         options.dataPlanVersion = api.dataPlanVersion as NSNumber
         options.logLevel = MPILogLevel.verbose
         MParticle.sharedInstance().start(with: options)
         
-        let api = SmartypeApi(receivers: [MParticleReceiver(), self])
+        // create a strongly typed message object
         
-        let customAttributes = EmailBouncesDataCustomAttributes.init(
-            campaignName: "a campaign name",
-            campaignId: 5,
-            subject: "a subject")
-        let data = EmailBouncesData.init(customAttributes: customAttributes)
-        let emailBounces = api.emailBounces(data: data)
         
-        api.send(message: emailBounces)
-        
-        let screenView = api.home(data: HomeData())
-        
-        api.send(message: screenView)
-        
-        let chooseCustomAttributes = ChooseItemDataCustomAttributes
-            .init(quantity: 5,
-                  milk: true,
-                  item: .cortado
+        let message = api.chooseItem(data:
+            ChooseItemData.init(customAttributes:
+                ChooseItemDataCustomAttributes
+                    .init(quantity: 5,
+                          milk: true,
+                          item: .cortado
+                )
+            )
         )
-        let itemData = ChooseItemData.init(customAttributes: chooseCustomAttributes)
         
-        let chooseItem = api.chooseItem(data: itemData)
-        api.send(message: chooseItem)
+        // the message object will now be sent to all receivers
+        api.send(message: message)
         
         return true
     }
-
+    
+    func receive(message: String) {
+        // receive the serialized object and send to other SDKs/consumers
+    }
+    
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
-        // Use this method to select a confi guration to create the new scene with.
+        // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
