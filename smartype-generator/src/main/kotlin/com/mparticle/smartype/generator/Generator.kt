@@ -203,7 +203,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                 }();
                 {
                     val mvWeb =
-                        listOf("cp", webBuildDirectory.absolutePath + "/packages_imported/kotlin/1.4.0-rc/kotlin.js", File(binOutputDirectory).resolve("web").absolutePath)
+                        listOf("cp", webBuildDirectory.absolutePath + "/packages_imported/kotlin/1.4.0/kotlin.js", File(binOutputDirectory).resolve("web").absolutePath)
                     val pb5 = ProcessBuilder(mvWeb)
                     pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
                     pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
@@ -212,7 +212,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                 }();
                 {
                     val mvWeb =
-                        listOf("cp", webBuildDirectory.absolutePath + "/packages_imported/kotlin/1.4.0-rc/kotlin.js.map", File(binOutputDirectory).resolve("web").absolutePath)
+                        listOf("cp", webBuildDirectory.absolutePath + "/packages_imported/kotlin/1.4.0/kotlin.js.map", File(binOutputDirectory).resolve("web").absolutePath)
                     val pb5 = ProcessBuilder(mvWeb)
                     pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
                     pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
