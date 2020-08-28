@@ -1,6 +1,7 @@
 package com.mparticle.smartype.api.receivers.mparticle.models
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable
 class ScreenViewEvent: BaseEvent() {
@@ -13,5 +14,5 @@ class ScreenViewEvent: BaseEvent() {
 @Serializable
 class ScreenViewEventData {
     var screen_name: String? = null
-    var custom_attributes: Map<String, String>? = null
+    var custom_attributes: Map<String, JsonPrimitive>? = null
 }

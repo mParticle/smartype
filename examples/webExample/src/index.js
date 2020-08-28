@@ -38,7 +38,7 @@ class MyApp {
     var message = smartypeApi.chooseItem(
       new api.ChooseItemData(
         new api.ChooseItemDataCustomAttributes(
-          1, true, new api.ChooseItemDataCustomAttributesItem().REGULARCOFFEE()
+          5.0, true, new api.ChooseItemDataCustomAttributesItem().CORTADO()
         )
       )
     )

@@ -4,6 +4,8 @@ import com.mparticle.smartype.api.MessageReceiver
 import com.mparticle.applesdk.*
 import platform.Foundation.NSLog
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonPrimitive
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEvent
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEventType
 import com.mparticle.smartype.api.receivers.mparticle.models.ScreenViewEvent
@@ -28,11 +30,11 @@ actual class MParticleReceiver : MessageReceiver {
 
     class NativeConverters {
         companion object {
-            private fun convertToNativeCustomAttributes(customAttributes: Map<String, Any?>): Map<Any?, *>? {
+            private fun convertToNativeCustomAttributes(customAttributes: Map<String, JsonPrimitive>): Map<Any?, *>? {
                 val attributes = mutableMapOf<Any?, Any?>()
                 for ((key, value) in customAttributes) {
-                    if (value != null && value != "null") {
-                        attributes[key] = value
+                    if (value.content != "null") {
+                        attributes[key] = value.content
                     }
                 }
                 if (attributes.count() > 0) {

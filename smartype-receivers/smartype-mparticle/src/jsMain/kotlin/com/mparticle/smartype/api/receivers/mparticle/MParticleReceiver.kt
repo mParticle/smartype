@@ -33,8 +33,7 @@ override fun receive(message: String) {
                 if (eventName != null && eventType != null) {
                     if (attributes != null) {
                         var attributesString = "{"
-                        for (key in attributes.keys) {
-                            val value = attributes[key] as JsonPrimitive
+                        for ((key, value) in attributes) {
                             if (value.isString) {
                                 val content = value.content
                                 attributesString += "\"$key\":\"$content\","
@@ -59,8 +58,7 @@ override fun receive(message: String) {
                 if (screenName != null) {
                     if (attributes != null) {
                         var attributesString = "{"
-                        for (key in attributes.keys) {
-                            val value = attributes[key] as JsonPrimitive
+                        for ((key, value) in attributes) {
                             if (value.isString) {
                                 val content = value.content
                                 attributesString += "\"$key\":\"$content\","
