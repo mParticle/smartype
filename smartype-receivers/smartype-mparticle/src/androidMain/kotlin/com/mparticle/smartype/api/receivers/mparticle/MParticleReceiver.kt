@@ -7,6 +7,7 @@ import com.mparticle.smartype.api.receivers.mparticle.models.CustomEvent
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEventType
 import com.mparticle.smartype.api.receivers.mparticle.models.ScreenViewEvent
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 
 actual class MParticleReceiver : MessageReceiver {
     override fun receive(message: String) {
@@ -26,13 +27,14 @@ actual class MParticleReceiver : MessageReceiver {
     }
     class NativeConverters {
         companion object {
-            fun convertToNativeCustomAttributes(customAttributes: Map<String, Any?>): Map<String, String>? {
+            fun convertToNativeCustomAttributes(customAttributes: Map<String, JsonPrimitive>): Map<String, String>? {
                 val attributes = mutableMapOf<String, String>()
                 for ((key, value) in customAttributes) {
-                    if (value != null && value != "null") {
-                        attributes[key] = value.toString()
+                    if (value.content != "null") {
+                        attributes[key] = value.content
                     }
                 }
+
                 return attributes
             }
 

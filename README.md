@@ -83,9 +83,6 @@ The following code snippets use the mParticle receiver as an example, but receiv
 
 #### iOS
 
-> Requirements: Xcode 11.3.1
-
-
 Smartype `generate` will create a "fat" dynamic framework that you can include directly with your projects.
 
 - To use Smartype on iOS, start by adding `Smartype.framework` to your Xcode project

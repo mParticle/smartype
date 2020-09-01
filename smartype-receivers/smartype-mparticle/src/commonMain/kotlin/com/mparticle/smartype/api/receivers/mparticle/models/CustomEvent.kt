@@ -3,6 +3,7 @@ package com.mparticle.smartype.api.receivers.mparticle.models
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable
 @SerialName("custom_event")
@@ -17,7 +18,7 @@ class CustomEvent: BaseEvent() {
 class CustomEventData {
     var event_name: String? = null
     var custom_event_type: CustomEventType? = null
-    var custom_attributes: JsonObject? = null
+    var custom_attributes: Map<String, JsonPrimitive>? = null
 }
 
 @Serializable

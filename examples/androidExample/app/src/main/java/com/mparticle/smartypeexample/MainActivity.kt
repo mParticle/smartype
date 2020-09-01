@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity(), MessageReceiver {
         //In this example, add mParticle and yourself
         val api = SmartypeApi()
         api.addReceiver(MParticleReceiver())
-        api.addReceiver(this))
+        api.addReceiver(this)
 
         val options = MParticleOptions.builder(this)
             .credentials("REPLACE WITH APP KEY", "REPLACE WITH APP SECRET")

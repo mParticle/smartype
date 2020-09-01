@@ -62,7 +62,7 @@ class SmartypeObject(options: GeneratorOptions) {
         val classPoints = mutableListOf<TypeSpec>()
         for (messageSchema in schema.smartypeMessageSchemas) {
             val name = getObjectName(messageSchema) ?: continue
-            val sanitizedName = StringHelpers.sanitize(name)
+            val sanitizedName = StringHelpers.sanitize(name) ?: continue
             val classPoint = generateType(sanitizedName, messageSchema, true)
             classPoints.add(classPoint)
         }
@@ -159,7 +159,7 @@ class SmartypeObject(options: GeneratorOptions) {
             for (name in properties.keys) {
                 val info = properties[name] as JsonObject
                 val sanitizedName = StringHelpers.sanitize(name)
-                val sanitizedLower = StringHelpers.lowerFirst(sanitizedName)
+                val sanitizedLower = StringHelpers.lowerFirst(sanitizedName) ?: continue
 
                 var isRequired = requiredCheck(required, name)
                 var valueConst: JsonElement? = null
