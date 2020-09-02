@@ -179,7 +179,7 @@ android {
     sourceSets {
         getByName("main") {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
-            java.srcDirs(file("src/androidMain/kotlin"))
+            java.srcDirs(file("src/androidMain/kotlin/com.mparticle.smartype.api.receivers.mparticle"))
             res.srcDirs(file("src/androidMain/res"))
         }
     }

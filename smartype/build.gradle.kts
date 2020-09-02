@@ -12,6 +12,7 @@ plugins {
 repositories {
     google()
     mavenCentral()
+    maven ("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
 val GROUP: String by project
