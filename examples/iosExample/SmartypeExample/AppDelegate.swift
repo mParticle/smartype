@@ -21,8 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessageReceiver {
         api.addReceiver(receiver: self)
         
         let options = MParticleOptions.init(
-            key: "95fdeeb88524f04099929b8e0b18fad4",
-            secret: "9_kufb6cWAdneh49BV4xtoWzluFTbQ26on_P-Pox2t_PprFDIahs8rJCqX-iEoFX")
+            key: "REPLACE WITH API KEY",
+            secret: "REPLACE WITH API SECRET")
         options.dataPlanId = api.dataPlanId
         options.dataPlanVersion = api.dataPlanVersion as NSNumber
         options.logLevel = MPILogLevel.verbose
