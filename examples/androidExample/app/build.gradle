@@ -39,9 +39,9 @@ allprojects {
 }
 
 dependencies {
-    implementation "com.mparticle:smartype-mparticle:1.0.2"
-    implementation "com.mparticle:smartype-api:1.0.2"
-    implementation "com.mparticle:smartype:1.0.2"
+    implementation "com.mparticle:smartype-mparticle:1.1.0"
+    implementation "com.mparticle:smartype-api:1.1.0"
+    implementation "com.mparticle:smartype:1.1.0"
     implementation "com.mparticle:android-core:5+"
     implementation fileTree(dir: 'libs', include: ['**/*.aar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
