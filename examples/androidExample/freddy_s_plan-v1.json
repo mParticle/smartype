@@ -438,7 +438,7 @@
           "type": "custom_event",
           "criteria": {
             "event_name": "Attribution",
-            "custom_event_type": "attribution"
+            "custom_event_type": "other"
           }
         },
         "validator": {
