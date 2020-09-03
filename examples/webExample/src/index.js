@@ -1,7 +1,7 @@
 import mParticle from "@mparticle/web-sdk"
-import * as kotlin from "../smartype-dist/kotlin.js"
-import * as smartype from "../smartype-dist/smartype-smartype.js"
-import * as smartypeMparticle from "../smartype-dist/smartype-smartype-mparticle.js"
+import * as kotlin from "../smartype-dist/web/kotlin.js"
+import * as smartype from "../smartype-dist/web/smartype-smartype.js"
+import * as smartypeMparticle from "../smartype-dist/web/smartype-smartype-mparticle.js"
 
 // alias to window and create namespace references for easier access
 window.smartype = smartype
