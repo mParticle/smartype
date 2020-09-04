@@ -10,7 +10,6 @@ import com.mparticle.smartype.ChooseItemDataCustomAttributesItem
 import com.mparticle.smartype.SmartypeApi
 import com.mparticle.smartype.api.MessageReceiver
 import com.mparticle.smartype.api.receivers.mparticle.MParticleReceiver
-import kotlinx.serialization.json.JsonObject
 
 class MainActivity : AppCompatActivity(), MessageReceiver {
 

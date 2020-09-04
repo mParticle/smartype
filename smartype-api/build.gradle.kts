@@ -37,7 +37,7 @@ kotlin {
             pom {
                 name.set("Smartype API")
                 artifactId = "smartype-api"
-                artifact(tasks["javadocJar"])
+//                artifact(tasks["javadocJar"])
                 description.set("Smartype API")
                 url.set("https://github.com/mParticle/smartype")
                 licenses {
@@ -117,11 +117,11 @@ kotlin {
     }
 }
 tasks {
-    val javadocJar by creating(Jar::class) {
-        dependsOn(dokka)
-        archiveClassifier.set("javadoc")
-        from(dokka)
-    }
+//    val javadocJar by creating(Jar::class) {
+//        dependsOn(dokka)
+//        archiveClassifier.set("javadoc")
+//        from(dokka)
+//    }
 }
 
 

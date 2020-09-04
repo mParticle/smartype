@@ -129,6 +129,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
             }
             if (options.webOptions.enabled) {
                 gradleArgs.add(":smartype:jsBrowserDistribution")
+                gradleArgs.add(":smartype-receivers:smartype-mparticle:jsBrowserDistribution")
             }
 
             val gradleCommand = listOf(gradleBinDir + GRADLEW_EXECUTABLE) + gradleArgs
