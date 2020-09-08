@@ -72,7 +72,7 @@ class SmartypeObject(options: GeneratorOptions) {
 
     private fun addClassFunctions(dpClass: TypeSpec.Builder, classPoints: Collection<TypeSpec>) {
         classPoints.forEach { point ->
-            var builder = FunSpec.builder(point.name!!.decapitalize())
+            var builder = FunSpec.builder(StringHelpers.lowerFirst(point.name!!)!!)
                 .addModifiers(KModifier.PUBLIC)
                 .returns(ClassName("com.mparticle.smartype", point.name!!))
 
@@ -158,7 +158,7 @@ class SmartypeObject(options: GeneratorOptions) {
             val properties = definition["properties"]?.jsonObject!!
             for (name in properties.keys) {
                 val info = properties[name] as JsonObject
-                val sanitizedName = StringHelpers.sanitize(name)
+                val sanitizedName = StringHelpers.sanitize(name) ?: continue
                 val sanitizedLower = StringHelpers.lowerFirst(sanitizedName) ?: continue
 
                 var isRequired = requiredCheck(required, name)
@@ -288,10 +288,13 @@ class SmartypeObject(options: GeneratorOptions) {
         enum: JsonArray,
         file: FileSpec.Builder
     ) {
-
+        var sanitizedEnumName = StringHelpers.sanitize(enumName)
+        if (sanitizedEnumName == null) {
+            return
+        }
         val enumType: TypeSpec
         if (isWeb) {
-            val builder = TypeSpec.classBuilder(enumName)
+            val builder = TypeSpec.classBuilder(sanitizedEnumName)
                 .addModifiers(KModifier.PUBLIC)
                 .addSuperinterface(Serializable::class)
                 .addAnnotation(
@@ -319,21 +322,30 @@ class SmartypeObject(options: GeneratorOptions) {
 
             for (value in enum) {
                 val origStr = value.jsonPrimitive.content
-                val str = origStr.toUpperCase()
-                val fnBuilderEnum = FunSpec.builder(str)
-                    .returns(ClassName("com.mparticle.smartype", enumName))
-                fnBuilderEnum.addStatement("val enumVal = %L()", enumName)
-                fnBuilderEnum.addStatement("enumVal.value = %S", origStr)
-                fnBuilderEnum.addStatement("return enumVal")
-                builder.addFunction(fnBuilderEnum.build())
+                var sanitizedValue = StringHelpers.sanitize(origStr, includeUnderscores = true)
+                val str = sanitizedValue?.toUpperCase()
+                if (str != null) {
+                    val fnBuilderEnum = FunSpec.builder(str)
+                        .returns(ClassName("com.mparticle.smartype", sanitizedEnumName))
+                        .addAnnotation(
+                            AnnotationSpec.builder(ClassName("kotlin.js", "JsName")).addMember("\"$str\"")
+                                .build()
+                        )
+                    fnBuilderEnum.addStatement("val enumVal = %L()", sanitizedEnumName)
+                    fnBuilderEnum.addStatement("enumVal.value = %S", origStr)
+                    fnBuilderEnum.addStatement("return enumVal")
+                    builder.addFunction(fnBuilderEnum.build())
+                }
             }
             enumType = builder.build()
         } else {
             val builder = TypeSpec.enumBuilder(enumName)
             for (value in enum) {
                 val origStr = value.jsonPrimitive.content
-                val str = origStr.toUpperCase()
-                builder.addEnumConstant(str, TypeSpec.anonymousClassBuilder().build())
+                val str = StringHelpers.sanitize(origStr, includeUnderscores = true)?.toUpperCase()
+                if (str != null) {
+                    builder.addEnumConstant(str, TypeSpec.anonymousClassBuilder().build())
+                }
             }
             enumType = builder.build()
         }
