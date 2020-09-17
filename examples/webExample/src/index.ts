@@ -3,18 +3,20 @@ import * as kotlin from "../smartype-dist/web/kotlin.js"
 import * as smartype from "../smartype-dist/web/smartype-smartype.js"
 import * as smartypeMparticle from "../smartype-dist/web/smartype-smartype-mparticle.js"
 
-// alias to window and create namespace references for easier access
+// create namespace references for easier access
+var api = smartype.com.mparticle.smartype
+var receivers = smartypeMparticle.com.mparticle.smartype.api.receivers
+
+// (optional) alias to window for chrome debugger
 window.smartype = smartype
 window.smartypeMparticle = smartypeMparticle
 window.kotlin = kotlin
-var api = smartype.com.mparticle.smartype
-var receivers = smartypeMparticle.com.mparticle.smartype.api.receivers
 
 class MyApp {
   begin() {
     
     // Initialize Smartype, adding any receivers
-    // in this example, add mParticle and yourself
+    // in this example, add mParticle (and optionally yourself)
     var smartypeApi = new api.SmartypeApi()
     smartypeApi.addReceiver(new receivers.mparticle.MParticleReceiver())
     smartypeApi.addReceiver(this)

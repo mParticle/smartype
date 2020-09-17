@@ -75,6 +75,8 @@ Smartype `generate` will read your configuration file and output binaries that a
 java -jar smartype.jar generate
 ```
 
+If this is your first call to 'generate', you may want to go grab a cup of coffee while it downloads dependencies. (It will be much faster the second time!)
+
 ### Integrating Generated Code
 
 To use the objects created by Smartype, you'll want to add the generated code to your projects. You will also want to initialize Smartype when the app starts up, and register any receivers that you would like to get notified for each message that gets logged.
@@ -166,7 +168,7 @@ smartypeApi.addReceiver(this)
 var message = smartypeApi.chooseItem(
       new api.ChooseItemData(
         new api.ChooseItemDataCustomAttributes(
-          1, true, new api.ChooseItemDataCustomAttributesItem().REGULARCOFFEE()
+          1, true, new api.ChooseItemDataCustomAttributesItem().CORTADO()
         )
       )
     )
