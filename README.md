@@ -75,11 +75,15 @@ Smartype `generate` will read your configuration file and output binaries that a
 java -jar smartype.jar generate
 ```
 
+If this is your first call to 'generate', you may want to go grab a cup of coffee while it downloads dependencies. (It will be much faster the second time!)
+
 ### Integrating Generated Code
 
 To use the objects created by Smartype, you'll want to add the generated code to your projects. You will also want to initialize Smartype when the app starts up, and register any receivers that you would like to get notified for each message that gets logged.
 
 The following code snippets use the mParticle receiver as an example, but receivers can be created to wrap any interface to which you want to send data, including for your own inhouse processing.
+
+You can also (optionally) add yourself as a receiver, and then implement a `receive` function to get a copy of all JSON messages that are sent. See the [example projects](https://github.com/mParticle/smartype/tree/main/examples) for details of how this is done per platform.
 
 #### iOS
 
@@ -152,6 +156,10 @@ To use Smartype on Web, start by adding the generated `smartype-dist` directory 
 import * as kotlin from "../smartype-dist/kotlin.js"
 import * as smartype from "../smartype-dist/smartype-smartype.js"
 import * as smartypeMparticle from "../smartype-dist/smartype-smartype-mparticle.js"
+
+// create namespace references for easier access
+var api = smartype.com.mparticle.smartype
+var receivers = smartypeMparticle.com.mparticle.smartype.api.receivers
 ```
 
 - Import and initialize Smartype prior to use, and register your receivers
@@ -166,7 +174,7 @@ smartypeApi.addReceiver(this)
 var message = smartypeApi.chooseItem(
       new api.ChooseItemData(
         new api.ChooseItemDataCustomAttributes(
-          1, true, new api.ChooseItemDataCustomAttributesItem().REGULARCOFFEE()
+          1, true, new api.ChooseItemDataCustomAttributesItem().CORTADO()
         )
       )
     )
