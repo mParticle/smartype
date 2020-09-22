@@ -77,7 +77,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(kotlin("stdlib-common"))
                 api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
             }
         }
@@ -89,31 +88,18 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        jvm().compilations["main"].defaultSourceSet {
-            dependencies {
-                implementation(deps.kotlin.stdlib)
-            }
-        }
+
         val androidMain by getting {
             dependsOn(commonMain)
-            dependencies {
-                api(kotlin("stdlib"))
-            }
         }
+
         val jsMain by getting {
             dependsOn(commonMain)
-            dependencies {
-                implementation(kotlin("stdlib-js"))
-            }
         }
 
         val iosMain by getting {
             dependsOn(commonMain)
-            dependencies {
-                implementation(kotlin("stdlib-js"))
-            }
         }
-
     }
 }
 tasks {

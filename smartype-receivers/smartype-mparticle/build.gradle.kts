@@ -16,13 +16,13 @@ repositories {
 }
 val GROUP: String by project
 val VERSION_NAME: String by project
+
 group = GROUP
 version = VERSION_NAME
 
 val carthageBuildDir = "$projectDir/Carthage/Build/iOS"
 
 kotlin {
-
     android() {
         publishLibraryVariants("release")
         mavenPublication {
@@ -97,9 +97,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":smartype-api"))
-                api(kotlin("stdlib-common"))
                 api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
-
             }
         }
         val commonTest by getting {
@@ -122,19 +120,14 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                api(kotlin("stdlib"))
                 api(deps.mparticle.androidSdk)
             }
         }
 
         val jsMain by getting {
             dependsOn(commonMain)
-            dependencies {
-                implementation(kotlin("stdlib-js"))
-            }
         }
     }
-
 }
 
 // Create Carthage tasks

@@ -49,6 +49,8 @@ val fatJar = task("fatJar", type = Jar::class) {
         "**/[.].*",
         "**/[.]",
         "**/Carthage",
+        "**/smartype-receivers",
+        "**/smartype-api",
         "**/local.properties")
 
     rename(

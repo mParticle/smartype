@@ -10,20 +10,21 @@ plugins {
 }
 
 repositories {
+    mavenLocal()
     google()
     mavenCentral()
 }
 
 val GROUP: String by project
 val VERSION_NAME: String by project
+val IS_PUBLISHED: String by project
 
 
 
 group = GROUP
 version = VERSION_NAME
 
-val mparticleDir = "$projectDir/../smartype-receivers/smartype-mparticle"
-val carthageBuildDir = "$mparticleDir/Carthage/Build/iOS"
+val carthageBuildDir = "$projectDir/Carthage/Build/iOS"
 
 kotlin {
 
@@ -44,26 +45,15 @@ kotlin {
         compilations {
             getByName("main") {
                 source(sourceSets.getByName("iosMain"))
-
                 kotlinOptions.freeCompilerArgs = listOf("-verbose")
-
-                cinterops(Action {
-                    val mparticleapplesdk by creating {
-                        defFile("$mparticleDir/src/iosMain/cinterop/mParticle_Apple_SDK.def")
-                        packageName("com.mparticle.applesdk")
-                        includeDirs.apply {
-                            allHeaders("$carthageBuildDir/mParticle_Apple_SDK.framework/Headers")
-                        }
-                        compilerOpts("-F$carthageBuildDir/mParticle_Apple_SDK.framework")
-                    }
-                })
             }
         }
         binaries {
             framework(listOf(RELEASE)) {
                 baseName = "Smartype"
-                export(project(":smartype-api"))
-                export(project(":smartype-receivers:smartype-mparticle"))
+                transitiveExport = true
+                export("com.mparticle:smartype-mparticle:${project.version}")
+                export("com.mparticle:smartype-api:${project.version}")
                 linkerOpts.add("-F${carthageBuildDir}")
                 linkerOpts.add("-framework")
                 linkerOpts.add("mParticle_Apple_SDK")
@@ -101,9 +91,14 @@ kotlin {
             kotlin.srcDir("${project(":smartype-generator").buildDir}/generatedWebSources")
             kotlin.srcDir("${project(":smartype-generator").buildDir}/generatedSources")
             dependencies {
-                api(project(":smartype-api"))
-                api(project(":smartype-receivers:smartype-mparticle"))
-                implementation(kotlin("stdlib-common"))
+                println(IS_PUBLISHED)
+                if (IS_PUBLISHED.toBoolean()) {
+                    api("com.mparticle:smartype-mparticle:${project.version}")
+                    api("com.mparticle:smartype-api:${project.version}")
+                } else {
+                    api(project(":smartype-api"))
+                    api(project(":smartype-receivers:smartype-mparticle"))
+                }
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
             }
         }
@@ -122,18 +117,12 @@ kotlin {
         val androidMain by getting
         if (androidMain != null) {
             androidMain.dependsOn(commonMain)
-            androidMain.dependencies {
-                api(kotlin("stdlib"))
-            }
         }
 
         try {
             val jsMain by getting
             if (jsMain != null) {
                 jsMain.dependsOn(commonMain)
-                jsMain.dependencies {
-                    api(kotlin("stdlib-js"))
-                }
             }
         }catch (e: kotlin.Exception){}
 
@@ -150,9 +139,27 @@ kotlin {
         }catch (e: kotlin.Exception){}
     }
 }
+listOf("bootstrap", "update").forEach { type ->
+    task<Exec>("carthage${type.capitalize()}") {
+        group = "carthage"
+        executable = "carthage"
+        args(
+            type,
+            "--platform", "iOS",
+            "--cache-builds"
+        )
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink> {
+    dependsOn("carthageBootstrap")
+}
+
+
 // Delete build directory on clean
 tasks.named<Delete>("clean") {
     delete(buildDir)
+    delete(carthageBuildDir)
 }
 
 android {

@@ -144,6 +144,9 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                 gradleArgs.add(":smartype-receivers:smartype-mparticle:jsBrowserDistribution")
             }
 
+            //this is used to switch the project dependencies to Maven dependencies
+            gradleArgs.add("-PIS_PUBLISHED=true")
+
             val gradleCommand = listOf(gradleBinDir + GRADLEW_EXECUTABLE) + gradleArgs
             val pb2 = ProcessBuilder(gradleCommand)
             pb2.redirectOutput(ProcessBuilder.Redirect.INHERIT)
