@@ -25,6 +25,8 @@ dependencies {
 java {
     withJavadocJar()
     withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_14
+    targetCompatibility = JavaVersion.VERSION_14
 }
 //create a single Jar with all dependencies
 val fatJar = task("fatJar", type = Jar::class) {

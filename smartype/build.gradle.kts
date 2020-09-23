@@ -52,8 +52,13 @@ kotlin {
             framework(listOf(RELEASE)) {
                 baseName = "Smartype"
                 transitiveExport = true
-                export("com.mparticle:smartype-mparticle:${project.version}")
-                export("com.mparticle:smartype-api:${project.version}")
+                if (IS_PUBLISHED.toBoolean()) {
+                    export("com.mparticle:smartype-mparticle:${project.version}")
+                    export("com.mparticle:smartype-api:${project.version}")
+                } else {
+                    export(project(":smartype-api"))
+                    export(project(":smartype-receivers:smartype-mparticle"))
+                }
                 linkerOpts.add("-F${carthageBuildDir}")
                 linkerOpts.add("-framework")
                 linkerOpts.add("mParticle_Apple_SDK")
@@ -91,7 +96,6 @@ kotlin {
             kotlin.srcDir("${project(":smartype-generator").buildDir}/generatedWebSources")
             kotlin.srcDir("${project(":smartype-generator").buildDir}/generatedSources")
             dependencies {
-                println(IS_PUBLISHED)
                 if (IS_PUBLISHED.toBoolean()) {
                     api("com.mparticle:smartype-mparticle:${project.version}")
                     api("com.mparticle:smartype-api:${project.version}")
