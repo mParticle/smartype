@@ -11,8 +11,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.15
-    - name: Build with gradle
-      run: ./gradlew build
     - name: Generate fat generator jar
       run: ./gradlew :smartype-generator:fatJar
     - name: Archive generator jar
