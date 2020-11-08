@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "dev": "webpack-dev-server --content-base dist/ --open",
-    "watch": "webpack -w"
+    "watch": "webpack -w",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "developers@mparticle.com",
