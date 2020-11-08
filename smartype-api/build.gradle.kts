@@ -24,11 +24,9 @@ version = VERSION_NAME
 kotlin {
 
     explicitApi()
-    
+
     js {
-        binaries.executable()
-        browser {
-        }
+        browser()
     }
     jvm()
     android("android") {

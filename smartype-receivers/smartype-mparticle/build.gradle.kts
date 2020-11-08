@@ -60,11 +60,8 @@ kotlin {
         }
     }
     js {
-        binaries.executable()
-        browser {
-        }
+        browser()
     }
-
     ios() {
         compilations {
             getByName("main") {

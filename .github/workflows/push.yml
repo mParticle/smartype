@@ -1,8 +1,6 @@
-name: Android CI
+name: Complete Build
 
 on: [push, pull_request]
-env:
-  DEVELOPER_DIR: /Applications/Xcode_11.3.1.app/Contents/Developer
 
 jobs:
   build:

@@ -117,6 +117,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
             }
             smartTypeClass.finalize(outDirectory)
 
+
         }
 
 
@@ -143,7 +144,6 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
             }
             if (options.webOptions.enabled) {
                 gradleArgs.add(":smartype:jsBrowserDistribution")
-                gradleArgs.add(":smartype-receivers:smartype-mparticle:jsBrowserDistribution")
             }
 
             //this is used to switch the project dependencies to Maven dependencies
@@ -202,14 +202,13 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
             }
 
             if (options.webOptions.enabled) {
-                //TODO: look into improving webpack configuration so this only needs a single file in 'smartype/distributions'
-                val webBuildDirectory = File(projectDirectory).resolve("build/js")
+                val webBuildDirectory = File(projectDirectory).resolve("smartype/build/distributions")
                 if (webBuildDirectory.exists()) {
                     {
                         val mvWeb =
                             listOf(
                                 "mv",
-                                webBuildDirectory.absolutePath + "/packages/smartype-smartype/kotlin",
+                                webBuildDirectory.absolutePath,
                                 File(binOutputDirectory).resolve("web").absolutePath
                             )
                         val pb5 = ProcessBuilder(mvWeb)
@@ -218,60 +217,9 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                         val p5 = pb5.start()
                         p5.waitFor()
                     }();
-                    {
-                        val mvWeb =
-                            listOf(
-                                "cp",
-                                webBuildDirectory.absolutePath + "/packages/smartype-smartype-mparticle/kotlin/smartype-smartype-mparticle.js",
-                                File(binOutputDirectory).resolve("web").absolutePath
-                            )
-                        val pb5 = ProcessBuilder(mvWeb)
-                        pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                        pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
-                        val p5 = pb5.start()
-                        p5.waitFor()
-                    }();
-                    {
-                        val mvWeb =
-                            listOf(
-                                "cp",
-                                webBuildDirectory.absolutePath + "/packages/smartype-smartype-mparticle/kotlin/smartype-smartype-mparticle.d.ts",
-                                File(binOutputDirectory).resolve("web").absolutePath
-                            )
-                        val pb5 = ProcessBuilder(mvWeb)
-                        pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                        pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
-                        val p5 = pb5.start()
-                        p5.waitFor()
-                    }();
-                    {
-                        val mvWeb =
-                            listOf(
-                                "cp",
-                                webBuildDirectory.absolutePath + "/packages_imported/kotlin/1.4.0/kotlin.js",
-                                File(binOutputDirectory).resolve("web").absolutePath
-                            )
-                        val pb5 = ProcessBuilder(mvWeb)
-                        pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                        pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
-                        val p5 = pb5.start()
-                        p5.waitFor()
-                    }();
-                    {
-                        val mvWeb =
-                            listOf(
-                                "cp",
-                                webBuildDirectory.absolutePath + "/packages_imported/kotlin/1.4.0/kotlin.js.map",
-                                File(binOutputDirectory).resolve("web").absolutePath
-                            )
-                        val pb5 = ProcessBuilder(mvWeb)
-                        pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                        pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
-                        val p5 = pb5.start()
-                        p5.waitFor()
-                    }();
+
                 } else {
-                    println("Unable to locate built Web binaries in ${webBuildDirectory.absolutePath}")
+                    println("Unable to locate built Web JS distributions in ${webBuildDirectory.absolutePath}")
                 }
             }
 
