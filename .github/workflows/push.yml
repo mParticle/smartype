@@ -41,6 +41,8 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: generator-jar
+          path: examples/webExample
+
       - name: rename artifact jar
         run: |
           mv smartype-generator-*.jar smartype.jar
