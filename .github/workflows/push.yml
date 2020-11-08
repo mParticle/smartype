@@ -45,6 +45,9 @@ jobs:
         with:
           name: generator-jar
           path: ~/.m2/repository/com/mparticle
+      - name: get smartype jar
+        run: |
+          mv ~/.m2/repository/com/mparticle/smartype-generator/1*/smartype-generator-*.jar smartype.jar
       - name: Run smartype
         run: |
           java -jar smartype.jar generate
