@@ -12,13 +12,13 @@ jobs:
       with:
         java-version: 1.15
     - name: Generate fat generator jar
-      run: ./gradlew :smartype-generator:fatJar
+      run: ./gradlew publishToMavenLocal
     - name: Archive generator jar
       uses: actions/upload-artifact@v2
       with:
         name: generator-jar
         path: |
-          smartype-generator/build/libs/smartype-generator-*.jar
+          ~/.m2/repository/com/mparticle
 
   build-web-example:
     needs: build-smartype
