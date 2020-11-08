@@ -11,7 +11,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.15
-    - name: Generate fat generator jar
+    - name: Publish to maven local
       run: ./gradlew publishToMavenLocal
     - name: Archive generator jar
       uses: actions/upload-artifact@v2
@@ -37,15 +37,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+      - name: rename artifact jar
+        run: |
+          mkdir -p ~/.m2/repository/com/mparticle
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           name: generator-jar
-          path: examples/webExample
-
-      - name: rename artifact jar
-        run: |
-          mv smartype-generator-*.jar smartype.jar
+          path: ~/.m2/repository/com/mparticle
       - name: Run smartype
         run: |
           java -jar smartype.jar generate
