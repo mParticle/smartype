@@ -43,7 +43,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - name: rename artifact jar
+      - name: pre-create maven dir
         run: |
           mkdir -p ~/.m2/repository/com/mparticle
       - name: Download maven repo
@@ -58,6 +58,7 @@ jobs:
           path: examples/webExample
       - name: rename generator jar
         run: |
+          rm smartype-generator-*-*.jar
           mv smartype-generator-*.jar smartype.jar
       - name: Run smartype
         run: |
