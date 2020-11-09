@@ -14,19 +14,19 @@
 		042EF632242A349200A10FF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042EF631242A349200A10FF5 /* Preview Assets.xcassets */; };
 		042EF635242A349200A10FF5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042EF633242A349200A10FF5 /* LaunchScreen.storyboard */; };
 		042EF64A242A3B4000A10FF5 /* mParticle_Apple_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042EF649242A3B4000A10FF5 /* mParticle_Apple_SDK.framework */; };
-		04CC84B1246B27CC00BBBFBC /* smartype-dist in Resources */ = {isa = PBXBuildFile; fileRef = 04CC84B0246B27CC00BBBFBC /* smartype-dist */; };
-		04CC84B3246B27E800BBBFBC /* Smartype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04CC84B2246B27E800BBBFBC /* Smartype.framework */; };
-		04CC84B4246B27E800BBBFBC /* Smartype.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04CC84B2246B27E800BBBFBC /* Smartype.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04EB02D4255987F3004F5B6C /* smartype-dist in Resources */ = {isa = PBXBuildFile; fileRef = 04EB02D3255987F3004F5B6C /* smartype-dist */; };
+		04EB02D72559880C004F5B6C /* Smartype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EB02D62559880C004F5B6C /* Smartype.framework */; };
+		04EB02D82559880C004F5B6C /* Smartype.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04EB02D62559880C004F5B6C /* Smartype.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		042EF648242A3A4000A10FF5 /* Embed Frameworks */ = {
+		04EB02D92559880C004F5B6C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04CC84B4246B27E800BBBFBC /* Smartype.framework in Embed Frameworks */,
+				04EB02D82559880C004F5B6C /* Smartype.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -43,8 +43,9 @@
 		042EF634242A349200A10FF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		042EF636242A349200A10FF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		042EF649242A3B4000A10FF5 /* mParticle_Apple_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mParticle_Apple_SDK.framework; path = Carthage/Build/iOS/mParticle_Apple_SDK.framework; sourceTree = SOURCE_ROOT; };
-		04CC84B0246B27CC00BBBFBC /* smartype-dist */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "smartype-dist"; sourceTree = "<group>"; };
 		04CC84B2246B27E800BBBFBC /* Smartype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Smartype.framework; path = "SmartypeExample/smartype-dist/ios/Smartype.framework"; sourceTree = "<group>"; };
+		04EB02D3255987F3004F5B6C /* smartype-dist */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "smartype-dist"; sourceTree = "<group>"; };
+		04EB02D62559880C004F5B6C /* Smartype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Smartype.framework; path = "smartype-dist/ios/Smartype.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +54,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				042EF64A242A3B4000A10FF5 /* mParticle_Apple_SDK.framework in Frameworks */,
-				04CC84B3246B27E800BBBFBC /* Smartype.framework in Frameworks */,
+				04EB02D72559880C004F5B6C /* Smartype.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +64,7 @@
 		042EF61C242A349000A10FF5 = {
 			isa = PBXGroup;
 			children = (
+				04EB02D3255987F3004F5B6C /* smartype-dist */,
 				042EF627242A349000A10FF5 /* SmartypeExample */,
 				042EF626242A349000A10FF5 /* Products */,
 				042EF63C242A34ED00A10FF5 /* Frameworks */,
@@ -80,7 +82,6 @@
 		042EF627242A349000A10FF5 /* SmartypeExample */ = {
 			isa = PBXGroup;
 			children = (
-				04CC84B0246B27CC00BBBFBC /* smartype-dist */,
 				042EF649242A3B4000A10FF5 /* mParticle_Apple_SDK.framework */,
 				042EF628242A349000A10FF5 /* AppDelegate.swift */,
 				042EF62A242A349000A10FF5 /* SceneDelegate.swift */,
@@ -105,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				04CC84B2246B27E800BBBFBC /* Smartype.framework */,
+				04EB02D62559880C004F5B6C /* Smartype.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -119,8 +121,8 @@
 				042EF621242A349000A10FF5 /* Sources */,
 				042EF622242A349000A10FF5 /* Frameworks */,
 				042EF623242A349000A10FF5 /* Resources */,
-				042EF648242A3A4000A10FF5 /* Embed Frameworks */,
 				042EF64D242A3BAE00A10FF5 /* ShellScript */,
+				04EB02D92559880C004F5B6C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -172,7 +174,7 @@
 				042EF635242A349200A10FF5 /* LaunchScreen.storyboard in Resources */,
 				042EF632242A349200A10FF5 /* Preview Assets.xcassets in Resources */,
 				042EF62F242A349200A10FF5 /* Assets.xcassets in Resources */,
-				04CC84B1246B27CC00BBBFBC /* smartype-dist in Resources */,
+				04EB02D4255987F3004F5B6C /* smartype-dist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +354,7 @@
 					"$(PROJECT_DIR)/SmartypeExample",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/SmartypeExample/smartype-dist/ios",
+					"$(PROJECT_DIR)/smartype-dist/ios",
 				);
 				INFOPLIST_FILE = SmartypeExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -378,6 +381,7 @@
 					"$(PROJECT_DIR)/SmartypeExample",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/SmartypeExample/smartype-dist/ios",
+					"$(PROJECT_DIR)/smartype-dist/ios",
 				);
 				INFOPLIST_FILE = SmartypeExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
