@@ -16,9 +16,8 @@ repositories {
 }
 
 dependencies {
-    implementation(deps.kotlin.stdlib)
     implementation("com.github.ajalt:clikt:2.6.0")
-    implementation("com.squareup:kotlinpoet:1.7.0-SNAPSHOT")
+    implementation("com.squareup:kotlinpoet:1.7.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
     api(project(path=":smartype-api", configuration = "jvmDefault"))
 }
