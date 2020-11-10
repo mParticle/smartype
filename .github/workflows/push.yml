@@ -11,8 +11,12 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.15
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
     - name: Publish to maven local
-      run: ./gradlew build :smartype-generator:fatJar publishToMavenLocal
+      run: ./gradlew build :smartype-generator:fatJar publishToMavenLocal publishAndroidReleasePublicationToMavenLocal
     - name: Archive maven
       uses: actions/upload-artifact@v2
       with:
@@ -80,6 +84,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.15
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
       - name: pre-create maven dir
@@ -118,6 +126,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.15
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
       - name: pre-create maven dir
         run: |
           mkdir -p ~/.m2/repository/com/mparticle
