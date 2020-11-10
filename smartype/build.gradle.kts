@@ -6,7 +6,6 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version versions.kotlin
     id("com.android.library")
-    id("maven-publish")
 }
 
 repositories {
@@ -18,7 +17,6 @@ repositories {
 val GROUP: String by project
 val VERSION_NAME: String by project
 val IS_PUBLISHED: String by project
-
 
 
 group = GROUP
@@ -170,11 +168,11 @@ tasks.named<Delete>("clean") {
 }
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(30)
     buildToolsVersion("29.0.2")
     defaultConfig {
         minSdkVersion(19)
-        targetSdkVersion(29)
+        targetSdkVersion(30)
     }
     sourceSets {
         getByName("main") {

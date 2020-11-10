@@ -25,39 +25,6 @@ val carthageBuildDir = "$projectDir/Carthage/Build/iOS"
 kotlin {
     android() {
         publishLibraryVariants("release")
-        mavenPublication {
-
-            artifactId = "smartype-mparticle"
-            pom {
-                name.set("mParticle Receiver for Smartype")
-                //artifact(tasks["javadocJar"])
-                description.set("mParticle Receiver for Smartype")
-                url.set("https://github.com/mParticle/smartype")
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("samdozor")
-                        name.set("Sam Dozor")
-                        email.set("sdozor@mparticle.com")
-                    }
-                    developer {
-                        id.set("peterjenkins")
-                        name.set("Peter Jenkins")
-                        email.set("pjenkins@mparticle.com")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/mParticle/smartype.git")
-                    developerConnection.set("scm:git:ssh://github.com/mParticle/smartype.git")
-                    url.set("https://github.com/mParticle/smartype")
-                }
-            }
-        }
     }
     js {
         browser()
@@ -209,3 +176,5 @@ signing {
         sign(publishing.publications)
     }
 }
+
+apply(from = project.rootProject.file("gradle/publishing.gradle"))

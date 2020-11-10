@@ -1,0 +1,35 @@
+project.ext.pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "samdozor"
+            name "Sam Dozor"
+            organization "mParticle"
+            organizationUrl "https://www.mparticle.com"
+        }
+        developer {
+            id "peterjenkins"
+            name "Peter Jenkins"
+            organization "mParticle"
+            organizationUrl "https://www.mparticle.com"
+        }
+    }
+
+    scm {
+        url "https://github.com/mParticle/smartype"
+    }
+}
+
+project.ext.configureMavenCentralMetadata = { pom ->
+    def root = asNode()
+    root.appendNode('name', project.name)
+    root.appendNode('description', 'Smartype Data Quality and JSON enforcement library')
+    root.appendNode('url', 'https://github.com/mparticle/smartype')
+    root.children().last() + pomConfig
+}

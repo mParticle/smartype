@@ -31,38 +31,6 @@ kotlin {
     jvm()
     android("android") {
         publishLibraryVariants("release")
-        mavenPublication {
-            pom {
-                name.set("Smartype API")
-                artifactId = "smartype-api"
-//                artifact(tasks["javadocJar"])
-                description.set("Smartype API")
-                url.set("https://github.com/mParticle/smartype")
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("samdozor")
-                        name.set("Sam Dozor")
-                        email.set("sdozor@mparticle.com")
-                    }
-                    developer {
-                        id.set("peterjenkins")
-                        name.set("Peter Jenkins")
-                        email.set("pjenkins@mparticle.com")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/mParticle/smartype.git")
-                    developerConnection.set("scm:git:ssh://github.com/mParticle/smartype.git")
-                    url.set("https://github.com/mParticle/smartype")
-                }
-            }
-        }
     }
     ios() {
         binaries {
@@ -156,3 +124,5 @@ signing {
         sign(publishing.publications)
     }
 }
+
+apply(from = project.rootProject.file("gradle/publishing.gradle"))
