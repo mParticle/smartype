@@ -15,8 +15,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - name: Publish to maven local
-      run: ./gradlew build :smartype-generator:fatJar publishToMavenLocal publishAndroidReleasePublicationToMavenLocal
+    - name: Publish all
+      run: ./gradlew publishToMavenLocal
+    - name: re-publish to android
+      run: ./gradlew publishAndroidReleasePublicationToMavenLocal
     - name: Archive maven
       uses: actions/upload-artifact@v2
       with:
