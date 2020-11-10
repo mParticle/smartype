@@ -5,6 +5,10 @@ on: [push, pull_request]
 jobs:
   build-smartype:
     runs-on: macOS-latest
+    defaults:
+      env:
+        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
     - uses: actions/checkout@v2
     - name: set up JDK 1.15
@@ -29,6 +33,7 @@ jobs:
         name: generator-jar
         path: |
           smartype-generator/build/libs
+          ${{ secrets.GITHUB_TOKEN }}
 
   build-web-example:
     needs: build-smartype
