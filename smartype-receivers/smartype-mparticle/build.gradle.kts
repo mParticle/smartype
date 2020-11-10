@@ -16,55 +16,19 @@ repositories {
 }
 val GROUP: String by project
 val VERSION_NAME: String by project
+
 group = GROUP
 version = VERSION_NAME
 
 val carthageBuildDir = "$projectDir/Carthage/Build/iOS"
 
 kotlin {
-
     android() {
         publishLibraryVariants("release")
-        mavenPublication {
-
-            artifactId = "smartype-mparticle"
-            pom {
-                name.set("mParticle Receiver for Smartype")
-                //artifact(tasks["javadocJar"])
-                description.set("mParticle Receiver for Smartype")
-                url.set("https://github.com/mParticle/smartype")
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("samdozor")
-                        name.set("Sam Dozor")
-                        email.set("sdozor@mparticle.com")
-                    }
-                    developer {
-                        id.set("peterjenkins")
-                        name.set("Peter Jenkins")
-                        email.set("pjenkins@mparticle.com")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/mParticle/smartype.git")
-                    developerConnection.set("scm:git:ssh://github.com/mParticle/smartype.git")
-                    url.set("https://github.com/mParticle/smartype")
-                }
-            }
-        }
     }
     js {
-        binaries.executable()
-        browser {
-        }
+        browser()
     }
-
     ios() {
         compilations {
             getByName("main") {
@@ -97,9 +61,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":smartype-api"))
-                api(kotlin("stdlib-common"))
                 api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
-
             }
         }
         val commonTest by getting {
@@ -122,19 +84,14 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                api(kotlin("stdlib"))
                 api(deps.mparticle.androidSdk)
             }
         }
 
         val jsMain by getting {
             dependsOn(commonMain)
-            dependencies {
-                implementation(kotlin("stdlib-js"))
-            }
         }
     }
-
 }
 
 // Create Carthage tasks
@@ -219,3 +176,5 @@ signing {
         sign(publishing.publications)
     }
 }
+
+apply(from = project.rootProject.file("gradle/publishing.gradle"))

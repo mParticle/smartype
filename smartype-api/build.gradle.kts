@@ -24,47 +24,13 @@ version = VERSION_NAME
 kotlin {
 
     explicitApi()
-    
+
     js {
-        binaries.executable()
-        browser {
-        }
+        browser()
     }
     jvm()
     android("android") {
         publishLibraryVariants("release")
-        mavenPublication {
-            pom {
-                name.set("Smartype API")
-                artifactId = "smartype-api"
-//                artifact(tasks["javadocJar"])
-                description.set("Smartype API")
-                url.set("https://github.com/mParticle/smartype")
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("samdozor")
-                        name.set("Sam Dozor")
-                        email.set("sdozor@mparticle.com")
-                    }
-                    developer {
-                        id.set("peterjenkins")
-                        name.set("Peter Jenkins")
-                        email.set("pjenkins@mparticle.com")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/mParticle/smartype.git")
-                    developerConnection.set("scm:git:ssh://github.com/mParticle/smartype.git")
-                    url.set("https://github.com/mParticle/smartype")
-                }
-            }
-        }
     }
     ios() {
         binaries {
@@ -77,7 +43,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(kotlin("stdlib-common"))
                 api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
             }
         }
@@ -89,31 +54,18 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        jvm().compilations["main"].defaultSourceSet {
-            dependencies {
-                implementation(deps.kotlin.stdlib)
-            }
-        }
+
         val androidMain by getting {
             dependsOn(commonMain)
-            dependencies {
-                api(kotlin("stdlib"))
-            }
         }
+
         val jsMain by getting {
             dependsOn(commonMain)
-            dependencies {
-                implementation(kotlin("stdlib-js"))
-            }
         }
 
         val iosMain by getting {
             dependsOn(commonMain)
-            dependencies {
-                implementation(kotlin("stdlib-js"))
-            }
         }
-
     }
 }
 tasks {
@@ -172,3 +124,5 @@ signing {
         sign(publishing.publications)
     }
 }
+
+apply(from = project.rootProject.file("gradle/publishing.gradle"))

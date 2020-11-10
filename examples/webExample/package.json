@@ -4,14 +4,16 @@
   "description": "",
   "scripts": {
     "dev": "webpack-dev-server --content-base dist/ --open",
-    "watch": "webpack -w"
+    "watch": "webpack -w",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "developers@mparticle.com",
   "license": "ISC",
   "devDependencies": {
     "webpack": "^4.32.2",
-    "webpack-cli": "^3.3.2"
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "@mparticle/web-sdk": "^2.11.1"

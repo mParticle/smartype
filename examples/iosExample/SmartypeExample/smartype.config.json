@@ -9,5 +9,5 @@
         "enabled": false
     },
     "binaryOutputDirectory": "smartype-dist",
-    "apiSchemaFile": "freddy_s_plan-v1.json"
+    "apiSchemaFile": "SmartypeExample/freddy_s_plan-v1.json"
 }
