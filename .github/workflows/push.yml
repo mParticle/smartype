@@ -5,10 +5,6 @@ on: [push, pull_request]
 jobs:
   build-smartype:
     runs-on: macOS-latest
-    defaults:
-      env:
-        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
     - uses: actions/checkout@v2
     - name: set up JDK 1.15
@@ -21,6 +17,8 @@ jobs:
         node-version: '12.x'
     - name: Publish all
       run: ./gradlew publishToMavenLocal
+      env:
+        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Archive maven
       uses: actions/upload-artifact@v2
       with:
@@ -155,3 +153,5 @@ jobs:
       - name: Run smartype
         run: |
           java -jar smartype.jar generate --config=SmartypeExample/smartype.config.json
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
