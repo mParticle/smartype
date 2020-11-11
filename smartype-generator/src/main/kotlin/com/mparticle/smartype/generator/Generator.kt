@@ -203,6 +203,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
 
             if (options.webOptions.enabled) {
                 val webBuildDirectory = File(projectDirectory).resolve("smartype/build/distributions")
+                val smartypeBuildDir = File(projectDirectory).resolve("build")
                 if (webBuildDirectory.exists()) {
                     {
                         val mvWeb =
@@ -217,7 +218,19 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                         val p5 = pb5.start()
                         p5.waitFor()
                     }();
-
+                    {
+                        val mvWeb =
+                            listOf(
+                                "cp",
+                                smartypeBuildDir.absolutePath + "/js/packages/smartype-smartype/kotlin/smartype-smartype.d.ts",
+                                File(binOutputDirectory).resolve("web").absolutePath + "/smartype.d.ts"
+                            )
+                        val pb5 = ProcessBuilder(mvWeb)
+                        pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                        pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
+                        val p5 = pb5.start()
+                        p5.waitFor()
+                    }();
                 } else {
                     println("Unable to locate built Web JS distributions in ${webBuildDirectory.absolutePath}")
                 }
