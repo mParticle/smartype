@@ -120,8 +120,20 @@ To use Smartype on Android, start by adding the generated `smartype.aar` to your
 
 ```kotlin
 dependencies {
-    implementation "com.mparticle:smartype-mparticle:1.1.0"
+    implementation "com.mparticle:smartype-api:1.2.1"
+    implementation "com.mparticle:smartype-mparticle:1.2.1"
     implementation fileTree(dir: 'libs', include: ['**/*.aar'])
+}
+```
+
+The Smartype API dependencies are deployed as a multiplatform library leveraging [Gradle Module metadata](https://docs.gradle.org/current/userguide/publishing_gradle_module_metadata.html), and in order
+for Android projects to resolve the right dependency, you may need to add the following to ensure debug builds use the "release" artifact.
+
+```kotlin
+buildTypes {
+    debug {
+        matchingFallbacks = ["release"]
+    }
 }
 ```
 
@@ -153,13 +165,7 @@ Smartype `generate` will create a set of `.js` and `.d.ts` files that you can in
 To use Smartype on Web, start by adding the generated `smartype-dist` directory to your project and any 3rd-party receivers that you plan on using, then include the relevant files in your typescript or javascript sources:
 
 ```js
-import * as kotlin from "../smartype-dist/kotlin.js"
-import * as smartype from "../smartype-dist/smartype-smartype.js"
-import * as smartypeMparticle from "../smartype-dist/smartype-smartype-mparticle.js"
-
-// create namespace references for easier access
-var api = smartype.com.mparticle.smartype
-var receivers = smartypeMparticle.com.mparticle.smartype.api.receivers
+import * as smartype from "../smartype-dist/smartype.js"
 ```
 
 - Import and initialize Smartype prior to use, and register your receivers
@@ -167,14 +173,15 @@ var receivers = smartypeMparticle.com.mparticle.smartype.api.receivers
 - Pass the fully constructed objects into your `SmartypeApi` instance for all receivers 
 
 ```js
-var smartypeApi = new api.SmartypeApi()
-smartypeApi.addReceiver(new receivers.mparticle.MParticleReceiver())
-smartypeApi.addReceiver(this)
+import * as smartype from "../smartype-dist/smartype.js"
 
-var message = smartypeApi.chooseItem(
-      new api.ChooseItemData(
-        new api.ChooseItemDataCustomAttributes(
-          1, true, new api.ChooseItemDataCustomAttributesItem().CORTADO()
+var api = new smartype.SmartypeApi()
+api.addReceiver(smartype.mParticleReceiver())
+
+var message = smartype.chooseItem(
+      new smartype.ChooseItemData(
+        new smartype.ChooseItemDataCustomAttributes(
+          1, true, new smartype.ChooseItemDataCustomAttributesItem().CORTADO()
         )
       )
     )
