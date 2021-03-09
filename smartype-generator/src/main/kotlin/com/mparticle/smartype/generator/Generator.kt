@@ -1,6 +1,7 @@
 package com.mparticle.smartype.generator
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.CliktError
 import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
@@ -12,7 +13,6 @@ import com.mparticle.smartype.generator.adapters.MParticleDataPlanAdapter
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import java.io.File
-import java.io.IOException
 import java.util.*
 
 
@@ -116,128 +116,120 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                 outDirectory = "build/generatedWebSources"
             }
             smartTypeClass.finalize(outDirectory)
-
-
         }
 
+        var gradleBinDir = TEMP_DIR
+        var projectDirectory = TEMP_DIR
+        var binOutputDirectory = options.binaryOutputDirectory
+        if (!inJar) {
+            gradleBinDir = "../"
+            projectDirectory = "../"
+        }
 
-        try {
-            var gradleBinDir = TEMP_DIR
-            var projectDirectory = TEMP_DIR
-            var binOutputDirectory = options.binaryOutputDirectory
-            if (!inJar) {
-                gradleBinDir = "../"
-                projectDirectory = "../"
+        val gradleArgs = mutableListOf<String>()
+        if (projectDirectory.isNotBlank()) {
+            gradleArgs.add("-p")
+            gradleArgs.add(projectDirectory)
+        }
+
+        if (options.androidOptions.enabled) {
+            gradleArgs.add(":smartype:bundleReleaseAar")
+        }
+        if (options.iosOptions.enabled) {
+            gradleArgs.add(":smartype:iosFatFramework")
+        }
+        if (options.webOptions.enabled) {
+            gradleArgs.add(":smartype:jsBrowserDistribution")
+        }
+
+        //this is used to switch the project dependencies to Maven dependencies
+        gradleArgs.add("-PIS_PUBLISHED=true")
+
+        if (gradleProperties != null) {
+            gradleArgs.add(gradleProperties!!)
+        }
+
+        val gradleCommand = listOf(gradleBinDir + GRADLEW_EXECUTABLE) + gradleArgs
+        val pb2 = ProcessBuilder(gradleCommand)
+        pb2.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+        pb2.redirectError(ProcessBuilder.Redirect.INHERIT)
+        val p2 = pb2.start()
+        p2.waitFor()
+
+        val directory =
+            File(System.getProperty("user.dir")).resolve(File(binOutputDirectory))
+        directory.deleteRecursively()
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+
+        if (options.iosOptions.enabled) {
+            val iosBuildDirectory = File(projectDirectory).resolve("smartype/build/ios")
+            if (iosBuildDirectory.exists()) {
+                val mviOS =
+                    listOf("mv", iosBuildDirectory.absolutePath, File(binOutputDirectory).absolutePath + "/")
+                val pb3 = ProcessBuilder(mviOS)
+                pb3.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                pb3.redirectError(ProcessBuilder.Redirect.INHERIT)
+                val p3 = pb3.start()
+                p3.waitFor()
+            } else {
+                throw CliktError("iOS build failed: unable to locate built binaries in ${iosBuildDirectory.absolutePath}")
             }
+        }
 
-            val gradleArgs = mutableListOf<String>()
-            if (projectDirectory.isNotBlank()) {
-                gradleArgs.add("-p")
-                gradleArgs.add(projectDirectory)
+        if (options.androidOptions.enabled) {
+            val androidBuildDirectory = File(projectDirectory).resolve("smartype/build/outputs/aar")
+            if (androidBuildDirectory.exists()) {
+                val mvAndroid =
+                    listOf(
+                        "mv",
+                        androidBuildDirectory.absolutePath,
+                        File(binOutputDirectory).resolve("android/").absolutePath
+                    )
+                val pb4 = ProcessBuilder(mvAndroid)
+                pb4.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                pb4.redirectError(ProcessBuilder.Redirect.INHERIT)
+                val p4 = pb4.start()
+                p4.waitFor()
+            } else {
+                throw CliktError("Android build failed: unable to locate built binaries in ${androidBuildDirectory.absolutePath}")
             }
+        }
 
-            if (options.androidOptions.enabled) {
-                gradleArgs.add(":smartype:bundleReleaseAar")
-            }
-            if (options.iosOptions.enabled) {
-                gradleArgs.add(":smartype:iosFatFramework")
-            }
-            if (options.webOptions.enabled) {
-                gradleArgs.add(":smartype:jsBrowserDistribution")
-            }
-
-            //this is used to switch the project dependencies to Maven dependencies
-            gradleArgs.add("-PIS_PUBLISHED=true")
-
-            if (gradleProperties != null) {
-                gradleArgs.add(gradleProperties!!)
-            }
-
-            val gradleCommand = listOf(gradleBinDir + GRADLEW_EXECUTABLE) + gradleArgs
-            val pb2 = ProcessBuilder(gradleCommand)
-            pb2.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            pb2.redirectError(ProcessBuilder.Redirect.INHERIT)
-            val p2 = pb2.start()
-            p2.waitFor()
-
-            val directory =
-                File(System.getProperty("user.dir")).resolve(File(binOutputDirectory))
-            directory.deleteRecursively()
-            if (!directory.exists()) {
-                directory.mkdirs()
-            }
-
-            if (options.iosOptions.enabled) {
-                val iosBuildDirectory = File(projectDirectory).resolve("smartype/build/ios")
-                if (iosBuildDirectory.exists()) {
-                    val mviOS =
-                        listOf("mv", iosBuildDirectory.absolutePath, File(binOutputDirectory).absolutePath + "/")
-                    val pb3 = ProcessBuilder(mviOS)
-                    pb3.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                    pb3.redirectError(ProcessBuilder.Redirect.INHERIT)
-                    val p3 = pb3.start()
-                    p3.waitFor()
-                } else {
-                    println("Unable to locate built iOS binaries in ${iosBuildDirectory.absolutePath}")
-                }
-            }
-
-            if (options.androidOptions.enabled) {
-                val androidBuildDirectory = File(projectDirectory).resolve("smartype/build/outputs/aar")
-                if (androidBuildDirectory.exists()) {
-                    val mvAndroid =
+        if (options.webOptions.enabled) {
+            val webBuildDirectory = File(projectDirectory).resolve("smartype/build/distributions")
+            val smartypeBuildDir = File(projectDirectory).resolve("build")
+            if (webBuildDirectory.exists()) {
+                {
+                    val mvWeb =
                         listOf(
                             "mv",
-                            androidBuildDirectory.absolutePath,
-                            File(binOutputDirectory).resolve("android/").absolutePath
+                            webBuildDirectory.absolutePath,
+                            File(binOutputDirectory).resolve("web").absolutePath
                         )
-                    val pb4 = ProcessBuilder(mvAndroid)
-                    pb4.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                    pb4.redirectError(ProcessBuilder.Redirect.INHERIT)
-                    val p4 = pb4.start()
-                    p4.waitFor()
-                } else {
-                    println("Unable to locate built Android binaries in ${androidBuildDirectory.absolutePath}")
-                }
+                    val pb5 = ProcessBuilder(mvWeb)
+                    pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                    pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
+                    val p5 = pb5.start()
+                    p5.waitFor()
+                }();
+                {
+                    val mvWeb =
+                        listOf(
+                            "cp",
+                            smartypeBuildDir.absolutePath + "/js/packages/smartype-smartype/kotlin/smartype-smartype.d.ts",
+                            File(binOutputDirectory).resolve("web").absolutePath + "/smartype.d.ts"
+                        )
+                    val pb5 = ProcessBuilder(mvWeb)
+                    pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                    pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
+                    val p5 = pb5.start()
+                    p5.waitFor()
+                }();
+            } else {
+                throw CliktError("Web build failed: unable to locate built Web JS distributions in ${webBuildDirectory.absolutePath}")
             }
-
-            if (options.webOptions.enabled) {
-                val webBuildDirectory = File(projectDirectory).resolve("smartype/build/distributions")
-                val smartypeBuildDir = File(projectDirectory).resolve("build")
-                if (webBuildDirectory.exists()) {
-                    {
-                        val mvWeb =
-                            listOf(
-                                "mv",
-                                webBuildDirectory.absolutePath,
-                                File(binOutputDirectory).resolve("web").absolutePath
-                            )
-                        val pb5 = ProcessBuilder(mvWeb)
-                        pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                        pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
-                        val p5 = pb5.start()
-                        p5.waitFor()
-                    }();
-                    {
-                        val mvWeb =
-                            listOf(
-                                "cp",
-                                smartypeBuildDir.absolutePath + "/js/packages/smartype-smartype/kotlin/smartype-smartype.d.ts",
-                                File(binOutputDirectory).resolve("web").absolutePath + "/smartype.d.ts"
-                            )
-                        val pb5 = ProcessBuilder(mvWeb)
-                        pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                        pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
-                        val p5 = pb5.start()
-                        p5.waitFor()
-                    }();
-                } else {
-                    println("Unable to locate built Web JS distributions in ${webBuildDirectory.absolutePath}")
-                }
-            }
-
-        } catch (e: IOException) {
-            e.printStackTrace()
         }
     }
 }
