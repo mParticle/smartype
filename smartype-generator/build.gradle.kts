@@ -108,16 +108,16 @@ publishing {
             name = "staging"
             setUrl("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
-                username = System.getenv("sonatypeUsername")
-                password = System.getenv("sonatypePassword")
+                username = System.getenv("SONATYPE_USERNAME")
+                password = System.getenv("SONATYPE_PASSWORD")
             }
         }
         maven {
             name = "snapshot"
             setUrl("https://oss.sonatype.org/content/repositories/snapshots/")
             credentials {
-                username = System.getenv("sonatypeUsername")
-                password = System.getenv("sonatypePassword")
+                username = System.getenv("SONATYPE_USERNAME")
+                password = System.getenv("SONATYPE_PASSWORD")
             }
         }
     }
