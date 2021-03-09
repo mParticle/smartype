@@ -177,5 +177,6 @@ jobs:
       - name: Upload Artifacts
         run: ./gradlew publishAllPublicationsToStagingRepository
         env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
