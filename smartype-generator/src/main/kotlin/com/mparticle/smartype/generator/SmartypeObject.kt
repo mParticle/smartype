@@ -229,7 +229,12 @@ class SmartypeObject(options: GeneratorOptions) {
                                         result += "\"%L\":\"%L\","
                                     }
 
-                                """.trimIndent(), sanitizedLower, enumName, value.jsonPrimitive.content.toUpperCase(), name, value.jsonPrimitive.content)
+                                 """.trimIndent(),
+                                 sanitizedLower,
+                                 enumName,
+                                 StringHelpers.sanitize(value.jsonPrimitive.content.toUpperCase(), includeUnderscores = true),
+                                 name,
+                                 StringHelpers.escapeSlashes(value.jsonPrimitive.content))
                             }
 
                         }
@@ -316,7 +321,7 @@ class SmartypeObject(options: GeneratorOptions) {
         enum: JsonArray,
         file: FileSpec.Builder
     ) {
-        var sanitizedEnumName = StringHelpers.sanitize(enumName)
+        var sanitizedEnumName = StringHelpers.sanitize(enumName, includeUnderscores = true)
         if (sanitizedEnumName == null) {
             return
         }

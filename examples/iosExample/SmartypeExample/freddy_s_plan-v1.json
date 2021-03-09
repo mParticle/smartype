@@ -509,7 +509,7 @@
                           "Regularcoffee",
                           "Dash-example",
                           "Space example",
-                          "Special char []{};/\\,&*%$#@()! example"
+                          "Special char []{};/\\\\,&*%$#@()! example"
                         ],
                         "type": "string"
                       }
