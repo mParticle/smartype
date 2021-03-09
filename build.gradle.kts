@@ -1,6 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.lang.System.out
-
 plugins {
     kotlin("jvm") version versions.kotlin apply false
     id("com.diffplug.gradle.spotless") version versions.spotless
@@ -17,6 +15,7 @@ spotless {
 
 buildscript {
     repositories {
+        mavenCentral()
         google()
         jcenter()
     }
@@ -29,6 +28,7 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()
+        mavenCentral()
         google()
         jcenter()
     }

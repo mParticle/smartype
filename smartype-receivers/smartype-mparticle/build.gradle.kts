@@ -61,7 +61,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":smartype-api"))
-                api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.serialization}")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.serialization}")
             }
         }
         val commonTest by getting {

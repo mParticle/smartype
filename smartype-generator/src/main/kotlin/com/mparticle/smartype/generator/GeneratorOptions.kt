@@ -1,7 +1,6 @@
 package com.mparticle.smartype.generator
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonLiteral
 import kotlinx.serialization.json.JsonObject
 
 /**

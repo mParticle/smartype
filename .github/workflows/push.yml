@@ -162,7 +162,7 @@ jobs:
 
   publish:
     runs-on: macOS-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     needs: [build-web-example, build-ios-example, build-android-example]
 
     steps:
