@@ -120,7 +120,10 @@ publishing {
 }
 
 signing {
-    if (System.getenv("mavenSigningKeyId") != null) {
+    val signingKey: String? by project
+    val signingPassword: String? by project
+    if (signingKey != null && signingPassword != null) {
+        useInMemoryPgpKeys(signingKey, signingPassword)
         sign(publishing.publications)
     }
 }
