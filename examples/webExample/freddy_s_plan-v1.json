@@ -506,7 +506,10 @@
                         "enum": [
                           "cortado",
                           "espresso",
-                          "regularcoffee"
+                          "Regularcoffee",
+                          "Dash-example",
+                          "Space example",
+                          "Special char []{};/\\,&*%$#@()! example"
                         ],
                         "type": "string"
                       }

@@ -5,7 +5,7 @@ class StringHelpers {
         fun sanitize(key: String, includeUnderscores: Boolean = false): String? {
             val sanitizedName = stripChars(key)?.let { upperFirst(it) }
             var uppercaseName = ""
-            val words = sanitizedName?.split(" ", "_", "-")
+            val words = sanitizedName?.split("_")
             if (words == null || words.count() == 0) {
                 return sanitizedName
             }
@@ -74,7 +74,14 @@ class StringHelpers {
             if (key == null || key.isEmpty()) {
                 return null
             }
-            return key.replace(Regex("[^a-zA-Z0-9 _-]"), "")
+            return key.replace(Regex("[^a-zA-Z0-9_]+"), "_")
+        }
+
+        fun escapeSlashes(key: String?): String? {
+            if (key == null || key.isEmpty()) {
+                return null
+            }
+            return key.replace(Regex("\\\\"), "\\\\\\\\")
         }
     }
 }
