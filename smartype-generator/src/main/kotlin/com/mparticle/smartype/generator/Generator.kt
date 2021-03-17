@@ -76,7 +76,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                 Generate::class.java.getProtectionDomain().getCodeSource().getLocation()
                         .toURI()
         ).getPath()
-        val pb = ProcessBuilder(listOf("unzip","-o", "-q", jarFile, "-d", targetDirectory, "-x", "*.class"))
+        val pb = ProcessBuilder(listOf("unzip","-o", jarFile, "-d", targetDirectory, "-x", "*.class"))
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT)
         pb.redirectError(ProcessBuilder.Redirect.INHERIT)
         val p = pb.start()
