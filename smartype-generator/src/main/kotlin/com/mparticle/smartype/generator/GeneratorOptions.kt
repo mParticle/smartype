@@ -21,7 +21,7 @@ data class GeneratorOptions(var iosOptions: IOSOptions = IOSOptions(false),
                             var binaryOutputDirectory: String = "smartype-dist",
                             var apiSchemaFile: String,
                             var dedupEnums: Boolean = false,
-                            var apiSchemaType: String?
+                            var apiSchemaType: String = "mparticle"
 )
 
 @Serializable
