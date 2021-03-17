@@ -20,6 +20,8 @@ dependencies {
     implementation("com.squareup:kotlinpoet:1.7.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.serialization}")
     api(project(path=":smartype-api", configuration = "jvmDefault"))
+    testImplementation(kotlin("test-junit"))
+    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.3.6")
 }
 java {
     withJavadocJar()

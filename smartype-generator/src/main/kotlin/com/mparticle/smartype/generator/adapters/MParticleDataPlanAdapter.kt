@@ -14,7 +14,7 @@ import kotlinx.serialization.json.*
 class MParticleDataPlanAdapter : AnalyticsSchemaAdapter {
 
     override fun getName(): String {
-        return "mParticle"
+        return "mparticle"
     }
 
     override fun extractSchemas(artifact: JsonObject): AnalyticsSchema {

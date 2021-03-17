@@ -17,7 +17,7 @@ class SmartypeObject(options: GeneratorOptions) {
          * Smartype will use this to name [Message] objects, each [AnalyticsSchemaAdapter]
          * should fill this in based on what it knows about the schema.
          */
-        const val SMARTYPE_OBJECT_NAME = "smartype_object_name"
+        const val SMARTYPE_OBJECT_NAME = "title"
     }
     private var dpClass: TypeSpec.Builder
     private var file: FileSpec.Builder
@@ -50,18 +50,13 @@ class SmartypeObject(options: GeneratorOptions) {
         return if (isWeb) {
             ""
         } else {
-            "com.mparticle.smartype"
+            "com.smartype"
         }
-    }
-
-    fun finalize(outputDirectory: String) {
-        file.addType(dpClass.build())
-        file.build().writeTo(File(outputDirectory))
     }
 
     fun configureApi(
         schema: AnalyticsSchema
-    ) {
+    ): FileSpec {
         println("Creating API with ${schema.smartypeMessageSchemas.size} message schema(s).")
         dpClass.addProperties(schema.smartypeApiPublicProperties)
         dpClass.primaryConstructor(
@@ -79,6 +74,7 @@ class SmartypeObject(options: GeneratorOptions) {
         }
 
         addClassFunctions(dpClass, classPoints)
+        return file.addType(dpClass.build()).build()
     }
 
     private fun addClassFunctions(dpClass: TypeSpec.Builder, classPoints: Collection<TypeSpec>) {
@@ -252,7 +248,7 @@ class SmartypeObject(options: GeneratorOptions) {
                         val typeName: TypeName = String::class.asTypeName()
                         addProperty(isRequired, typeName, sanitizedLower, dpClassPoint, valueConst, description, ctor)
                     }
-                } else if ("number" == type) {
+                } else if ("number" == type || "integer" == type) {
                     fnBuilderJson.addStatement("""
                             result += "\"%L\":" + this.%L + ","
                         """.trimIndent(), name, sanitizedLower)

@@ -9,7 +9,6 @@ import com.github.ajalt.clikt.parameters.options.prompt
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.file
 import com.mparticle.smartype.generator.adapters.DefaultAdapterFactory
-import com.mparticle.smartype.generator.adapters.MParticleDataPlanAdapter
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import java.io.File
@@ -22,15 +21,18 @@ class Init : CliktCommand(name="init", help = "Initialize a 'smartype.config.jso
     val web by option().choice("yes", "no").prompt("Would you like to generate Web?", default = "no")
     val binaryOutputDirectory by option().prompt("Where should Smartype libraries be generated", default = "smartype-dist")
     val apiSchemaFile by option().prompt("Please specify a file path containing the JSON schema that you'd like to use for generation")
+    val apiSchemaType by option().prompt("Please specify the type of JSON schema you're using to generate.", default = "mparticle")
 
     override fun run() {
 
-        var options = GeneratorOptions(
+        val options = GeneratorOptions(
             IOSOptions(ios == "yes"),
             AndroidOptions(android == "yes"),
             WebOptions(web == "yes"),
             binaryOutputDirectory,
-            apiSchemaFile
+            apiSchemaFile,
+            false,
+            apiSchemaType
         )
         val json = Json {
             isLenient = true
@@ -58,7 +60,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
     private val gradleProperties: String? by option(help="The gradle system properties to set for the build")
 
     private val GRADLEW_EXECUTABLE = "gradlew"
-    private val TEMP_DIR = ".smartype/"
+    private val TEMP_DIR = ".smartype/smartype-generator/"
     private fun jsonContents(file: File): JsonObject {
         val json = Json { }
         return json.parseToJsonElement(file.readText()) as JsonObject
@@ -92,35 +94,27 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
         }
 
         val jsonSchema = jsonContents(File(System.getProperty("user.dir")).resolve(File(options.apiSchemaFile)))
-        //TODO: enable additional adapters based on configuration
-        val adapter = DefaultAdapterFactory().createFromName(MParticleDataPlanAdapter().getName())
+
+        val adapter = DefaultAdapterFactory().createFromName(options.apiSchemaType)
         val analyticsSchema = adapter.extractSchemas(jsonSchema)
-
-        if (options.iosOptions.enabled || options.androidOptions.enabled) {
-            val smartTypeClass = SmartypeObject(options)
-            smartTypeClass.configureApi(analyticsSchema)
-
-            var outDirectory = TEMP_DIR + "smartype-generator/build/generatedSources"
-            if (!inJar) {
-                outDirectory = "build/generatedSources"
-            }
-            smartTypeClass.finalize(outDirectory)
-        }
+        var outDirectory = "build/generatedSources"
 
         if (options.webOptions.enabled) {
-            val smartTypeClass = SmartypeObject(options)
-            smartTypeClass.configureApi(analyticsSchema)
-
-            var outDirectory = TEMP_DIR + "smartype-generator/build/generatedWebSources"
-            if (!inJar) {
-                outDirectory = "build/generatedWebSources"
-            }
-            smartTypeClass.finalize(outDirectory)
+            outDirectory = "build/generatedWebSources"
         }
+
+        if (inJar){
+            outDirectory = TEMP_DIR + outDirectory
+        }
+
+        val smartTypeClass = SmartypeObject(options)
+        val file = smartTypeClass.configureApi(analyticsSchema)
+
+        file.writeTo(File(outDirectory))
 
         var gradleBinDir = TEMP_DIR
         var projectDirectory = TEMP_DIR
-        var binOutputDirectory = options.binaryOutputDirectory
+        val binOutputDirectory = options.binaryOutputDirectory
         if (!inJar) {
             gradleBinDir = "../"
             projectDirectory = "../"

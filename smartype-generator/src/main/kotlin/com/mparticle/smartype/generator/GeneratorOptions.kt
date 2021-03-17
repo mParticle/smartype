@@ -12,6 +12,7 @@ import kotlinx.serialization.json.JsonObject
  * @param binaryOutputDirectory The parent directory to place generated Smartype libraries, default "smartype-dist"
  * @param apiSchemaFile The file containing the JSON schema of the intended API
  * @param dedupEnums Whether multiple classes should share the same enums (vs. prefixing with class name), default false
+ * @param apiSchemaType The type of JSON schema file. mParticle data plans, OpenAPI v3, and raw JSON schema are supported
  */
 @Serializable
 data class GeneratorOptions(var iosOptions: IOSOptions = IOSOptions(false),
@@ -19,7 +20,8 @@ data class GeneratorOptions(var iosOptions: IOSOptions = IOSOptions(false),
                             var webOptions: WebOptions = WebOptions(false),
                             var binaryOutputDirectory: String = "smartype-dist",
                             var apiSchemaFile: String,
-                            var dedupEnums: Boolean = false
+                            var dedupEnums: Boolean = false,
+                            var apiSchemaType: String?
 )
 
 @Serializable
