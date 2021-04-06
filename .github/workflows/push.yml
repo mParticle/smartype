@@ -18,8 +18,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    - name: Test
+      run: ./gradlew clean test
+      env:
+        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish
-      run: ./gradlew publishToMavenLocal
+      run: ./gradlew clean publishToMavenLocal
       env:
         GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Archive maven
