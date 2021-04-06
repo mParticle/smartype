@@ -60,7 +60,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
     private val gradleProperties: String? by option(help="The gradle system properties to set for the build")
 
     private val GRADLEW_EXECUTABLE = "gradlew"
-    private val TEMP_DIR = ".smartype/smartype-generator/"
+    private val TEMP_DIR = ".smartype/"
     private fun jsonContents(file: File): JsonObject {
         val json = Json { }
         return json.parseToJsonElement(file.readText()) as JsonObject
