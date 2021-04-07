@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.mparticle.MParticle
 import com.mparticle.MParticleOptions
-import com.mparticle.smartype.ChooseItemData
-import com.mparticle.smartype.ChooseItemDataCustomAttributes
-import com.mparticle.smartype.ChooseItemDataCustomAttributesItem
-import com.mparticle.smartype.SmartypeApi
+import com.smartype.ChooseItemData
+import com.smartype.ChooseItemDataCustomAttributes
+import com.smartype.ChooseItemDataCustomAttributesItem
+import com.smartype.SmartypeApi
 import com.mparticle.smartype.api.MessageReceiver
 import com.mparticle.smartype.api.receivers.mparticle.MParticleReceiver
 
