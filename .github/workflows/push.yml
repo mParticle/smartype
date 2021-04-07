@@ -120,7 +120,7 @@ jobs:
         run: |
           java -jar smartype.jar generate
       - name: Assemble Android App
-        run: ./gradlew assembleRelease
+        run: ./gradlew clean assembleRelease
 
   build-ios-example:
     needs: build-smartype
