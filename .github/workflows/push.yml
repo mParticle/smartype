@@ -171,7 +171,6 @@ jobs:
         with:
           project: examples/iosExample/SmartypeExample.xcodeproj
           scheme: SmartypeExample
-          destination: platform=ios
           action: build
           configuration: debug
 
