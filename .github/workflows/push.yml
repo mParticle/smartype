@@ -161,6 +161,14 @@ jobs:
           java -jar smartype.jar generate --config=SmartypeExample/smartype.config.json
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build iOS App
+        uses: sersoft-gmbh/xcodebuild-action@v1
+        with:
+          project: SmartypeExample.xcodeproj
+          scheme: SmartypeExample
+          destination: platform=ios
+          action: build
+          configuration: debug
 
 
 
