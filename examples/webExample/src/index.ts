@@ -16,7 +16,7 @@ class MyApp {
     var mParticleApiKey = "REPLACE ME WITH WEB KEY"
     const mParticleConfig = {
       isDevelopmentMode: true,
-      identityCallback: function (result) {
+      identityCallback: function () {
         console.log("identity callback complete")
       },
       dataPlan: {
@@ -40,8 +40,9 @@ class MyApp {
 
   }
 
-  receive(message) {
+  receive(message: smartype.com.mparticle.smartype.api.Message) {
     // receive the serialized object and send to other SDKs/consumers  
+    console.log(message)
   }
 }
 
