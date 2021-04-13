@@ -1,7 +1,7 @@
-package com.mparticle.smartype
+package com.smartype
 
 actual class Constants {
     actual fun platform(): String {
-        return "iOS"
+        return "Android"
     }
 }

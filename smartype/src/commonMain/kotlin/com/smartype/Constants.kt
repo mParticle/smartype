@@ -1,4 +1,4 @@
-package com.mparticle.smartype
+package com.smartype
 
 expect class Constants {
     fun platform(): String

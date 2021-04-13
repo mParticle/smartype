@@ -1,4 +1,4 @@
-package com.mparticle.smartype
+package com.smartype
 
 import mParticleReceiver
 import com.mparticle.smartype.api.receivers.mparticle.MParticleReceiver

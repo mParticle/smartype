@@ -104,7 +104,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
         }
 
         if (inJar){
-            outDirectory = TEMP_DIR + outDirectory
+            outDirectory = TEMP_DIR + "smartype-generator/" + outDirectory
         }
 
         val smartTypeClass = SmartypeObject(options)
