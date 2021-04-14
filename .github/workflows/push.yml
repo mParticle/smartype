@@ -172,8 +172,7 @@ jobs:
           project: examples/iosExample/SmartypeExample.xcodeproj
           scheme: SmartypeExample
           action: build
-          configuration: debug
-
+          destination: platform=iOS Simulator,name=iPhone 12
 
 
   publish:
