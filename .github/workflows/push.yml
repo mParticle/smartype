@@ -18,6 +18,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+    - name: Install Carthage
+      run: brew install carthage
     - name: Publish all
       run: ./gradlew publishToMavenLocal
       env:
