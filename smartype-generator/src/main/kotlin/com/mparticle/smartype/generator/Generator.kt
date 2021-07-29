@@ -158,7 +158,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
 
         val directory =
             File(System.getProperty("user.dir")).resolve(File(binOutputDirectory))
-        directory.deleteRecursively()
+
         if (!directory.exists()) {
             directory.mkdirs()
         }

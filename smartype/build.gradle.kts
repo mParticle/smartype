@@ -146,8 +146,7 @@ kotlin {
 }
 listOf("bootstrap", "update").forEach { type ->
     task<Exec>("carthage${type.capitalize()}") {
-        group = "carthage"
-        executable = "carthage"
+        commandLine("$rootDir/gradle/carthage.sh")
         args(
             type,
             "--platform", "iOS",

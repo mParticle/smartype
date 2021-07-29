@@ -97,8 +97,7 @@ kotlin {
 // Create Carthage tasks
 listOf("bootstrap", "update").forEach { type ->
     task<Exec>("carthage${type.capitalize()}") {
-        group = "carthage"
-        executable = "carthage"
+        commandLine("$rootDir/gradle/carthage.sh")
         args(
             type,
             "--platform", "iOS",
@@ -120,9 +119,9 @@ tasks.named<Delete>("clean") {
 
 tasks {
     val javadocJar by creating(Jar::class) {
-        dependsOn(dokka)
+        dependsOn(org.jetbrains.dokka.gradle.DokkaTask::class)
         archiveClassifier.set("javadoc")
-        from(dokka)
+        from(org.jetbrains.dokka.gradle.DokkaTask::class)
     }
 }
 

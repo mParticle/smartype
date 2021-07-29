@@ -1,6 +1,6 @@
 object versions {
     const val kotlin = "1.4.31"
-    const val dokka = "0.10.1"
+    const val dokka = "1.5.0"
     const val spotless = "3.27.0"
     const val serialization = "1.1.0"
 }
