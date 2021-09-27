@@ -1,12 +1,14 @@
 package com.mparticle.smartype.generator
 
+import java.util.*
+
 class StringHelpers {
     companion object {
-        fun sanitize(key: String, includeUnderscores: Boolean = false): String? {
-            val sanitizedName = stripChars(key)?.let { upperFirst(it) }
+        fun sanitize(key: String, includeUnderscores: Boolean = false, allUppercaseString: Boolean = false): String? {
+            val sanitizedName = stripChars(key)?.let { prefixNumber(it) }?.let { upperFirst(it) }
             var uppercaseName = ""
             val words = sanitizedName?.split("_")
-            if (words == null || words.count() == 0) {
+            if (words == null || words.isEmpty()) {
                 return sanitizedName
             }
             var isFirst = true
@@ -25,6 +27,9 @@ class StringHelpers {
                 } else {
                     uppercaseName = "${uppercaseName}${upperWord}"
                 }
+            }
+            if (allUppercaseString) {
+                uppercaseName = uppercaseName.toUpperCase(Locale.ROOT)
             }
             return uppercaseName
         }
@@ -82,6 +87,29 @@ class StringHelpers {
                 return null
             }
             return key.replace(Regex("\\\\"), "\\\\\\\\")
+        }
+
+        // Many identifiers cannot start with a number, so prefix strings that start with numbers
+        private fun prefixNumber(key: String?): String? {
+            if (key == null || key.isEmpty()) {
+                return null
+            }
+            if (!key[0].isDigit()) {
+                return key
+            }
+            return "prefixed_${key}"
+        }
+
+        fun dedupName(existingNames: List<String>, name: String): String {
+            var postfix = 2
+            while (true) {
+                var dedupedName = "${name}${postfix}"
+                if (existingNames.contains(dedupedName)) {
+                    postfix += 1
+                } else {
+                    return dedupedName
+                }
+            }
         }
     }
 }
