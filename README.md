@@ -120,8 +120,8 @@ To use Smartype on Android, start by adding the generated `smartype.aar` to your
 
 ```kotlin
 dependencies {
-    implementation "com.mparticle:smartype-api:1.2.3"
-    implementation "com.mparticle:smartype-mparticle:1.2.3"
+    implementation "com.mparticle:smartype-api:1.2.4"
+    implementation "com.mparticle:smartype-mparticle:1.2.4"
     implementation fileTree(dir: 'libs', include: ['**/*.aar'])
 }
 ```
