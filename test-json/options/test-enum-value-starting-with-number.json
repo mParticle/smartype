@@ -1,0 +1,60 @@
+{
+    "version": 1,
+    "data_plan_id": "test_plan",
+    "version_description": null,
+    "activated_environment": "none",
+    "created_on": "2021-09-27T17:41:06.087",
+    "created_by": "bbaron@mparticle.com",
+    "last_modified_on": "2021-09-27T18:10:35.633",
+    "last_modified_by": "bbaron@mparticle.com",
+    "version_document": {
+      "data_points": [
+        {
+          "description": "",
+          "match": {
+            "type": "custom_event",
+            "criteria": {
+              "event_name": "Coupon Used",
+              "custom_event_type": "other"
+            }
+          },
+          "validator": {
+            "type": "json_schema",
+            "definition": {
+              "properties": {
+                "data": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "custom_attributes": {
+                      "additionalProperties": false,
+                      "description": "",
+                      "properties": {
+                        "test": {
+                          "description": "",
+                          "enum": [
+                            "1test",
+                            "2",
+                            "50points",
+                            "two"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "test"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "custom_attributes"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }

@@ -40,7 +40,7 @@ jobs:
     defaults:
       run:
         working-directory: examples/webExample
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -76,6 +76,10 @@ jobs:
         run: npm install
       - name: Build web app
         run: npm run build
+      - name: Run Tests
+        working-directory: test-json
+        run: bash run-all-tests.sh --platform=web --jar=../examples/webExample/smartype.jar
+
   build-android-example:
     needs: build-smartype
     defaults:
@@ -117,6 +121,9 @@ jobs:
           java -jar smartype.jar generate
       - name: Assemble Android App
         run: ./gradlew assembleRelease
+      - name: Run Tests
+        working-directory: test-json
+        run: bash run-all-tests.sh --platform=android --jar=../examples/androidExample/smartype.jar
 
   build-ios-example:
     needs: build-smartype
@@ -153,10 +160,13 @@ jobs:
           rm -f smartype-generator-*-*.jar
           mv smartype-generator-*.jar smartype.jar
       - name: Run smartype
-        run: |
-          java -jar smartype.jar generate --config=SmartypeExample/smartype.config.json
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          java -jar smartype.jar generate --config=SmartypeExample/smartype.config.json
+      - name: Run Tests
+        working-directory: test-json
+        run: bash run-all-tests.sh --platform=ios --jar=../examples/iosExample/smartype.jar
 
 
 

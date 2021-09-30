@@ -2,14 +2,12 @@ package com.mparticle.smartype.generator
 
 import com.mparticle.smartype.api.Message
 import com.mparticle.smartype.api.Serializable
-import com.mparticle.smartype.api.MessageReceiver
 import com.mparticle.smartype.api.SmartypeApiBase
 import com.squareup.kotlinpoet.*
 import java.io.File
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import kotlin.collections.MutableList
 import kotlinx.serialization.json.*
-import kotlinx.serialization.*
 
 class SmartypeObject(options: GeneratorOptions) {
     companion object {
@@ -71,10 +69,11 @@ class SmartypeObject(options: GeneratorOptions) {
 
         val classPoints = mutableListOf<TypeSpec>()
         var emittedEnumNames = mutableListOf<String>()
+        var emittedClassNames = mutableListOf<String>()
         for (messageSchema in schema.smartypeMessageSchemas) {
             val name = getObjectName(messageSchema) ?: continue
             val sanitizedName = StringHelpers.sanitize(name) ?: continue
-            val classPoint = generateType(sanitizedName, messageSchema, true, emittedEnumNames)
+            val classPoint = generateType(sanitizedName, messageSchema, true, emittedEnumNames, emittedClassNames)
             classPoints.add(classPoint)
         }
 
@@ -123,10 +122,16 @@ class SmartypeObject(options: GeneratorOptions) {
         classNamePoint: String,
         definition: JsonObject,
         isLoggable: Boolean,
-        emittedEnumNames: MutableList<String>
+        emittedEnumNames: MutableList<String>,
+        emittedClassNames: MutableList<String>
     ): TypeSpec {
+        var className = classNamePoint
+        if (emittedClassNames.contains(className)) {
+            className = StringHelpers.dedupName(emittedClassNames, className)
+        }
+        emittedClassNames.add(className)
 
-        val dpClassPoint = TypeSpec.classBuilder(classNamePoint)
+        val dpClassPoint = TypeSpec.classBuilder(className)
         dpClassPoint.addModifiers(KModifier.PUBLIC)
         if (isWeb) {
             dpClassPoint.addAnnotation(
@@ -207,7 +212,7 @@ class SmartypeObject(options: GeneratorOptions) {
                     if (enum != null) {
 
                         var shouldAddToFile = true
-                        var enumName = "$classNamePoint$sanitizedName"
+                        var enumName = "$className$sanitizedName"
                         if (dedupEnums) {
                             enumName = sanitizedName
 
@@ -232,7 +237,7 @@ class SmartypeObject(options: GeneratorOptions) {
                                  """.trimIndent(),
                                  sanitizedLower,
                                  enumName,
-                                 StringHelpers.sanitize(value.jsonPrimitive.content.toUpperCase(), includeUnderscores = true),
+                                 StringHelpers.sanitize(value.jsonPrimitive.content, includeUnderscores = true, allUppercaseString = true),
                                  name,
                                  StringHelpers.escapeSlashes(value.jsonPrimitive.content))
                             }
@@ -270,14 +275,18 @@ class SmartypeObject(options: GeneratorOptions) {
                         result += "\"%L\":" + this.%L.toJson() + ","
                     """.trimIndent(), name, sanitizedLower)
 
-                    val classNameObject = "$classNamePoint$sanitizedName"
+                    var classNameObject = "$className$sanitizedName"
+                    if (emittedClassNames.contains(classNameObject)) {
+                        classNameObject = StringHelpers.dedupName(emittedClassNames, classNameObject)
+                    }
                     val typeName = packageClass(classNameObject)
                     addProperty(isRequired, typeName, sanitizedLower, dpClassPoint, null, description, ctor)
                     generateType(
                         classNameObject,
                         info,
                         false,
-                        emittedEnumNames
+                        emittedEnumNames,
+                        emittedClassNames
                     )
                 } else if ("array" == type) {
                     fnBuilderJson.addStatement("""
@@ -355,8 +364,7 @@ class SmartypeObject(options: GeneratorOptions) {
 
             for (value in enum) {
                 val origStr = value.jsonPrimitive.content
-                var sanitizedValue = StringHelpers.sanitize(origStr, includeUnderscores = true)
-                val str = sanitizedValue?.toUpperCase()
+                var str = StringHelpers.sanitize(origStr, includeUnderscores = true, allUppercaseString = true)
                 if (str != null) {
                     val fnBuilderEnum = FunSpec.builder(str)
                         .returns(ClassName(packageName(isWeb), sanitizedEnumName))
@@ -375,7 +383,7 @@ class SmartypeObject(options: GeneratorOptions) {
             val builder = TypeSpec.enumBuilder(enumName)
             for (value in enum) {
                 val origStr = value.jsonPrimitive.content
-                val str = StringHelpers.sanitize(origStr, includeUnderscores = true)?.toUpperCase()
+                val str = StringHelpers.sanitize(origStr, includeUnderscores = true, allUppercaseString = true)
                 if (str != null) {
                     builder.addEnumConstant(str, TypeSpec.anonymousClassBuilder().build())
                 }
