@@ -85,14 +85,9 @@ publishing {
                 }
                 developers {
                     developer {
-                        id.set("samdozor")
-                        name.set("Sam Dozor")
-                        email.set("sdozor@mparticle.com")
-                    }
-                    developer {
-                        id.set("peterjenkins")
-                        name.set("Peter Jenkins")
-                        email.set("pjenkins@mparticle.com")
+                        id.set("mParticle")
+                        name.set("mParticle Inc.")
+                        email.set("developers@mparticle.com")
                     }
                 }
                 scm {
