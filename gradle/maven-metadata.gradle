@@ -14,8 +14,8 @@ project.ext.pomConfig = {
             organizationUrl "https://www.mparticle.com"
         }
         developer {
-            id "peterjenkins"
-            name "Peter Jenkins"
+            id "mParticle"
+            name "mParticle Inc."
             organization "mParticle"
             organizationUrl "https://www.mparticle.com"
         }
