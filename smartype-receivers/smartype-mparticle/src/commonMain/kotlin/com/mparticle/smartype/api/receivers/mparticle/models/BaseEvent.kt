@@ -2,7 +2,6 @@ package com.mparticle.smartype.api.receivers.mparticle.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.js.JsExport
 
 abstract class BaseEvent() {
 

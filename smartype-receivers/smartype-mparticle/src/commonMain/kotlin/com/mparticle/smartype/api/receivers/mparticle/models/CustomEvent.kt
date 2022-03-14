@@ -2,12 +2,11 @@ package com.mparticle.smartype.api.receivers.mparticle.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable
 @SerialName("custom_event")
-class CustomEvent: BaseEvent() {
+class CustomEvent : BaseEvent() {
     var data: CustomEventData? = null
     init {
         event_type = EventType.custom_event

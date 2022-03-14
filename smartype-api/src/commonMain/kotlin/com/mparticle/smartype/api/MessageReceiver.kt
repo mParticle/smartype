@@ -1,6 +1,5 @@
 package com.mparticle.smartype.api
 
-import kotlinx.serialization.json.JsonObject
 import kotlin.js.JsExport
 import kotlin.js.JsName
 

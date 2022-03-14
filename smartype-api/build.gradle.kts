@@ -1,5 +1,4 @@
-import org.jetbrains.kotlin.cli.jvm.main
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
+
 
 plugins {
     kotlin("multiplatform")
@@ -35,7 +34,6 @@ kotlin {
     ios() {
         binaries {
             framework("SmartypeApi", listOf(RELEASE)) {
-
             }
         }
     }
@@ -76,7 +74,6 @@ tasks {
 //    }
 }
 
-
 android {
     compileSdkVersion(29)
     buildToolsVersion("29.0.2")
@@ -92,8 +89,8 @@ android {
         }
     }
     lintOptions {
-        //TODO: remove this
-        //due to a bug in mP Android SDK lint checks
+        // TODO: remove this
+        // due to a bug in mP Android SDK lint checks
         isAbortOnError = false
     }
 }

@@ -1,6 +1,6 @@
 package com.mparticle.smartype.generator
 
-import java.util.*
+import java.util.Locale
 
 class StringHelpers {
     companion object {
@@ -19,13 +19,13 @@ class StringHelpers {
                 val upperWord = upperFirst(word)
                 if (isFirst) {
                     isFirst = false
-                    uppercaseName = "${uppercaseName}${upperWord}"
+                    uppercaseName = "${uppercaseName}$upperWord"
                     continue
                 }
                 if (includeUnderscores) {
-                    uppercaseName = "${uppercaseName}_${upperWord}"
+                    uppercaseName = "${uppercaseName}_$upperWord"
                 } else {
-                    uppercaseName = "${uppercaseName}${upperWord}"
+                    uppercaseName = "${uppercaseName}$upperWord"
                 }
             }
             if (allUppercaseString) {
@@ -40,7 +40,7 @@ class StringHelpers {
             }
             val firstLetter = key[0].toUpperCase()
             val remainingLetters = key.subSequence(1, key.length)
-            return "${firstLetter}${remainingLetters}"
+            return "${firstLetter}$remainingLetters"
         }
 
         fun lowerFirst(key: String?): String? {
@@ -52,7 +52,7 @@ class StringHelpers {
             val firstLetter = key[0]
             if (firstLetter.isLowerCase()) {
                 val remainingLetters = key.subSequence(1, key.length)
-                return "${firstLetter}${remainingLetters}"
+                return "${firstLetter}$remainingLetters"
             }
             result += firstLetter.toLowerCase()
             var i = 1
@@ -97,13 +97,13 @@ class StringHelpers {
             if (!key[0].isDigit()) {
                 return key
             }
-            return "prefixed_${key}"
+            return "prefixed_$key"
         }
 
         fun dedupName(existingNames: List<String>, name: String): String {
             var postfix = 2
             while (true) {
-                var dedupedName = "${name}${postfix}"
+                var dedupedName = "${name}$postfix"
                 if (existingNames.contains(dedupedName)) {
                     postfix += 1
                 } else {

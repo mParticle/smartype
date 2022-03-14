@@ -2,7 +2,6 @@ package com.mparticle.smartype.generator.adapters
 
 import com.mparticle.smartype.generator.AnalyticsSchema
 import com.mparticle.smartype.generator.AnalyticsSchemaAdapter
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 
 class GenericAdapter : AnalyticsSchemaAdapter {

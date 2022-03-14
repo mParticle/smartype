@@ -19,7 +19,7 @@ dependencies {
     implementation("com.github.ajalt:clikt:2.6.0")
     implementation("com.squareup:kotlinpoet:1.7.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.serialization}")
-    api(project(path=":smartype-api", configuration = "jvmDefault"))
+    api(project(path = ":smartype-api", configuration = "jvmDefault"))
 }
 java {
     withJavadocJar()
@@ -27,7 +27,7 @@ java {
     sourceCompatibility = JavaVersion.VERSION_14
     targetCompatibility = JavaVersion.VERSION_14
 }
-//create a single Jar with all dependencies
+// create a single Jar with all dependencies
 val fatJar = task("fatJar", type = Jar::class) {
     with(tasks.jar.get() as CopySpec)
     from("..")
@@ -36,7 +36,7 @@ val fatJar = task("fatJar", type = Jar::class) {
         configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
     })
     manifest {
-        attributes(mapOf("Main-Class" to application.mainClassName ))
+        attributes(mapOf("Main-Class" to application.mainClassName))
     }
     includeEmptyDirs = false
     exclude(
@@ -52,7 +52,8 @@ val fatJar = task("fatJar", type = Jar::class) {
         "**/Carthage",
         "**/smartype-receivers",
         "**/smartype-api",
-        "**/local.properties")
+        "**/local.properties"
+    )
 
     rename(
         "settings.gradle.package.kts",

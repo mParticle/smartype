@@ -1,14 +1,10 @@
 package com.mparticle.smartype.api.receivers.mparticle
 
 import com.mparticle.smartype.api.MessageReceiver
-import com.mparticle.applesdk.*
-import platform.Foundation.NSLog
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonPrimitive
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEvent
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEventType
 import com.mparticle.smartype.api.receivers.mparticle.models.ScreenViewEvent
+import kotlinx.serialization.json.JsonPrimitive
 import kotlin.native.concurrent.freeze
 
 actual class MParticleReceiver : MessageReceiver {
@@ -43,7 +39,7 @@ actual class MParticleReceiver : MessageReceiver {
                 return null
             }
 
-            fun convertToNativeCustomEvent(commonEvent: CustomEvent) : MPEvent? {
+            fun convertToNativeCustomEvent(commonEvent: CustomEvent): MPEvent? {
                 val data = commonEvent.data
 
                 val customAttributes = data?.custom_attributes
@@ -61,7 +57,7 @@ actual class MParticleReceiver : MessageReceiver {
                 return event
             }
 
-            fun convertToNativeScreenViewEvent(commonEvent: ScreenViewEvent) : MPEvent? {
+            fun convertToNativeScreenViewEvent(commonEvent: ScreenViewEvent): MPEvent? {
                 val data = commonEvent.data
                 val customAttributes = data?.custom_attributes
 

@@ -1,5 +1,4 @@
-import org.jetbrains.kotlin.cli.jvm.main
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
+
 
 plugins {
     kotlin("multiplatform")
@@ -36,16 +35,18 @@ kotlin {
 
                 kotlinOptions.freeCompilerArgs = listOf("-verbose")
 
-                cinterops(Action {
-                    val mparticleapplesdk by creating {
-                        defFile("src/iosMain/cinterop/mParticle_Apple_SDK.def")
-                        packageName("com.mparticle.applesdk")
-                        includeDirs.apply {
-                            allHeaders("$carthageBuildDir/mParticle_Apple_SDK.framework/Headers")
+                cinterops(
+                    Action {
+                        val mparticleapplesdk by creating {
+                            defFile("src/iosMain/cinterop/mParticle_Apple_SDK.def")
+                            packageName("com.mparticle.applesdk")
+                            includeDirs.apply {
+                                allHeaders("$carthageBuildDir/mParticle_Apple_SDK.framework/Headers")
+                            }
+                            compilerOpts("-F$carthageBuildDir/mParticle_Apple_SDK.framework")
                         }
-                        compilerOpts("-F$carthageBuildDir/mParticle_Apple_SDK.framework")
                     }
-                })
+                )
             }
         }
         binaries {
@@ -140,8 +141,8 @@ android {
         }
     }
     lintOptions {
-        //TODO: remove this
-        //due to a bug in mP Android SDK lint checks
+        // TODO: remove this
+        // due to a bug in mP Android SDK lint checks
         isAbortOnError = false
     }
 }

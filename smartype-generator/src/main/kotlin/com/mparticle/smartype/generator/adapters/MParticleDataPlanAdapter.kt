@@ -6,7 +6,7 @@ import com.mparticle.smartype.generator.SmartypeObject
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.JsonObject
 
 /**
  * Understands the schema of an mParticle Data Plan and adapts it be surfaced by Smartype
@@ -26,14 +26,18 @@ class MParticleDataPlanAdapter : AnalyticsSchemaAdapter {
 
         val dataPlanIdProperty = PropertySpec.builder("dataPlanId", String::class)
             .addModifiers(KModifier.PUBLIC)
-            .initializer(buildCodeBlock {
-                add("%S", dataPlanId)
-            }).build()
+            .initializer(
+                buildCodeBlock {
+                    add("%S", dataPlanId)
+                }
+            ).build()
         val dataPlanVersionProperty = PropertySpec.builder("dataPlanVersion", Int::class)
             .addModifiers(KModifier.PUBLIC)
-            .initializer(buildCodeBlock {
-                add("%L", dataPlanVersion)
-            }).build()
+            .initializer(
+                buildCodeBlock {
+                    add("%L", dataPlanVersion)
+                }
+            ).build()
         val dataPlanProperties = listOf(dataPlanIdProperty, dataPlanVersionProperty)
 
         val schemas = ArrayList<JsonObject>()
@@ -44,7 +48,8 @@ class MParticleDataPlanAdapter : AnalyticsSchemaAdapter {
             val validator = obj["validator"]!!.jsonObject
 
             if (!validator.containsKey("type") ||
-                (validator["type"] as JsonPrimitive).content != "json_schema") {
+                (validator["type"] as JsonPrimitive).content != "json_schema"
+            ) {
                 continue
             }
             val originalSchema = validator["definition"]!!.jsonObject
@@ -126,5 +131,4 @@ class MParticleDataPlanAdapter : AnalyticsSchemaAdapter {
 
         return JsonObject(schemaMap)
     }
-
 }

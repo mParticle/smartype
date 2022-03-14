@@ -20,5 +20,4 @@ public abstract class SmartypeApiBase() {
     public fun removeReceiver(receiver: MessageReceiver): Boolean {
         return mutableReceivers.remove(receiver)
     }
-
 }

@@ -3,11 +3,26 @@ package com.mparticle.smartype.generator
 import com.mparticle.smartype.api.Message
 import com.mparticle.smartype.api.Serializable
 import com.mparticle.smartype.api.SmartypeApiBase
-import com.squareup.kotlinpoet.*
-import java.io.File
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import kotlin.collections.MutableList
-import kotlinx.serialization.json.*
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.asClassName
+import com.squareup.kotlinpoet.asTypeName
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.double
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import java.io.File
 
 class SmartypeObject(options: GeneratorOptions) {
     companion object {
@@ -31,7 +46,8 @@ class SmartypeObject(options: GeneratorOptions) {
             .superclass(SmartypeApiBase::class)
             .primaryConstructor(
                 FunSpec.constructorBuilder()
-                    .build())
+                    .build()
+            )
         if (isWeb) {
             dpClass.addAnnotation(AnnotationSpec.builder(ClassName("kotlin.js", "JsExport")).build())
         }
@@ -93,7 +109,7 @@ class SmartypeObject(options: GeneratorOptions) {
                 val parameterNameList = point.primaryConstructor?.parameters!!.map { it.name }.toTypedArray()
                 val parameterList = point.primaryConstructor?.parameters!!.map { "%L" }
                     .joinToString(",")
-                builder.addCode("    return %L(${parameterList})", point.name!!, *parameterNameList)
+                builder.addCode("    return %L($parameterList)", point.name!!, *parameterNameList)
             } else {
                 builder.addCode("    return %L()", point.name!!)
             }
@@ -201,10 +217,13 @@ class SmartypeObject(options: GeneratorOptions) {
                 }
 
                 if (!isRequired) {
-                    fnBuilderJson.addCode("""
+                    fnBuilderJson.addCode(
+                        """
                             if (this.%L != null) {
                                 
-                        """.trimIndent(), sanitizedLower)
+                        """.trimIndent(),
+                        sanitizedLower
+                    )
                 }
 
                 if ("string" == type) {
@@ -224,24 +243,28 @@ class SmartypeObject(options: GeneratorOptions) {
                         }
 
                         if (isWeb) {
-                            fnBuilderJson.addStatement("""
+                            fnBuilderJson.addStatement(
+                                """
                                 result += "\"%L\":\"" + this.%L.toJson() + "\","
-                            """.trimIndent(), name, sanitizedLower)
+                                """.trimIndent(),
+                                name, sanitizedLower
+                            )
                         } else {
                             for (value in enum) {
-                                fnBuilderJson.addCode("""
+                                fnBuilderJson.addCode(
+                                    """
                                     if (this.%L == %L.%L) {
                                         result += "\"%L\":\"%L\","
                                     }
 
-                                 """.trimIndent(),
-                                 sanitizedLower,
-                                 enumName,
-                                 StringHelpers.sanitize(value.jsonPrimitive.content, includeUnderscores = true, allUppercaseString = true),
-                                 name,
-                                 StringHelpers.escapeSlashes(value.jsonPrimitive.content))
+                                    """.trimIndent(),
+                                    sanitizedLower,
+                                    enumName,
+                                    StringHelpers.sanitize(value.jsonPrimitive.content, includeUnderscores = true, allUppercaseString = true),
+                                    name,
+                                    StringHelpers.escapeSlashes(value.jsonPrimitive.content)
+                                )
                             }
-
                         }
 
                         if (shouldAddToFile) {
@@ -251,29 +274,41 @@ class SmartypeObject(options: GeneratorOptions) {
                         val typeName: TypeName = packageClass(enumName)
                         addProperty(isRequired, typeName, sanitizedLower, dpClassPoint, valueConst, description, ctor)
                     } else {
-                        fnBuilderJson.addStatement("""
+                        fnBuilderJson.addStatement(
+                            """
                             result += "\"%L\":\"" + this.%L + "\","
-                        """.trimIndent(), name, sanitizedLower)
+                            """.trimIndent(),
+                            name, sanitizedLower
+                        )
                         val typeName: TypeName = String::class.asTypeName()
                         addProperty(isRequired, typeName, sanitizedLower, dpClassPoint, valueConst, description, ctor)
                     }
                 } else if ("number" == type) {
-                    fnBuilderJson.addStatement("""
+                    fnBuilderJson.addStatement(
+                        """
                             result += "\"%L\":" + this.%L + ","
-                        """.trimIndent(), name, sanitizedLower)
+                        """.trimIndent(),
+                        name, sanitizedLower
+                    )
                     val typeName: TypeName = Double::class.asTypeName()
                     addProperty(isRequired, typeName, sanitizedLower, dpClassPoint, valueConst, description, ctor)
                 } else if ("boolean" == type) {
-                    fnBuilderJson.addStatement("""
+                    fnBuilderJson.addStatement(
+                        """
                             result += "\"%L\":" + this.%L + ","
-                        """.trimIndent(), name, sanitizedLower)
+                        """.trimIndent(),
+                        name, sanitizedLower
+                    )
                     val typeName: TypeName = Boolean::class.asTypeName()
                     addProperty(isRequired, typeName, sanitizedLower, dpClassPoint, valueConst, description, ctor)
                 } else if ("object" == type) {
 
-                    fnBuilderJson.addStatement("""
+                    fnBuilderJson.addStatement(
+                        """
                         result += "\"%L\":" + this.%L.toJson() + ","
-                    """.trimIndent(), name, sanitizedLower)
+                        """.trimIndent(),
+                        name, sanitizedLower
+                    )
 
                     var classNameObject = "$className$sanitizedName"
                     if (emittedClassNames.contains(classNameObject)) {
@@ -289,20 +324,25 @@ class SmartypeObject(options: GeneratorOptions) {
                         emittedClassNames
                     )
                 } else if ("array" == type) {
-                    fnBuilderJson.addStatement("""
+                    fnBuilderJson.addStatement(
+                        """
                             result += "\"%L\":"
                             result += "JsonArray(this.%L).toJson() + "\","
                             result += ","
-                        """.trimIndent(), name, sanitizedLower)
+                        """.trimIndent(),
+                        name, sanitizedLower
+                    )
                     val typeName = MutableList::class.asClassName().parameterizedBy(String::class.asClassName())
                     addProperty(isRequired, typeName, sanitizedLower, dpClassPoint, null, description, ctor)
                 }
 
                 if (!isRequired) {
-                    fnBuilderJson.addCode("""
+                    fnBuilderJson.addCode(
+                        """
                             }
                             
-                        """.trimIndent())
+                        """.trimIndent()
+                    )
                 }
             }
         }
@@ -311,12 +351,13 @@ class SmartypeObject(options: GeneratorOptions) {
             dpClassPoint.primaryConstructor(ctor.build())
         }
 
-
-        fnBuilderJson.addCode("""
+        fnBuilderJson.addCode(
+            """
                 result = result.dropLast(1)
                 result += "}"
                 return result
-        """.trimIndent())
+            """.trimIndent()
+        )
         dpClassPoint.addFunction(fnBuilderJson.build())
 
         val classPoint = dpClassPoint.build()

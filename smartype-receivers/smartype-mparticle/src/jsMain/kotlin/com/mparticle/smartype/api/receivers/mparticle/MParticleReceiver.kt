@@ -5,18 +5,17 @@ import com.mparticle.smartype.api.receivers.mparticle.models.CustomEvent
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEventType
 import com.mparticle.smartype.api.receivers.mparticle.models.ScreenViewEvent
 import kotlinx.browser.window
-import kotlinx.serialization.json.JsonPrimitive
 import org.w3c.dom.get
 
 external class mParticle {
-        fun logEvent(name: String, type: Int = definedExternally, attributes: Any = definedExternally)
-        fun logPageView(name: String, attributes: Any = definedExternally)
+    fun logEvent(name: String, type: Int = definedExternally, attributes: Any = definedExternally)
+    fun logPageView(name: String, attributes: Any = definedExternally)
 }
 
 @JsExport
 actual class MParticleReceiver : MessageReceiver {
 
-override fun receive(message: String) {
+    override fun receive(message: String) {
         console.log("MParticleReceiver#receive:message=$message")
 
         val commonEvent = Converters.convertToEvent(message) ?: return

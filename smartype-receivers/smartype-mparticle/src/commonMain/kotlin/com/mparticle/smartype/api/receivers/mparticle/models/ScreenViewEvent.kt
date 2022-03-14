@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonPrimitive
 
 @Serializable
-class ScreenViewEvent: BaseEvent() {
+class ScreenViewEvent : BaseEvent() {
     var data: ScreenViewEventData? = null
     init {
         event_type = EventType.screen_view

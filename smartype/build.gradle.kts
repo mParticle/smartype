@@ -1,6 +1,5 @@
-import org.jetbrains.kotlin.cli.jvm.main
+
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
 plugins {
     kotlin("multiplatform")
@@ -18,7 +17,6 @@ val GROUP: String by project
 val VERSION_NAME: String by project
 val IS_PUBLISHED: String by project
 
-
 group = GROUP
 version = VERSION_NAME
 
@@ -26,14 +24,14 @@ val carthageBuildDir = "$projectDir/Carthage/Build/iOS"
 
 kotlin {
 
-        js {
-            browser {
-                webpackTask {
-                    output.libraryTarget = "commonjs2"
-                }
+    js {
+        browser {
+            webpackTask {
+                output.libraryTarget = "commonjs2"
             }
-            binaries.executable()
         }
+        binaries.executable()
+    }
 
     android() {
         publishLibraryVariants("release", "debug")
@@ -60,7 +58,7 @@ kotlin {
                     export(project(":smartype-api"))
                     export(project(":smartype-receivers:smartype-mparticle"))
                 }
-                linkerOpts.add("-F${carthageBuildDir}")
+                linkerOpts.add("-F$carthageBuildDir")
                 linkerOpts.add("-framework")
                 linkerOpts.add("mParticle_Apple_SDK")
             }
@@ -129,19 +127,19 @@ kotlin {
             if (jsMain != null) {
                 jsMain.dependsOn(commonMain)
             }
-        }catch (e: kotlin.Exception){}
+        } catch (e: kotlin.Exception) {}
 
         try {
             val iosX64Main by getting {
                 dependsOn(commonMain)
             }
-        }catch (e: kotlin.Exception){}
+        } catch (e: kotlin.Exception) {}
 
         try {
             val iosArm64Main by getting {
                 dependsOn(commonMain)
             }
-        }catch (e: kotlin.Exception){}
+        } catch (e: kotlin.Exception) {}
     }
 }
 listOf("bootstrap", "update").forEach { type ->
@@ -158,7 +156,6 @@ listOf("bootstrap", "update").forEach { type ->
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink> {
     dependsOn("carthageBootstrap")
 }
-
 
 // Delete build directory on clean
 tasks.named<Delete>("clean") {
@@ -181,4 +178,3 @@ android {
         }
     }
 }
-

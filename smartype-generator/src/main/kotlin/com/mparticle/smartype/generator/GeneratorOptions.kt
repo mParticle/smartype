@@ -1,7 +1,6 @@
 package com.mparticle.smartype.generator
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonObject
 
 /**
  * A Smartype configuration file
@@ -14,12 +13,13 @@ import kotlinx.serialization.json.JsonObject
  * @param dedupEnums Whether multiple classes should share the same enums (vs. prefixing with class name), default false
  */
 @Serializable
-data class GeneratorOptions(var iosOptions: IOSOptions = IOSOptions(false),
-                            var androidOptions: AndroidOptions = AndroidOptions(false),
-                            var webOptions: WebOptions = WebOptions(false),
-                            var binaryOutputDirectory: String = "smartype-dist",
-                            var apiSchemaFile: String,
-                            var dedupEnums: Boolean = false
+data class GeneratorOptions(
+    var iosOptions: IOSOptions = IOSOptions(false),
+    var androidOptions: AndroidOptions = AndroidOptions(false),
+    var webOptions: WebOptions = WebOptions(false),
+    var binaryOutputDirectory: String = "smartype-dist",
+    var apiSchemaFile: String,
+    var dedupEnums: Boolean = false
 )
 
 @Serializable

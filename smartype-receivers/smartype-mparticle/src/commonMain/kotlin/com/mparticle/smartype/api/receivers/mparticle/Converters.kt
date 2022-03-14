@@ -1,11 +1,16 @@
 package com.mparticle.smartype.api.receivers.mparticle
 
-import com.mparticle.smartype.api.receivers.mparticle.models.*
-import kotlinx.serialization.json.*
+import com.mparticle.smartype.api.receivers.mparticle.models.BaseEvent
+import com.mparticle.smartype.api.receivers.mparticle.models.BaseEventAdapter
+import com.mparticle.smartype.api.receivers.mparticle.models.CustomEvent
+import com.mparticle.smartype.api.receivers.mparticle.models.EventType
+import com.mparticle.smartype.api.receivers.mparticle.models.ScreenViewEvent
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonPrimitive
 
 class Converters {
     companion object {
-        fun convertToEvent(message: String) : BaseEvent? {
+        fun convertToEvent(message: String): BaseEvent? {
             val json = Json {
                 isLenient = true
                 ignoreUnknownKeys = true
