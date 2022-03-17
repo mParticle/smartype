@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version versions.kotlin apply false
     id("com.diffplug.gradle.spotless") version versions.spotless
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.1" apply false
 }
 
 spotless {
@@ -40,4 +41,5 @@ allprojects {
     extra["signing.keyId"] = System.getenv("mavenSigningKeyId")
     extra["signing.secretKeyRingFile"] = System.getenv("mavenSigningKeyRingFile")
     extra["signing.password"] = System.getenv("mavenSigningKeyPassword")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 }
