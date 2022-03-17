@@ -7,6 +7,7 @@ env:
 
 jobs:
   build-smartype:
+    name: "Build Smartype"
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
@@ -36,6 +37,7 @@ jobs:
           smartype-generator/build/libs
 
   build-web-example:
+    name: "Build Web Example"
     needs: build-smartype
     defaults:
       run:
@@ -81,6 +83,7 @@ jobs:
         run: bash run-all-tests.sh --platform=web --jar=../examples/webExample/smartype.jar
 
   build-android-example:
+    name: "Build Android Example"
     needs: build-smartype
     defaults:
       run:
@@ -126,6 +129,7 @@ jobs:
         run: bash run-all-tests.sh --platform=android --jar=../examples/androidExample/smartype.jar
 
   build-ios-example:
+    name: "Build iOS Example"
     needs: build-smartype
     defaults:
       run:
@@ -167,10 +171,8 @@ jobs:
       - name: Run Tests
         working-directory: test-json
         run: bash run-all-tests.sh --platform=ios --jar=../examples/iosExample/smartype.jar
-
-
-
   publish:
+    name: "Publish"
     runs-on: macOS-latest
     if: github.ref == 'refs/heads/main'
     needs: [build-web-example, build-ios-example, build-android-example]
@@ -192,3 +194,20 @@ jobs:
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.MAVEN_CENTRAL_SIGNING_KEY_PASSWORD }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+  automerge:
+    name: "Automerge Dependabot PRs"
+    runs-on: ubuntu-18.04
+    needs: [build-ios-example, build-android-example, build-web-example]
+    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
+    steps:
+      - name: Rebase Dependabot PR
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.payload.repository.name,
+                pull_number: context.payload.pull_request.number,
+                merge_method: 'rebase'
+            });
