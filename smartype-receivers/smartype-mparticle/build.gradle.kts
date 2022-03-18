@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.cli.jvm.main
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
-
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version versions.kotlin
@@ -8,6 +5,7 @@ plugins {
     id("maven-publish")
     id("signing")
     id("org.jetbrains.dokka") version versions.dokka
+    kotlin("native.cocoapods")
 }
 
 repositories {
@@ -20,8 +18,6 @@ val VERSION_NAME: String by project
 group = GROUP
 version = VERSION_NAME
 
-val carthageBuildDir = "$projectDir/Carthage/Build/iOS"
-
 kotlin {
     android() {
         publishLibraryVariants("release")
@@ -29,32 +25,18 @@ kotlin {
     js {
         browser()
     }
-    ios() {
-        compilations {
-            getByName("main") {
-                source(sourceSets.getByName("iosMain"))
+    ios {
+        binaries.framework()
+    }
 
-                kotlinOptions.freeCompilerArgs = listOf("-verbose")
-
-                cinterops(Action {
-                    val mparticleapplesdk by creating {
-                        defFile("src/iosMain/cinterop/mParticle_Apple_SDK.def")
-                        packageName("com.mparticle.applesdk")
-                        includeDirs.apply {
-                            allHeaders("$carthageBuildDir/mParticle_Apple_SDK.framework/Headers")
-                        }
-                        compilerOpts("-F$carthageBuildDir/mParticle_Apple_SDK.framework")
-                    }
-                })
-            }
+    cocoapods {
+        framework {
+            summary = "MParticle Smartype"
+            homepage = "."
+            baseName = "mParticle_Smartype"
+            ios.deploymentTarget = "14.3"
         }
-        binaries {
-            framework("mParticle_Smartype", listOf(RELEASE)) {
-                linkerOpts.add("-F$carthageBuildDir")
-                linkerOpts.add("-framework")
-                linkerOpts.add("mParticle_Apple_SDK")
-            }
-        }
+        pod("mParticle-Apple-SDK/mParticle")
     }
 
     sourceSets {
@@ -94,29 +76,6 @@ kotlin {
     }
 }
 
-// Create Carthage tasks
-listOf("bootstrap", "update").forEach { type ->
-    task<Exec>("carthage${type.capitalize()}") {
-        commandLine("$rootDir/gradle/carthage.sh")
-        args(
-            type,
-            "--platform", "iOS",
-            "--cache-builds"
-        )
-    }
-}
-
-// Make CInterop tasks depend on Carthage
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.CInteropProcess> {
-    dependsOn("carthageBootstrap")
-}
-
-// Delete build directory on clean
-tasks.named<Delete>("clean") {
-    delete(buildDir)
-    delete(carthageBuildDir)
-}
-
 tasks {
     val javadocJar by creating(Jar::class) {
         dependsOn(org.jetbrains.dokka.gradle.DokkaTask::class)
@@ -126,11 +85,10 @@ tasks {
 }
 
 android {
-    compileSdkVersion(29)
-    buildToolsVersion("29.0.2")
+    compileSdk = 31
     defaultConfig {
-        minSdkVersion(19)
-        targetSdkVersion(29)
+        minSdk = 19
+        targetSdk = 31
     }
     sourceSets {
         getByName("main") {
@@ -139,10 +97,10 @@ android {
             res.srcDirs(file("src/androidMain/res"))
         }
     }
-    lintOptions {
+    lint {
         //TODO: remove this
         //due to a bug in mP Android SDK lint checks
-        isAbortOnError = false
+        abortOnError = false
     }
 }
 

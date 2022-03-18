@@ -1,4 +1,3 @@
-apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 apply from: project.rootProject.file('gradle/maven-metadata.gradle')

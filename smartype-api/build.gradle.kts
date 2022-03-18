@@ -25,10 +25,10 @@ kotlin {
 
     explicitApi()
 
-    js {
+    js("js") {
         browser()
     }
-    jvm()
+    jvm("jvm") {}
     android("android") {
         publishLibraryVariants("release")
     }
@@ -54,9 +54,11 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-
-        val androidMain by getting {
+        val jvmMain by getting {
             dependsOn(commonMain)
+        }
+        val androidMain by getting {
+            dependsOn(jvmMain)
         }
 
         val jsMain by getting {
@@ -78,11 +80,10 @@ tasks {
 
 
 android {
-    compileSdkVersion(29)
-    buildToolsVersion("29.0.2")
+    compileSdk = 31
     defaultConfig {
-        minSdkVersion(19)
-        targetSdkVersion(29)
+        minSdk = 19
+        targetSdk = 31
     }
     sourceSets {
         getByName("main") {
@@ -91,10 +92,10 @@ android {
             res.srcDirs(file("src/androidMain/res"))
         }
     }
-    lintOptions {
+    lint {
         //TODO: remove this
         //due to a bug in mP Android SDK lint checks
-        isAbortOnError = false
+        abortOnError = false
     }
 }
 

@@ -17,7 +17,6 @@ buildscript {
     repositories {
         mavenCentral()
         google()
-        jcenter()
     }
     dependencies {
         classpath(deps.android.gradlePlugin)
@@ -30,7 +29,6 @@ allprojects {
         mavenLocal()
         mavenCentral()
         google()
-        jcenter()
     }
     tasks.withType<KotlinCompile> {
         kotlinOptions {
