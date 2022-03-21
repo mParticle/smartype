@@ -175,11 +175,52 @@ jobs:
       - name: Run Tests
         working-directory: test-json
         run: bash run-all-tests.sh --platform=ios --jar=../examples/iosExample/smartype.jar
+  generate-all:
+    name: "Generate, All Platforms "
+    needs: build-smartype
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 1.15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.15
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+      - name: Install Cocoapods
+        run: sudo gem install cocoapods; sudo gem install cocoapods-generate
+      - name: pre-create maven dir
+        run: |
+          mkdir -p ~/.m2/repository/com/mparticle
+      - name: Download maven repo
+        uses: actions/download-artifact@v2
+        with:
+          name: generator-maven
+          path: ~/.m2/repository/com/mparticle
+      - name: Download generator
+        uses: actions/download-artifact@v2
+        with:
+          name: generator-jar
+      - name: rename generator jar
+        run: |
+          rm -f smartype-generator-*-*.jar
+          mv smartype-generator-*.jar smartype.jar
+      - name: Run smartype
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          java -jar smartype.jar generate
+
   publish:
     name: "Publish"
     runs-on: macOS-latest
     if: github.ref == 'refs/heads/main'
-    needs: [build-web-example, build-ios-example, build-android-example]
+    needs: [build-web-example, build-ios-example, build-android-example, generate-all]
 
     steps:
       - name: Checkout
@@ -201,7 +242,7 @@ jobs:
   automerge:
     name: "Automerge Dependabot PRs"
     runs-on: ubuntu-18.04
-    needs: [build-ios-example, build-android-example, build-web-example]
+    needs: [build-ios-example, build-android-example, build-web-example, generate-all]
     if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
     steps:
       - name: Rebase Dependabot PR
