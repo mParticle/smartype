@@ -13,7 +13,7 @@ import com.mparticle.smartype.generator.adapters.MParticleDataPlanAdapter
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import java.io.File
-import java.util.*
+import java.util.Objects
 
 
 class Init : CliktCommand(name="init", help = "Initialize a 'smartype.config.json' configuration file") {
@@ -96,24 +96,13 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
         val adapter = DefaultAdapterFactory().createFromName(MParticleDataPlanAdapter().getName())
         val analyticsSchema = adapter.extractSchemas(jsonSchema)
 
-        if (options.iosOptions.enabled || options.androidOptions.enabled) {
+        if (options.run { androidOptions.enabled || iosOptions.enabled || webOptions.enabled }) {
             val smartTypeClass = SmartypeObject(options)
             smartTypeClass.configureApi(analyticsSchema)
 
             var outDirectory = TEMP_DIR + "smartype-generator/build/generatedSources"
             if (!inJar) {
                 outDirectory = "build/generatedSources"
-            }
-            smartTypeClass.finalize(outDirectory)
-        }
-
-        if (options.webOptions.enabled) {
-            val smartTypeClass = SmartypeObject(options)
-            smartTypeClass.configureApi(analyticsSchema)
-
-            var outDirectory = TEMP_DIR + "smartype-generator/build/generatedWebSources"
-            if (!inJar) {
-                outDirectory = "build/generatedWebSources"
             }
             smartTypeClass.finalize(outDirectory)
         }
@@ -239,3 +228,5 @@ class Generator: CliktCommand(printHelpOnEmptyArgs = true) {
 }
 
 fun main(args: Array<String>) = Generator().subcommands(Generate(), Init(), Clean()).main(args)
+
+fun <T> T.`if`(conditional: T.() -> Boolean): T? = if (conditional(this)) this else null
