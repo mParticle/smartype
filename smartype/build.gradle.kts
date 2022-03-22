@@ -1,6 +1,7 @@
-import org.jetbrains.kotlin.cli.jvm.main
+
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
     kotlin("multiplatform")
@@ -24,6 +25,7 @@ group = GROUP
 version = VERSION_NAME
 
 kotlin {
+    val xcFramework = XCFramework()
 
         js {
             browser {
@@ -41,8 +43,16 @@ kotlin {
         }
     }
 
-    ios {
-        binaries.framework()
+    iosX64 {
+        binaries.framework(listOf(NativeBuildType.RELEASE)) {
+            xcFramework.add(this)
+        }
+    }
+
+    iosArm64 {
+        binaries.framework(listOf(NativeBuildType.RELEASE)) {
+            xcFramework.add(this)
+        }
     }
 
     cocoapods {
@@ -117,19 +127,24 @@ kotlin {
             if (jsMain != null) {
                 jsMain.dependsOn(commonMain)
             }
-        }catch (e: kotlin.Exception){}
+        } catch (e: kotlin.Exception) {
+        }
 
         try {
             val iosX64Main by getting {
                 dependsOn(commonMain)
+                kotlin.srcDir("src/iosMain")
             }
-        }catch (e: kotlin.Exception){}
+        } catch (e: kotlin.Exception) {
+        }
 
         try {
             val iosArm64Main by getting {
                 dependsOn(commonMain)
+                kotlin.srcDir("src/iosMain")
             }
-        }catch (e: kotlin.Exception){}
+        } catch (e: kotlin.Exception) {
+        }
     }
 }
 

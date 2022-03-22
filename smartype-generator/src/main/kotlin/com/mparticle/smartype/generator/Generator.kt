@@ -125,7 +125,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
             gradleArgs.add(":smartype:bundleReleaseAar")
         }
         if (options.iosOptions.enabled) {
-            gradleArgs.add(":smartype:iosFatFramework")
+            gradleArgs.add(":smartype:assembleReleaseXCFramework")
         }
         if (options.webOptions.enabled) {
             gradleArgs.add(":smartype:jsBrowserDistribution")
@@ -153,10 +153,10 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
         }
 
         if (options.iosOptions.enabled) {
-            val iosBuildDirectory = File(projectDirectory).resolve("smartype/build/ios")
+            val iosBuildDirectory = File(projectDirectory).resolve("smartype/build/XCFrameworks/release")
             if (iosBuildDirectory.exists()) {
                 val mviOS =
-                    listOf("mv", iosBuildDirectory.absolutePath, File(binOutputDirectory).absolutePath + "/")
+                    listOf("mv", iosBuildDirectory.absolutePath, File(binOutputDirectory).resolve("ios/").absolutePath + "/")
                 val pb3 = ProcessBuilder(mviOS)
                 pb3.redirectOutput(ProcessBuilder.Redirect.INHERIT)
                 pb3.redirectError(ProcessBuilder.Redirect.INHERIT)
@@ -190,32 +190,28 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
             val webBuildDirectory = File(projectDirectory).resolve("smartype/build/distributions")
             val smartypeBuildDir = File(projectDirectory).resolve("build")
             if (webBuildDirectory.exists()) {
-                {
-                    val mvWeb =
-                        listOf(
-                            "mv",
-                            webBuildDirectory.absolutePath,
-                            File(binOutputDirectory).resolve("web").absolutePath
-                        )
-                    val pb5 = ProcessBuilder(mvWeb)
-                    pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                    pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
-                    val p5 = pb5.start()
-                    p5.waitFor()
-                }();
-                {
-                    val mvWeb =
-                        listOf(
-                            "cp",
-                            smartypeBuildDir.absolutePath + "/js/packages/smartype-smartype/kotlin/smartype-smartype.d.ts",
-                            File(binOutputDirectory).resolve("web").absolutePath + "/smartype.d.ts"
-                        )
-                    val pb5 = ProcessBuilder(mvWeb)
-                    pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                    pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
-                    val p5 = pb5.start()
-                    p5.waitFor()
-                }();
+                val mvWeb =
+                    listOf(
+                        "mv",
+                        webBuildDirectory.absolutePath,
+                        File(binOutputDirectory).resolve("web").absolutePath
+                    )
+                val pb5 = ProcessBuilder(mvWeb)
+                pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
+                val p5 = pb5.start()
+                p5.waitFor();
+                val mvWeb1 =
+                    listOf(
+                        "cp",
+                        smartypeBuildDir.absolutePath + "/js/packages/smartype-smartype/kotlin/smartype-smartype.d.ts",
+                        File(binOutputDirectory).resolve("web").absolutePath + "/smartype.d.ts"
+                    )
+                val pb51 = ProcessBuilder(mvWeb1)
+                pb51.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                pb51.redirectError(ProcessBuilder.Redirect.INHERIT)
+                val p51 = pb51.start()
+                p51.waitFor();
             } else {
                 throw CliktError("Web build failed: unable to locate built Web JS distributions in ${webBuildDirectory.absolutePath}")
             }
