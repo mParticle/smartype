@@ -91,3 +91,5 @@ Carthage.xcodeproj/
 **/Smartype.framework
 **/Cartfile.resolved
 **/*.xcworkspace
+kotlin-js-store/yarn.lock
+**/*.podspec

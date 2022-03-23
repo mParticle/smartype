@@ -5,7 +5,6 @@ import com.mparticle.smartype.api.receivers.mparticle.models.CustomEvent
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEventType
 import com.mparticle.smartype.api.receivers.mparticle.models.ScreenViewEvent
 import kotlinx.browser.window
-import kotlinx.serialization.json.JsonPrimitive
 import org.w3c.dom.get
 
 external class mParticle {

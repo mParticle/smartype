@@ -1,11 +1,13 @@
-import org.jetbrains.kotlin.cli.jvm.main
+
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization") version versions.kotlin
     id("com.android.library")
+    kotlin("native.cocoapods")
 }
 
 repositories {
@@ -22,9 +24,8 @@ val IS_PUBLISHED: String by project
 group = GROUP
 version = VERSION_NAME
 
-val carthageBuildDir = "$projectDir/Carthage/Build/iOS"
-
 kotlin {
+    val xcFramework = XCFramework()
 
         js {
             browser {
@@ -42,29 +43,26 @@ kotlin {
         }
     }
 
-    ios() {
-        compilations {
-            getByName("main") {
-                source(sourceSets.getByName("iosMain"))
-                kotlinOptions.freeCompilerArgs = listOf("-verbose")
-            }
+    iosX64 {
+        binaries.framework(listOf(NativeBuildType.RELEASE)) {
+            xcFramework.add(this)
         }
-        binaries {
-            framework(listOf(RELEASE)) {
-                baseName = "Smartype"
-                transitiveExport = true
-                if (IS_PUBLISHED.toBoolean()) {
-                    export("com.mparticle:smartype-mparticle:${project.version}")
-                    export("com.mparticle:smartype-api:${project.version}")
-                } else {
-                    export(project(":smartype-api"))
-                    export(project(":smartype-receivers:smartype-mparticle"))
-                }
-                linkerOpts.add("-F${carthageBuildDir}")
-                linkerOpts.add("-framework")
-                linkerOpts.add("mParticle_Apple_SDK")
-            }
+    }
+
+    iosArm64 {
+        binaries.framework(listOf(NativeBuildType.RELEASE)) {
+            xcFramework.add(this)
         }
+    }
+
+    cocoapods {
+        framework {
+            summary = "MParticle Smartype"
+            homepage = "."
+            baseName = "mParticle_Smartype"
+            ios.deploymentTarget = "14.3"
+        }
+        pod("mParticle-Apple-SDK/mParticle")
     }
 
     tasks.create("iosFatFramework", org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask::class) {
@@ -129,49 +127,32 @@ kotlin {
             if (jsMain != null) {
                 jsMain.dependsOn(commonMain)
             }
-        }catch (e: kotlin.Exception){}
+        } catch (e: kotlin.Exception) {
+        }
 
         try {
             val iosX64Main by getting {
                 dependsOn(commonMain)
+                kotlin.srcDir("src/iosMain")
             }
-        }catch (e: kotlin.Exception){}
+        } catch (e: kotlin.Exception) {
+        }
 
         try {
             val iosArm64Main by getting {
                 dependsOn(commonMain)
+                kotlin.srcDir("src/iosMain")
             }
-        }catch (e: kotlin.Exception){}
+        } catch (e: kotlin.Exception) {
+        }
     }
-}
-listOf("bootstrap", "update").forEach { type ->
-    task<Exec>("carthage${type.capitalize()}") {
-        commandLine("$rootDir/gradle/carthage.sh")
-        args(
-            type,
-            "--platform", "iOS",
-            "--cache-builds"
-        )
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink> {
-    dependsOn("carthageBootstrap")
-}
-
-
-// Delete build directory on clean
-tasks.named<Delete>("clean") {
-    delete(buildDir)
-    delete(carthageBuildDir)
 }
 
 android {
-    compileSdkVersion(30)
-    buildToolsVersion("29.0.2")
+    compileSdk = 31
     defaultConfig {
-        minSdkVersion(19)
-        targetSdkVersion(30)
+        minSdk = 19
+        targetSdk = 31
     }
     sourceSets {
         getByName("main") {

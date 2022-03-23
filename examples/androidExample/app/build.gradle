@@ -3,12 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdk 31
     defaultConfig {
         applicationId "com.mparticle.smartypeexample"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdk 21
+        targetSdk 31
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -30,7 +29,6 @@ android {
     buildscript {
         repositories {
             mavenLocal()
-            jcenter()
             mavenCentral()
         }
     }

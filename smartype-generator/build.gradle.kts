@@ -1,3 +1,5 @@
+import org.gradle.api.file.DuplicatesStrategy.*
+
 plugins {
     kotlin("jvm")
     id("application")
@@ -19,7 +21,7 @@ dependencies {
     implementation("com.github.ajalt:clikt:2.6.0")
     implementation("com.squareup:kotlinpoet:1.7.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.serialization}")
-    api(project(path=":smartype-api", configuration = "jvmDefault"))
+    api(project(path=":smartype-api"))
 }
 java {
     withJavadocJar()
@@ -35,6 +37,7 @@ val fatJar = task("fatJar", type = Jar::class) {
     from({
         configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
     })
+    duplicatesStrategy = WARN
     manifest {
         attributes(mapOf("Main-Class" to application.mainClassName ))
     }
@@ -49,7 +52,6 @@ val fatJar = task("fatJar", type = Jar::class) {
         "**/*.iml",
         "**/[.].*",
         "**/[.]",
-        "**/Carthage",
         "**/smartype-receivers",
         "**/smartype-api",
         "**/local.properties")

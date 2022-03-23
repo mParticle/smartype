@@ -1,10 +1,7 @@
 package com.mparticle.smartype.api.receivers.mparticle
 
 import com.mparticle.smartype.api.MessageReceiver
-import com.mparticle.applesdk.*
-import platform.Foundation.NSLog
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonElement
+import cocoapods.mParticle_Apple_SDK.*
 import kotlinx.serialization.json.JsonPrimitive
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEvent
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEventType

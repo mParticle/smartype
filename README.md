@@ -87,9 +87,9 @@ You can also (optionally) add yourself as a receiver, and then implement a `rece
 
 #### iOS
 
-Smartype `generate` will create a "fat" dynamic framework that you can include directly with your projects.
+Smartype `generate` will create an "fat" dynamic framework that you can include directly with your projects.
 
-- To use Smartype on iOS, start by adding `Smartype.framework` to your Xcode project
+- To use Smartype on iOS, start by adding `smartype.xcframework` to your Xcode project
 - Next, import and initialize Smartype prior to use, and register any receivers
 - The `SmartypeApi` object will surface a series of methods which each represent the top-level items in your schema
 - Pass the fully constructed objects into your `SmartypeApi` instance for all receivers 

@@ -1,10 +1,13 @@
 {
     "iosOptions": {
-        "enabled": false
+        "enabled": true
     },
     "androidOptions": {
         "enabled": true
     },
+    "webOptions": {
+        "enabled": true
+    },
     "binaryOutputDirectory": "smartype-dist",
-    "apiSchemaFile": "../examples/iosExample/SmartypeExample/freddy_s_plan-v1.json"
+    "apiSchemaFile": "examples/iosExample/SmartypeExample/freddy_s_plan-v1.json"
 }
