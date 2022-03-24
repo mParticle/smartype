@@ -1,6 +1,9 @@
 name: Complete Build
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
@@ -230,6 +233,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.15
+      - name: Install Cocoapods
+        run: sudo gem install cocoapods; sudo gem install cocoapods-generate
 
       - name: Upload Artifacts
         run: ./gradlew publishAllPublicationsToStagingRepository
