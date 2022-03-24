@@ -1,0 +1,22 @@
+name: "Create Dependabot Updates PR"
+on:
+  workflow_dispatch:
+  schedule:
+    # 2:00PM UTC, represents 10:00am EST...do we really have to change this for daylight savings time? :(
+    - cron:  '0 0 * * 1'
+jobs:
+  create-pr:
+    name: "Create PR"
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Rebase Dependabot PR
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.pulls.create({
+                owner: context.repo.owner,
+                repo: context.payload.repository.name,
+                head: 'dependabot-updates',
+                base: 'master'
+            });

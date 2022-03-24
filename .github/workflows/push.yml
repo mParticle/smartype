@@ -248,7 +248,7 @@ jobs:
     name: "Automerge Dependabot PRs"
     runs-on: ubuntu-18.04
     needs: [build-ios-example, build-android-example, build-web-example, generate-all]
-    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.head_ref.endWith('dependabot-updates')
     steps:
       - name: Rebase Dependabot PR
         uses: actions/github-script@v3
