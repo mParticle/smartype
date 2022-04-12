@@ -185,13 +185,20 @@ class SmartypeObject(options: GeneratorOptions) {
                     isRequired = true
                 }
 
-                var type: String?
+                var type: String? = "string"
                 if (info.containsKey("type")) {
-                    var typeJson: JsonPrimitive?
-                    typeJson = info["type"] as JsonPrimitive
-                    type = typeJson.content
-                } else {
-                    type = "string"
+                    if (info["type"] is JsonPrimitive){
+                        var typeJson: JsonPrimitive?
+                        typeJson = info["type"] as JsonPrimitive
+                        type = typeJson.content
+                    } else if (info["type"] is JsonArray) {
+                        var typeArray = info["type"] as JsonArray
+                        if (typeArray.count() >= 1) {
+                            var typeJson: JsonPrimitive?
+                            typeJson = typeArray.get(0) as JsonPrimitive
+                            type = typeJson.content
+                        }
+                    }
                 }
 
                 var description: String? = null
