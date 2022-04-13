@@ -185,7 +185,7 @@ class SmartypeObject(options: GeneratorOptions) {
                     isRequired = true
                 }
 
-                var type: String? = "string"
+                var type: String = "string"
                 if (info.containsKey("type")) {
                     if (info["type"] is JsonPrimitive){
                         var typeJson: JsonPrimitive?
@@ -197,6 +197,12 @@ class SmartypeObject(options: GeneratorOptions) {
                             var typeJson: JsonPrimitive?
                             typeJson = typeArray.get(0) as JsonPrimitive
                             type = typeJson.content
+                            if (typeArray.count() >= 2) {
+                                var typeJson2 = typeArray.get(1) as JsonPrimitive
+                                if (typeJson2.content == "null") {
+                                    isRequired = false
+                                }
+                            }
                         }
                     }
                 }
