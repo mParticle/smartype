@@ -26,3 +26,7 @@ The following provides a brief overview of how the project is laid out.
    - implements `SmartypeReceiver`
    - maps `SmartypeMessage`'s to mParticle SDKs
    - Smartype users will call `addListener` with this on their`SmartypeApi`
+
+### Building
+
+To build the `smartype-generator` Java application, first build it using `./gradlew publishToMavenLocal`, then the jar file will be located at `~/.m2/repository/com/mparticle/smartype-generator/X.X.X` where `X.X.X` is the version number.

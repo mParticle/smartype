@@ -504,12 +504,17 @@
                       "item": {
                         "description": "",
                         "enum": [
+                          "2test",
+                          "1",
                           "cortado",
                           "espresso",
                           "Regularcoffee",
+                          "EndsWithNumber2",
+                          "ALLCAPS",
                           "Dash-example",
+                          "Comma,example",
                           "Space example",
-                          "Special char []{};/\\,&*%$#@()! example"
+                          "Special char []{};/\\\\,&*%$#@()! example"
                         ],
                         "type": "string"
                       }
