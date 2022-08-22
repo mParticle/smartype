@@ -46,9 +46,49 @@ Smartype is designed to be used by anyone, but support today is primarily for mP
 
 Smartype is shipped as a CLI tool, and so a the typical workflow would be:
 
-1. Assemble your JSON schema into a file for consumption by Smartype
+1. Assemble your JSON schema into a file for consumption by Smartype or download the mParticle Data Plan from the Web UI or using the mParticle CLI tool.
 2. Run Smartype to generate your libraries.
 3. Incorporate and use those libraries in any number of environments
+
+## Using the mParticle CLI Tool to Download the Data Plan
+
+Rather than manually creating a JSON file, mParticle provides these files ready for use by Smartype. There are multiple ways to retrieve them, but for automation purposes using the mP CLI tool is the best option. 
+
+We provide a ready to use Github Actions workflow file here, which can be adapted to other CI systems: https://github.com/mParticle/mparticle-workflows/blob/main/.github/workflows/data-plan-fetch.yml
+
+Individual developers can also manually download the Data Plan JSON by using the mP CLI directly from the command line.
+
+### Install the mParticle CLI Tool
+
+1. Install Node using your preferred method for your platform
+2. Install the mP CLI tool: `npm install -g @mparticle/cli`
+
+### Download the Data Plan JSON
+
+Once the mP CLI has been installed, the Data Plan JSON can be downloaded using a single command.
+
+First you will need the following pieces of information:
+- Data Plan ID
+- Data Plan Version
+- Workspace ID
+- Client ID (mParticle access token)
+- Client Secret (mParticle access token)
+
+You can create and manage your mParticle access tokens for Data Planning with the [API Credentials interface](https://docs.mparticle.com/developers/credential-management).
+
+```bash
+# Here we'll use environment variables, but you can simply pass the values directly to the mp command if you'd prefer
+export $DATA_PLAN_ID=...
+export $DATA_PLAN_VERSION=...
+export $WORKSPACE_ID=...
+export $CLIENT_ID=...
+export $CLIENT_SECRET=...
+# $OUT_FILE can be any file name you like
+export $OUT_FILE=${DATA_PLAN_ID}_${DATA_PLAN_VERSION}.json
+
+# Pull down the JSON file
+mp planning:data-plan-versions:fetch --dataPlanId=$DATA_PLAN_ID --versionNumber=$DATA_PLAN_VERSION --workspaceId=$WORKSPACE_ID --clientId=$CLIENT_ID --clientSecret=$CLIENT_SECRET --outFile=$OUT_FILE
+```
 
 ## Smartype CLI Usage
 
