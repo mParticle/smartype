@@ -52,20 +52,20 @@ Smartype is shipped as a CLI tool, and so a the typical workflow would be:
 
 ## Using the mParticle CLI Tool to Download the Data Plan
 
-Rather than manually creating a JSON file, mParticle provides these files ready for use by Smartype. There are multiple ways to retrieve them, but for automation purposes using the mP CLI tool is the best option. 
+Rather than manually creating a JSON file, mParticle provides these files ready for use by Smartype. There are multiple ways to retrieve them, but for automation purposes using the mParticle CLI tool is the best option. 
 
-We provide a ready to use Github Actions workflow file here, which can be adapted to other CI systems: https://github.com/mParticle/mparticle-workflows/blob/main/.github/workflows/data-plan-fetch.yml
+We provide a ready-to-use Github Actions workflow file here, which can be adapted to other CI systems: https://github.com/mParticle/mparticle-workflows/blob/main/.github/workflows/data-plan-fetch.yml
 
-Individual developers can also manually download the Data Plan JSON by using the mP CLI directly from the command line.
+Individual developers can also manually download the Data Plan JSON by using the mParticle CLI directly from the command line.
 
-### Install the mParticle CLI Tool
+### Install the mParticle CLI tool
 
-1. Install Node using your preferred method for your platform
-2. Install the mP CLI tool: `npm install -g @mparticle/cli`
+1. Install Node using your preferred method for your platform.
+2. Install the mParticle CLI tool: `npm install -g @mparticle/cli`.
 
 ### Download the Data Plan JSON
 
-Once the mP CLI has been installed, the Data Plan JSON can be downloaded using a single command.
+Once the mParticle CLI has been installed, the Data Plan JSON can be downloaded using a single command.
 
 First you will need the following pieces of information:
 - Data Plan ID
