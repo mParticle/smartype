@@ -46,12 +46,14 @@ kotlin {
     iosX64 {
         binaries.framework(listOf(NativeBuildType.RELEASE)) {
             xcFramework.add(this)
+            embedBitcode("disable")
         }
     }
 
     iosArm64 {
         binaries.framework(listOf(NativeBuildType.RELEASE)) {
             xcFramework.add(this)
+            embedBitcode("disable")
         }
     }
 
