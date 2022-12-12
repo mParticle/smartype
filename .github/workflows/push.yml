@@ -13,6 +13,11 @@ jobs:
     name: "Build Smartype"
     runs-on: macOS-latest
     steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+      with:
+        ruby-version: '2.7'
     - uses: actions/checkout@v2
     - name: set up JDK 1.15
       uses: actions/setup-java@v1
@@ -142,6 +147,11 @@ jobs:
     runs-on: macOS-latest
 
     steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        with:
+          ruby-version: '2.7'
       - uses: actions/checkout@v2
       - name: set up JDK 1.15
         uses: actions/setup-java@v1
@@ -184,6 +194,11 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        with:
+          ruby-version: '2.7'
       - uses: actions/checkout@v2
       - name: set up JDK 1.15
         uses: actions/setup-java@v1
