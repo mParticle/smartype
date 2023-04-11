@@ -9,7 +9,7 @@ plugins {
 }
 
 application {
-    mainClassName = "com.mparticle.smartype.generator.GeneratorKt"
+    mainClass.set("com.mparticle.smartype.generator.GeneratorKt")
 }
 
 repositories {
@@ -39,7 +39,7 @@ val fatJar = task("fatJar", type = Jar::class) {
     })
     duplicatesStrategy = WARN
     manifest {
-        attributes(mapOf("Main-Class" to application.mainClassName ))
+        attributes(mapOf("Main-Class" to application.mainClass ))
     }
     includeEmptyDirs = false
     exclude(
