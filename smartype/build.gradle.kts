@@ -27,14 +27,14 @@ version = VERSION_NAME
 kotlin {
     val xcFramework = XCFramework()
 
-        js {
-            browser {
-                webpackTask {
-                    output.libraryTarget = "commonjs2"
-                }
+    js {
+        browser {
+            webpackTask {
+                output.libraryTarget = "commonjs2"
             }
-            binaries.executable()
         }
+        binaries.executable()
+    }
 
     android() {
         publishLibraryVariants("release", "debug")
@@ -61,8 +61,15 @@ kotlin {
         framework {
             summary = "MParticle Smartype"
             homepage = "."
-            baseName = "mParticle_Smartype"
+            baseName = "Smartype"
             ios.deploymentTarget = "14.3"
+            if (IS_PUBLISHED.toBoolean()) {
+                export("com.mparticle:smartype-mparticle:${project.version}")
+                export("com.mparticle:smartype-api:${project.version}")
+            } else {
+                export(project(":smartype-api"))
+                export(project(":smartype-receivers:smartype-mparticle"))
+            }
         }
         pod("mParticle-Apple-SDK/mParticle")
     }
@@ -148,6 +155,7 @@ kotlin {
         } catch (e: kotlin.Exception) {
         }
     }
+
 }
 
 android {
