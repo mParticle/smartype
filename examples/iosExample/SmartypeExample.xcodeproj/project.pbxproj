@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,19 +14,19 @@
 		042EF632242A349200A10FF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042EF631242A349200A10FF5 /* Preview Assets.xcassets */; };
 		042EF635242A349200A10FF5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042EF633242A349200A10FF5 /* LaunchScreen.storyboard */; };
 		042EF64A242A3B4000A10FF5 /* mParticle_Apple_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042EF649242A3B4000A10FF5 /* mParticle_Apple_SDK.framework */; };
+		04DA4CEB29E4F64E00A1FE37 /* Smartype.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DA4CEA29E4F64E00A1FE37 /* Smartype.xcframework */; };
+		04DA4CEC29E4F64E00A1FE37 /* Smartype.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DA4CEA29E4F64E00A1FE37 /* Smartype.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04EB02D4255987F3004F5B6C /* smartype-dist in Resources */ = {isa = PBXBuildFile; fileRef = 04EB02D3255987F3004F5B6C /* smartype-dist */; };
-		04EB02D72559880C004F5B6C /* Smartype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EB02D62559880C004F5B6C /* Smartype.framework */; };
-		04EB02D82559880C004F5B6C /* Smartype.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04EB02D62559880C004F5B6C /* Smartype.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		04EB02D92559880C004F5B6C /* Embed Frameworks */ = {
+		04DA4CE929E4F5FA00A1FE37 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04EB02D82559880C004F5B6C /* Smartype.framework in Embed Frameworks */,
+				04DA4CEC29E4F64E00A1FE37 /* Smartype.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -43,9 +43,8 @@
 		042EF634242A349200A10FF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		042EF636242A349200A10FF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		042EF649242A3B4000A10FF5 /* mParticle_Apple_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mParticle_Apple_SDK.framework; path = Carthage/Build/iOS/mParticle_Apple_SDK.framework; sourceTree = SOURCE_ROOT; };
-		04CC84B2246B27E800BBBFBC /* Smartype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Smartype.framework; path = "SmartypeExample/smartype-dist/ios/Smartype.framework"; sourceTree = "<group>"; };
+		04DA4CEA29E4F64E00A1FE37 /* Smartype.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Smartype.xcframework; path = "smartype-dist/ios/Smartype.xcframework"; sourceTree = "<group>"; };
 		04EB02D3255987F3004F5B6C /* smartype-dist */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "smartype-dist"; sourceTree = "<group>"; };
-		04EB02D62559880C004F5B6C /* Smartype.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Smartype.framework; path = "smartype-dist/ios/Smartype.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,8 +52,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DA4CEB29E4F64E00A1FE37 /* Smartype.xcframework in Frameworks */,
 				042EF64A242A3B4000A10FF5 /* mParticle_Apple_SDK.framework in Frameworks */,
-				04EB02D72559880C004F5B6C /* Smartype.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,8 +104,7 @@
 		042EF63C242A34ED00A10FF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				04CC84B2246B27E800BBBFBC /* Smartype.framework */,
-				04EB02D62559880C004F5B6C /* Smartype.framework */,
+				04DA4CEA29E4F64E00A1FE37 /* Smartype.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -122,7 +120,7 @@
 				042EF622242A349000A10FF5 /* Frameworks */,
 				042EF623242A349000A10FF5 /* Resources */,
 				042EF64D242A3BAE00A10FF5 /* ShellScript */,
-				04EB02D92559880C004F5B6C /* Embed Frameworks */,
+				04DA4CE929E4F5FA00A1FE37 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
