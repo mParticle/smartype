@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version versions.kotlin apply false
-    id("com.diffplug.gradle.spotless") version versions.spotless
+    id("com.diffplug.spotless") version versions.spotless
 }
 
 spotless {
