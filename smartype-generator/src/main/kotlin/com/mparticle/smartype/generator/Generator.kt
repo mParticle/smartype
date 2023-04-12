@@ -125,7 +125,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
             gradleArgs.add(":smartype:bundleReleaseAar")
         }
         if (options.iosOptions.enabled) {
-            gradleArgs.add(":smartype:assembleReleaseXCFramework")
+            gradleArgs.add(":smartype:podPublishXCFramework")
         }
         if (options.webOptions.enabled) {
             gradleArgs.add(":smartype:jsBrowserDistribution")
@@ -153,7 +153,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
         }
 
         if (options.iosOptions.enabled) {
-            val iosBuildDirectory = File(projectDirectory).resolve("smartype/build/XCFrameworks/release")
+            val iosBuildDirectory = File(projectDirectory).resolve("smartype/build/cocoapods/publish/release")
             if (iosBuildDirectory.exists()) {
                 val mviOS =
                     listOf("mv", iosBuildDirectory.absolutePath, File(binOutputDirectory).resolve("ios/").absolutePath + "/")

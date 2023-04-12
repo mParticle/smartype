@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdk 31
@@ -21,17 +20,23 @@ android {
             matchingFallbacks = ["release"]
         }
     }
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/*.kotlin_module']
+        }
+    }
 
     //required for Smartype
-    packagingOptions {
-        exclude("META-INF/*.kotlin_module")
-    }
     buildscript {
         repositories {
             mavenLocal()
             mavenCentral()
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
+    namespace 'com.mparticle.smartypeexample'
 }
 
 allprojects {
