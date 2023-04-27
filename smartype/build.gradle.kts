@@ -26,13 +26,9 @@ version = VERSION_NAME
 
 kotlin {
     val xcFramework = XCFramework()
-
-    js {
-        browser {
-            webpackTask {
-                output.libraryTarget = "commonjs2"
-            }
-        }
+    js(IR) {
+        browser()
+        generateTypeScriptDefinitions()
         binaries.executable()
     }
 
