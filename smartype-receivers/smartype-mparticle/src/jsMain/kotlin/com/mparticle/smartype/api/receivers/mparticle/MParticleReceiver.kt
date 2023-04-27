@@ -12,16 +12,26 @@ external class mParticle {
         fun logPageView(name: String, attributes: Any = definedExternally)
 }
 
+external class mParticleReact {
+    fun logEvent(name: String, type: Int = definedExternally, attributes: Any = definedExternally)
+    fun logScreenEvent(name: String, attributes: Any = definedExternally)
+}
+
+@OptIn(ExperimentalJsExport::class)
 @JsExport
 actual class MParticleReceiver : MessageReceiver {
 
+    var react: mParticleReact? = null
 override fun receive(message: String) {
-        console.log("MParticleReceiver#receive:message=$message")
+    console.log("MParticleReceiver#receive:message=$message")
 
-        val commonEvent = Converters.convertToEvent(message) ?: return
+    val commonEvent = Converters.convertToEvent(message) ?: return
 
-        var mParticle: mParticle = window["mParticle"]
 
+    var mParticle: mParticle? = null
+    if (react != null){
+        mParticle = window["mParticle"]
+    }
         if (commonEvent is CustomEvent) {
             val data = commonEvent.data
             if (data != null) {
@@ -42,9 +52,19 @@ override fun receive(message: String) {
                         }
                         attributesString = attributesString.dropLast(1)
                         attributesString += "}"
-                        mParticle.logEvent(eventName, eventType, JSON.parse(attributesString))
+                        if (react != null) {
+                            react!!.logEvent(eventName, eventType, JSON.parse(attributesString))
+                        } else {
+                            mParticle?.logEvent(eventName, eventType, JSON.parse(attributesString))
+                        }
+
                     } else {
-                        mParticle.logEvent(eventName, eventType)
+                        if (react != null) {
+                            react!!.logEvent(eventName, eventType)
+                        } else {
+                            mParticle?.logEvent(eventName, eventType)
+                        }
+
                     }
                 }
             }
@@ -67,9 +87,17 @@ override fun receive(message: String) {
                         }
                         attributesString = attributesString.dropLast(1)
                         attributesString += "}"
-                        mParticle.logPageView(screenName, JSON.parse(attributesString))
+                        if (react != null) {
+                            react!!.logScreenEvent(screenName, JSON.parse(attributesString))
+                        } else {
+                            mParticle?.logPageView(screenName, JSON.parse(attributesString))
+                        }
                     } else {
-                        mParticle.logPageView(screenName)
+                        if (react != null) {
+                            react!!.logScreenEvent(screenName)
+                        } else {
+                            mParticle?.logPageView(screenName)
+                        }
                     }
                 }
             }
