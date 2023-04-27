@@ -34,7 +34,7 @@ Smartype supports the following language environments today:
 
 1. Any JVM environment, including Kotlin and Java for Android and server-side contexts
 2. iOS Swift and Objective-C
-3. Web browsers via TypeScript and JavaScript
+3. Web browsers and React Native via TypeScript and JavaScript
 
 ## mParticle Customers
 
@@ -200,9 +200,11 @@ api.send(message)
 
 #### Web
 
+Smartype supports both the mParticle Web SDK as well as the mParticle React Native plugin.
+
 Smartype `generate` will create a set of `.js` and `.d.ts` files that you can include directly with your projects. Our [example](https://github.com/mParticle/smartype/blob/main/examples/webExample/src/index.js) uses webpack to concatenate and minify the source files.
 
-To use Smartype on Web, start by adding the generated `smartype-dist` directory to your project and any 3rd-party receivers that you plan on using, then include the relevant files in your typescript or javascript sources:
+To use Smartype with the Web SDK or with React Native, start by adding the generated `smartype-dist` directory to your project and any 3rd-party receivers that you plan on using, then include the relevant files in your typescript or javascript sources:
 
 ```js
 import * as smartype from "../smartype-dist/smartype.js"
@@ -229,6 +231,40 @@ var message = smartype.chooseItem(
 //the message object will now be sent to all receivers
 api.send(message)
 ```
+
+
+##### React Native
+
+In order to enable React Native:
+- [Add mParticle's React Native plugin](https://docs.mparticle.com/developers/sdk/react-native/getting-started/) to your React project if you haven't already
+- Inject the mParticle React Native plugin into your `mParticleReceiver`:
+
+```js
+import MParticle from 'react-native-mparticle'
+
+...
+
+var api = new smartype.SmartypeApi()
+var receiver = smartype.mParticleReceiver()
+receiver.react = MParticle
+api.addReceiver(receiver)
+```
+
+You will also want to exclude the generated `.smartype` directory from your React Project by configuring your `metro.config.js` file:
+
+```js
+const exclusionList = require('metro-config/src/defaults/exclusionList');
+
+... 
+
+module.exports = {
+  resolver: {
+      blockList: exclusionList([/\.smartype\/.*/])
+    },
+};
+```
+
+
 
 ### Example Projects
 
