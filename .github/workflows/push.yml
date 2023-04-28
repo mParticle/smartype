@@ -11,7 +11,7 @@ env:
 jobs:
   build-smartype:
     name: "Build Smartype"
-    runs-on: macOS-latest
+    runs-on: macOS-13
     steps:
     - uses: actions/checkout@v3
     - name: Set up Ruby
@@ -144,7 +144,7 @@ jobs:
     defaults:
       run:
         working-directory: examples/iosExample
-    runs-on: macOS-latest
+    runs-on: macOS-13
 
     steps:
       - uses: actions/checkout@v3
@@ -191,7 +191,7 @@ jobs:
   generate-all:
     name: "Generate, All Platforms "
     needs: build-smartype
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       - uses: actions/checkout@v3
@@ -236,7 +236,7 @@ jobs:
 
   publish:
     name: "Publish"
-    runs-on: macOS-latest
+    runs-on: macOS-13
     if: github.ref == 'refs/heads/main'
     needs: [build-web-example, build-ios-example, build-android-example, generate-all]
 
