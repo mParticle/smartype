@@ -2,7 +2,7 @@ object versions {
     const val kotlin = "1.9.22"
     const val dokka = "1.5.0"
     const val spotless = "6.17.0"
-    const val serialization = "1.5.0"
+    const val serialization = "1.6.2"
 }
 
 object deps {

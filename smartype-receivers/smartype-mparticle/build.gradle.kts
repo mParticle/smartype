@@ -19,7 +19,7 @@ group = GROUP
 version = VERSION_NAME
 
 kotlin {
-    android() {
+    androidTarget() {
         publishLibraryVariants("release")
     }
     js {
@@ -36,7 +36,10 @@ kotlin {
             baseName = "mParticle_Smartype"
             ios.deploymentTarget = "14.3"
         }
-        pod("mParticle-Apple-SDK/mParticle")
+        pod("mParticle-Apple-SDK/mParticle"){
+            // Add these lines
+            extraOpts += listOf("-compiler-option", "-fmodules")
+        }
     }
 
     sourceSets {
@@ -85,10 +88,10 @@ tasks {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 33
     defaultConfig {
         minSdk = 19
-        targetSdk = 31
+        targetSdk = 33
     }
     sourceSets {
         getByName("main") {

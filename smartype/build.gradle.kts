@@ -32,7 +32,7 @@ kotlin {
         binaries.executable()
     }
 
-    android() {
+    androidTarget() {
         publishLibraryVariants("release", "debug")
         mavenPublication {
             artifactId = "smartype"
@@ -67,7 +67,10 @@ kotlin {
                 export(project(":smartype-receivers:smartype-mparticle"))
             }
         }
-        pod("mParticle-Apple-SDK/mParticle")
+        pod("mParticle-Apple-SDK/mParticle"){
+            // Add these lines
+            extraOpts += listOf("-compiler-option", "-fmodules")
+        }
     }
 
     tasks.create("iosFatFramework", org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask::class) {
@@ -155,10 +158,10 @@ kotlin {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 33
     defaultConfig {
         minSdk = 19
-        targetSdk = 31
+        targetSdk = 33
     }
     sourceSets {
         getByName("main") {
