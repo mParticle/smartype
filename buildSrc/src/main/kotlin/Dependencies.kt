@@ -10,7 +10,7 @@ object deps {
         const val gradlePlugin = "com.android.tools.build:gradle:7.1.0"
     }
     object mparticle {
-        const val androidSdk = "com.mparticle:android-core:5.36.2"
+        const val androidSdk = "com.mparticle:android-core:5.55.0"
         const val webSdk = "@mparticle/web-sdk"
     }
 }
