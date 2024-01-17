@@ -25,7 +25,13 @@ kotlin {
     js {
         browser()
     }
-    ios {
+    iosX64() {
+        binaries.framework()
+    }
+    iosArm64() {
+        binaries.framework()
+    }
+    iosSimulatorArm64() {
         binaries.framework()
     }
 
@@ -43,13 +49,13 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(project(":smartype-api"))
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.serialization}")
             }
         }
-        val commonTest by getting {
+       commonTest {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test"))
@@ -58,23 +64,10 @@ kotlin {
             }
         }
 
-        val iosX64Main by getting {
-            dependsOn(commonMain)
-        }
-
-        val iosArm64Main by getting {
-            dependsOn(commonMain)
-        }
-
-        val androidMain by getting {
-            dependsOn(commonMain)
+        androidMain  {
             dependencies {
                 api(deps.mparticle.androidSdk)
             }
-        }
-
-        val jsMain by getting {
-            dependsOn(commonMain)
         }
     }
 }

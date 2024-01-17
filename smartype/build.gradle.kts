@@ -69,6 +69,7 @@ kotlin {
         }
         pod("mParticle-Apple-SDK/mParticle"){
             // Add these lines
+            linkOnly = true
             extraOpts += listOf("-compiler-option", "-fmodules")
         }
     }
@@ -125,22 +126,10 @@ kotlin {
             }
         }
 
-        val androidMain by getting
-        if (androidMain != null) {
-            androidMain.dependsOn(commonMain)
-        }
 
-        try {
-            val jsMain by getting
-            if (jsMain != null) {
-                jsMain.dependsOn(commonMain)
-            }
-        } catch (e: kotlin.Exception) {
-        }
 
         try {
             val iosX64Main by getting {
-                dependsOn(commonMain)
                 kotlin.srcDir("src/iosMain")
             }
         } catch (e: kotlin.Exception) {
@@ -148,7 +137,6 @@ kotlin {
 
         try {
             val iosArm64Main by getting {
-                dependsOn(commonMain)
                 kotlin.srcDir("src/iosMain")
             }
         } catch (e: kotlin.Exception) {

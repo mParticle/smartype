@@ -29,10 +29,24 @@ kotlin {
         browser()
     }
     jvm("jvm") {}
-    android("android") {
+    androidTarget("android") {
         publishLibraryVariants("release")
     }
-    ios() {
+    iosX64() {
+        binaries {
+            framework("SmartypeApi", listOf(RELEASE)) {
+
+            }
+        }
+    }
+    iosArm64() {
+        binaries {
+            framework("SmartypeApi", listOf(RELEASE)) {
+
+            }
+        }
+    }
+    iosSimulatorArm64() {
         binaries {
             framework("SmartypeApi", listOf(RELEASE)) {
 
@@ -41,32 +55,18 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.serialization}")
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
                 implementation(kotlin("test-annotations-common"))
             }
-        }
-        val jvmMain by getting {
-            dependsOn(commonMain)
-        }
-        val androidMain by getting {
-            dependsOn(jvmMain)
-        }
-
-        val jsMain by getting {
-            dependsOn(commonMain)
-        }
-
-        val iosMain by getting {
-            dependsOn(commonMain)
         }
     }
 }
@@ -83,7 +83,7 @@ android {
     compileSdk = 31
     defaultConfig {
         minSdk = 19
-        targetSdk = 31
+        targetSdk = 33
     }
     sourceSets {
         getByName("main") {
