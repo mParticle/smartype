@@ -11,9 +11,9 @@
   "author": "developers@mparticle.com",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^4.32.2",
-    "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.11.0"
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
     "@mparticle/web-sdk": "^2.11.1"

@@ -7,7 +7,7 @@ object versions {
 
 object deps {
     object android {
-        const val gradlePlugin = "com.android.tools.build:gradle:7.1.0"
+        const val gradlePlugin = "com.android.tools.build:gradle:8.2.2"
     }
     object mparticle {
         const val androidSdk = "com.mparticle:android-core:5.55.0"

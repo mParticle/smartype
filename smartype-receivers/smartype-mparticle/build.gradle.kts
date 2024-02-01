@@ -81,7 +81,12 @@ tasks {
 }
 
 android {
+    namespace = "com.mparticle.smartype.api.receivers"
     compileSdk = 33
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
     defaultConfig {
         minSdk = 19
         targetSdk = 33

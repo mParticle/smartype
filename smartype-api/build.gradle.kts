@@ -28,9 +28,16 @@ kotlin {
     js("js") {
         browser()
     }
-    jvm("jvm") {}
+    jvm("jvm") {
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
+        }
+    }
     androidTarget("android") {
         publishLibraryVariants("release")
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
+        }
     }
     iosX64() {
         binaries {
@@ -80,7 +87,12 @@ tasks {
 
 
 android {
-    compileSdk = 31
+    namespace = "com.mparticle.smartype.api"
+    compileSdk = 33
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
     defaultConfig {
         minSdk = 19
         targetSdk = 33
