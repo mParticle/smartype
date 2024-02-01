@@ -188,6 +188,8 @@ jobs:
       - name: Run Tests
         working-directory: test-json
         run: bash run-all-tests.sh --platform=ios --jar=../examples/iosExample/smartype.jar
+      - name: Build iOS app
+        run:  pod update; xcodebuild -workspace SmartypeExample.xcworkspace -scheme SmartypeExample -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest'
   generate-all:
     name: "Generate, All Platforms "
     needs: build-smartype
