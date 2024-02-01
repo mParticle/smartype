@@ -187,24 +187,17 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
         }
 
         if (options.webOptions.enabled) {
-            val webBuildDirectory = File(projectDirectory).resolve("smartype/build/distributions")
-            val smartypeBuildDir = File(projectDirectory).resolve("build")
-            if (webBuildDirectory.exists()) {
-                val mvWeb =
-                    listOf(
-                        "mv",
-                        webBuildDirectory.absolutePath,
-                        File(binOutputDirectory).resolve("web").absolutePath
-                    )
-                val pb5 = ProcessBuilder(mvWeb)
-                pb5.redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                pb5.redirectError(ProcessBuilder.Redirect.INHERIT)
-                val p5 = pb5.start()
-                p5.waitFor();
+            val typescriptDefBuildDir = File(projectDirectory).resolve("build")
+            val smartypeBuildDir = File(projectDirectory).resolve("smartype/build/dist/js/productionExecutable")
+            if (!File(binOutputDirectory).resolve("web").exists()) {
+                File(binOutputDirectory).resolve("web").mkdirs()
+            }
+            if (smartypeBuildDir.exists()) {
+
                 val mvWeb1 =
                     listOf(
                         "cp",
-                        smartypeBuildDir.absolutePath + "/js/packages/smartype-smartype/kotlin/smartype-smartype.d.ts",
+                        typescriptDefBuildDir.absolutePath + "/js/packages/smartype-smartype/kotlin/smartype-smartype.d.ts",
                         File(binOutputDirectory).resolve("web").absolutePath + "/smartype.d.ts"
                     )
                 val pb51 = ProcessBuilder(mvWeb1)
@@ -212,8 +205,20 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                 pb51.redirectError(ProcessBuilder.Redirect.INHERIT)
                 val p51 = pb51.start()
                 p51.waitFor();
+
+                val mvWeb2 =
+                    listOf(
+                        "cp",
+                        smartypeBuildDir.absolutePath + "/smartype.js",
+                        File(binOutputDirectory).resolve("web").absolutePath + "/smartype.js"
+                    )
+                val pb52 = ProcessBuilder(mvWeb2)
+                pb52.redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                pb52.redirectError(ProcessBuilder.Redirect.INHERIT)
+                val p52 = pb51.start()
+                p52.waitFor();
             } else {
-                throw CliktError("Web build failed: unable to locate built Web JS distributions in ${webBuildDirectory.absolutePath}")
+                throw CliktError("Web build failed: unable to locate built Web JS distributions in ${smartypeBuildDir.absolutePath}")
             }
         }
     }
