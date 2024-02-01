@@ -53,6 +53,13 @@ kotlin {
         }
     }
 
+    iosSimulatorArm64 {
+        binaries.framework(listOf(NativeBuildType.RELEASE)) {
+            xcFramework.add(this)
+            embedBitcode("disable")
+        }
+    }
+
     cocoapods {
         framework {
             summary = "MParticle Smartype"

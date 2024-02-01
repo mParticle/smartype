@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,10 +13,10 @@
 		042EF62F242A349200A10FF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042EF62E242A349200A10FF5 /* Assets.xcassets */; };
 		042EF632242A349200A10FF5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 042EF631242A349200A10FF5 /* Preview Assets.xcassets */; };
 		042EF635242A349200A10FF5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 042EF633242A349200A10FF5 /* LaunchScreen.storyboard */; };
-		042EF64A242A3B4000A10FF5 /* mParticle_Apple_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042EF649242A3B4000A10FF5 /* mParticle_Apple_SDK.framework */; };
 		04DA4CEB29E4F64E00A1FE37 /* Smartype.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DA4CEA29E4F64E00A1FE37 /* Smartype.xcframework */; };
 		04DA4CEC29E4F64E00A1FE37 /* Smartype.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04DA4CEA29E4F64E00A1FE37 /* Smartype.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04EB02D4255987F3004F5B6C /* smartype-dist in Resources */ = {isa = PBXBuildFile; fileRef = 04EB02D3255987F3004F5B6C /* smartype-dist */; };
+		232DD8742E92F3590CA52BEC /* Pods_SmartypeExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 725C65CCA56D725A09133F49 /* Pods_SmartypeExample.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +45,9 @@
 		042EF649242A3B4000A10FF5 /* mParticle_Apple_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mParticle_Apple_SDK.framework; path = Carthage/Build/iOS/mParticle_Apple_SDK.framework; sourceTree = SOURCE_ROOT; };
 		04DA4CEA29E4F64E00A1FE37 /* Smartype.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Smartype.xcframework; path = "smartype-dist/ios/Smartype.xcframework"; sourceTree = "<group>"; };
 		04EB02D3255987F3004F5B6C /* smartype-dist */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "smartype-dist"; sourceTree = "<group>"; };
+		725C65CCA56D725A09133F49 /* Pods_SmartypeExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartypeExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA2153820C6305FAA90A88AC /* Pods-SmartypeExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartypeExample.debug.xcconfig"; path = "Target Support Files/Pods-SmartypeExample/Pods-SmartypeExample.debug.xcconfig"; sourceTree = "<group>"; };
+		BDEAE790EC5A3BAF7245A8F1 /* Pods-SmartypeExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartypeExample.release.xcconfig"; path = "Target Support Files/Pods-SmartypeExample/Pods-SmartypeExample.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +56,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04DA4CEB29E4F64E00A1FE37 /* Smartype.xcframework in Frameworks */,
-				042EF64A242A3B4000A10FF5 /* mParticle_Apple_SDK.framework in Frameworks */,
+				232DD8742E92F3590CA52BEC /* Pods_SmartypeExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +70,7 @@
 				042EF627242A349000A10FF5 /* SmartypeExample */,
 				042EF626242A349000A10FF5 /* Products */,
 				042EF63C242A34ED00A10FF5 /* Frameworks */,
+				E2DF822209F8F9F98759DE19 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,8 +109,18 @@
 			isa = PBXGroup;
 			children = (
 				04DA4CEA29E4F64E00A1FE37 /* Smartype.xcframework */,
+				725C65CCA56D725A09133F49 /* Pods_SmartypeExample.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E2DF822209F8F9F98759DE19 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BA2153820C6305FAA90A88AC /* Pods-SmartypeExample.debug.xcconfig */,
+				BDEAE790EC5A3BAF7245A8F1 /* Pods-SmartypeExample.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -116,11 +130,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 042EF639242A349200A10FF5 /* Build configuration list for PBXNativeTarget "SmartypeExample" */;
 			buildPhases = (
+				BFD2BFCDFBE30336AB31596A /* [CP] Check Pods Manifest.lock */,
 				042EF621242A349000A10FF5 /* Sources */,
 				042EF622242A349000A10FF5 /* Frameworks */,
 				042EF623242A349000A10FF5 /* Resources */,
-				042EF64D242A3BAE00A10FF5 /* ShellScript */,
 				04DA4CE929E4F5FA00A1FE37 /* Embed Frameworks */,
+				843D336766C3AC1D51B254C5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -179,7 +194,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		042EF64D242A3BAE00A10FF5 /* ShellScript */ = {
+		843D336766C3AC1D51B254C5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartypeExample/Pods-SmartypeExample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartypeExample/Pods-SmartypeExample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartypeExample/Pods-SmartypeExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BFD2BFCDFBE30336AB31596A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -187,16 +219,19 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/mParticle_Apple_SDK.framework",
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/mParticle_Apple_SDK.framework",
+				"$(DERIVED_FILE_DIR)/Pods-SmartypeExample-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -343,6 +378,7 @@
 		};
 		042EF63A242A349200A10FF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA2153820C6305FAA90A88AC /* Pods-SmartypeExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -370,6 +406,7 @@
 		};
 		042EF63B242A349200A10FF5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDEAE790EC5A3BAF7245A8F1 /* Pods-SmartypeExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
