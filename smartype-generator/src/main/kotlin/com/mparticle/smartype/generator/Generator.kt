@@ -215,7 +215,7 @@ class Generate : CliktCommand(name="generate", help = "Generate Smartype Client 
                 val pb52 = ProcessBuilder(mvWeb2)
                 pb52.redirectOutput(ProcessBuilder.Redirect.INHERIT)
                 pb52.redirectError(ProcessBuilder.Redirect.INHERIT)
-                val p52 = pb51.start()
+                val p52 = pb52.start()
                 p52.waitFor();
             } else {
                 throw CliktError("Web build failed: unable to locate built Web JS distributions in ${smartypeBuildDir.absolutePath}")
