@@ -11,11 +11,11 @@ env:
 jobs:
   build-smartype:
     name: "Build Smartype"
-    runs-on: macOS-latest
+    runs-on: macOS-14
     steps:
     - uses: actions/checkout@v3
     - name: Set up Ruby
-      uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+      uses: ruby/setup-ruby@22fdc77bf4148f810455b226c90fb81b5cbc00a7
       with:
         ruby-version: '3.1.0'
     - uses: actions/checkout@v2
@@ -28,7 +28,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
+        node-version: '20.x'
     - name: Publish all
       run: ./gradlew publishToMavenLocal
       env:
@@ -63,7 +63,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '20.x'
       - name: pre-create maven dir
         run: |
           mkdir -p ~/.m2/repository/com/mparticle
@@ -109,7 +109,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '20.x'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
       - name: pre-create maven dir
@@ -144,12 +144,12 @@ jobs:
     defaults:
       run:
         working-directory: examples/iosExample
-    runs-on: macOS-latest
+    runs-on: macOS-14
 
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby
-        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        uses: ruby/setup-ruby@22fdc77bf4148f810455b226c90fb81b5cbc00a7
         with:
           ruby-version: '3.1.0'
       - uses: actions/checkout@v2
@@ -162,7 +162,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '20.x'
       - name: pre-create maven dir
         run: |
           mkdir -p ~/.m2/repository/com/mparticle
@@ -191,12 +191,12 @@ jobs:
   generate-all:
     name: "Generate, All Platforms "
     needs: build-smartype
-    runs-on: macos-latest
+    runs-on: macos-14
 
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby
-        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        uses: ruby/setup-ruby@22fdc77bf4148f810455b226c90fb81b5cbc00a7
         with:
           ruby-version: '3.1.0'
       - uses: actions/checkout@v2
@@ -207,7 +207,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '20.x'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
       - name: Install Cocoapods
@@ -236,14 +236,14 @@ jobs:
 
   publish:
     name: "Publish"
-    runs-on: macOS-latest
+    runs-on: macOS-14
     if: github.ref == 'refs/heads/main'
     needs: [build-web-example, build-ios-example, build-android-example, generate-all]
 
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby
-        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        uses: ruby/setup-ruby@22fdc77bf4148f810455b226c90fb81b5cbc00a7
         with:
           ruby-version: '3.1.0'
 
