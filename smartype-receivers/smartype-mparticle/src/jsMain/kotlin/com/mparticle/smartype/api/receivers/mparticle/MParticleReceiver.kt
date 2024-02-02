@@ -22,22 +22,29 @@ external class mParticleReact {
 actual class MParticleReceiver : MessageReceiver {
 
     var react: mParticleReact? = null
-override fun receive(message: String) {
-    console.log("MParticleReceiver#receive:message=$message")
+    override fun receive(message: String) {
+        console.log("MParticleReceiver: receive:message=$message")
 
-    val commonEvent = Converters.convertToEvent(message) ?: return
+        val commonEvent = Converters.convertToEvent(message) ?: return
 
 
-    var mParticle: mParticle? = null
-    if (react != null){
-        mParticle = window["mParticle"]
-    }
+        var mParticle: mParticle? = null
+        if (react == null){
+            mParticle = window["mParticle"]
+        }
+        if (mParticle == null && react == null) {
+            console.log("MParticleReceiver: Neither Web SDK or React SDK were detected, event will not be logged.")
+            return
+        }
+
         if (commonEvent is CustomEvent) {
             val data = commonEvent.data
             if (data != null) {
                 val eventType = NativeConverters().convertToNativeEventType(data.custom_event_type)
                 val eventName = data.event_name
                 val attributes = data.custom_attributes
+
+                console.log("MParticleReceiver: logging event with name$eventName and type $eventType")
 
                 if (eventName != null && eventType != null) {
                     if (attributes != null) {

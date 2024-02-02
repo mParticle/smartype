@@ -28,11 +28,32 @@ kotlin {
     js("js") {
         browser()
     }
-    jvm("jvm") {}
-    android("android") {
-        publishLibraryVariants("release")
+    jvm("jvm") {
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
+        }
     }
-    ios() {
+    androidTarget("android") {
+        publishLibraryVariants("release")
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
+        }
+    }
+    iosX64() {
+        binaries {
+            framework("SmartypeApi", listOf(RELEASE)) {
+
+            }
+        }
+    }
+    iosArm64() {
+        binaries {
+            framework("SmartypeApi", listOf(RELEASE)) {
+
+            }
+        }
+    }
+    iosSimulatorArm64() {
         binaries {
             framework("SmartypeApi", listOf(RELEASE)) {
 
@@ -41,32 +62,18 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.serialization}")
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
                 implementation(kotlin("test-annotations-common"))
             }
-        }
-        val jvmMain by getting {
-            dependsOn(commonMain)
-        }
-        val androidMain by getting {
-            dependsOn(jvmMain)
-        }
-
-        val jsMain by getting {
-            dependsOn(commonMain)
-        }
-
-        val iosMain by getting {
-            dependsOn(commonMain)
         }
     }
 }
@@ -80,10 +87,15 @@ tasks {
 
 
 android {
-    compileSdk = 31
+    namespace = "com.mparticle.smartype.api"
+    compileSdk = 33
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
     defaultConfig {
         minSdk = 19
-        targetSdk = 31
+        targetSdk = 33
     }
     sourceSets {
         getByName("main") {

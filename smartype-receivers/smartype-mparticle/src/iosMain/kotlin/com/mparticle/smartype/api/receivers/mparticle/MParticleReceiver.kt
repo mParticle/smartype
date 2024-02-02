@@ -6,8 +6,10 @@ import kotlinx.serialization.json.JsonPrimitive
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEvent
 import com.mparticle.smartype.api.receivers.mparticle.models.CustomEventType
 import com.mparticle.smartype.api.receivers.mparticle.models.ScreenViewEvent
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlin.native.concurrent.freeze
 
+@OptIn(ExperimentalForeignApi::class)
 actual class MParticleReceiver : MessageReceiver {
     override fun receive(message: String) {
         val commonEvent = Converters.convertToEvent(message) ?: return

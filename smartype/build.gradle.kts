@@ -32,7 +32,7 @@ kotlin {
         binaries.executable()
     }
 
-    android() {
+    androidTarget() {
         publishLibraryVariants("release", "debug")
         mavenPublication {
             artifactId = "smartype"
@@ -53,6 +53,13 @@ kotlin {
         }
     }
 
+    iosSimulatorArm64 {
+        binaries.framework(listOf(NativeBuildType.RELEASE)) {
+            xcFramework.add(this)
+            embedBitcode("disable")
+        }
+    }
+
     cocoapods {
         framework {
             summary = "MParticle Smartype"
@@ -67,7 +74,11 @@ kotlin {
                 export(project(":smartype-receivers:smartype-mparticle"))
             }
         }
-        pod("mParticle-Apple-SDK/mParticle")
+        pod("mParticle-Apple-SDK/mParticle"){
+            // Add these lines
+            linkOnly = true
+            extraOpts += listOf("-compiler-option", "-fmodules")
+        }
     }
 
     tasks.create("iosFatFramework", org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask::class) {
@@ -122,22 +133,10 @@ kotlin {
             }
         }
 
-        val androidMain by getting
-        if (androidMain != null) {
-            androidMain.dependsOn(commonMain)
-        }
 
-        try {
-            val jsMain by getting
-            if (jsMain != null) {
-                jsMain.dependsOn(commonMain)
-            }
-        } catch (e: kotlin.Exception) {
-        }
 
         try {
             val iosX64Main by getting {
-                dependsOn(commonMain)
                 kotlin.srcDir("src/iosMain")
             }
         } catch (e: kotlin.Exception) {
@@ -145,7 +144,6 @@ kotlin {
 
         try {
             val iosArm64Main by getting {
-                dependsOn(commonMain)
                 kotlin.srcDir("src/iosMain")
             }
         } catch (e: kotlin.Exception) {
@@ -155,10 +153,15 @@ kotlin {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 33
+    namespace = "com.mparticle.smartype"
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
     defaultConfig {
         minSdk = 19
-        targetSdk = 31
+        targetSdk = 33
     }
     sourceSets {
         getByName("main") {

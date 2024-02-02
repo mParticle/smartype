@@ -30,11 +30,6 @@ allprojects {
         mavenCentral()
         google()
     }
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "1.8"
-        }
-    }
     extra["signing.keyId"] = System.getenv("mavenSigningKeyId")
     extra["signing.secretKeyRingFile"] = System.getenv("mavenSigningKeyRingFile")
     extra["signing.password"] = System.getenv("mavenSigningKeyPassword")
