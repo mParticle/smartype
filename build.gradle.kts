@@ -33,4 +33,12 @@ allprojects {
     extra["signing.keyId"] = System.getenv("mavenSigningKeyId")
     extra["signing.secretKeyRingFile"] = System.getenv("mavenSigningKeyRingFile")
     extra["signing.password"] = System.getenv("mavenSigningKeyPassword")
+
+    // workaround for a AGP/KMP bug
+    // https://youtrack.jetbrains.com/issue/KT-46466
+    // https://github.com/gradle/gradle/issues/26091
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        val signingTasks = tasks.withType<Sign>()
+        mustRunAfter(signingTasks)
+    }
 }
