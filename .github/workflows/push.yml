@@ -239,8 +239,8 @@ jobs:
   publish:
     name: "Publish"
     runs-on: macOS-14
-    if: github.ref == 'refs/heads/main'
-    needs: [build-web-example, build-ios-example, build-android-example, generate-all]
+    if: github.ref == 'refs/heads/fix-publishing'
+    #needs: [build-web-example, build-ios-example, build-android-example, generate-all]
 
     steps:
       - uses: actions/checkout@v3

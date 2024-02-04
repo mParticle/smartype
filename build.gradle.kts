@@ -33,4 +33,9 @@ allprojects {
     extra["signing.keyId"] = System.getenv("mavenSigningKeyId")
     extra["signing.secretKeyRingFile"] = System.getenv("mavenSigningKeyRingFile")
     extra["signing.password"] = System.getenv("mavenSigningKeyPassword")
+
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        val signingTasks = tasks.withType<Sign>()
+        mustRunAfter(signingTasks)
+    }
 }
